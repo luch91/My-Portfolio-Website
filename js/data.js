@@ -3,7 +3,7 @@
 //  To add anything new: edit only this file.
 // ============================================================
 
-const DATA = {
+var DATA = {
 
   // ── PERSONAL ────────────────────────────────────────────
   personal: {
