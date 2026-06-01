@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Claude × Figma — Beginner's Prototype Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --accent-a: #7c5cfc; /* Claude purple */
+    --accent-b: #1abcfe; /* Figma blue */
+    --accent-c: #ff7262; /* Figma coral */
+    --accent-d: #0acf83; /* Figma green */
+    --gold: #f5c842;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    padding: 80px 40px 60px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 30% 50%, rgba(124,92,252,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(26,188,254,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-b);
+    border: 1px solid rgba(26,188,254,0.3);
+    padding: 4px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  h1 span.c { color: var(--accent-a); }
+  h1 span.f { color: var(--accent-b); }
+  .subtitle {
+    max-width: 560px;
+    margin: 0 auto 40px;
+    color: var(--muted);
+    font-size: 1.05rem;
+    font-weight: 300;
+  }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+  .flow-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .flow-step.hi { border-color: var(--accent-a); color: var(--accent-a); }
+  .flow-arrow { color: var(--muted); font-size: 18px; }
+
+  /* ── MAIN LAYOUT ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 100px;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    margin: 60px 0 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 36px;
+  }
+  .toc-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 32px;
+  }
+  @media (max-width: 560px) { .toc ol { grid-template-columns: 1fr; } }
+  .toc li { counter-increment: toc; display: flex; align-items: baseline; gap: 10px; }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent-a);
+    flex-shrink: 0;
+  }
+  .toc a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--accent-b); }
+
+  /* ── PHASE BLOCKS ── */
+  .phase {
+    margin-top: 72px;
+  }
+  .phase-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .phase-label .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent-a);
+    flex-shrink: 0;
+  }
+  .phase-label .dot.b { background: var(--accent-b); }
+  .phase-label .dot.c { background: var(--accent-c); }
+  .phase-label .dot.d { background: var(--accent-d); }
+  .phase-label .dot.g { background: var(--gold); }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .phase-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+
+  /* ── STEP CARD ── */
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .step:hover { border-color: rgba(124,92,252,0.25); }
+
+  .step-number {
+    position: absolute;
+    top: 28px; right: 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .step h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding-right: 40px;
+  }
+  .step p { color: var(--muted); font-size: 0.92rem; margin-bottom: 14px; }
+  .step p:last-child { margin-bottom: 0; }
+
+  /* code block */
+  .code-block {
+    background: #0d0d14;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: #a8b4ff;
+    overflow-x: auto;
+    margin: 14px 0;
+    line-height: 1.8;
+    white-space: pre;
+  }
+  .code-block .comment { color: #4a4a70; }
+  .code-block .cmd { color: var(--accent-b); }
+  .code-block .str { color: var(--accent-d); }
+  .code-block .kw { color: var(--accent-c); }
+
+  /* tip */
+  .tip {
+    display: flex;
+    gap: 12px;
+    background: rgba(124,92,252,0.08);
+    border: 1px solid rgba(124,92,252,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 14px;
+  }
+  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .tip p { color: rgba(232,232,240,0.75); font-size: 0.86rem; margin: 0; }
+
+  .warn {
+    display: flex;
+    gap: 12px;
+    background: rgba(245,200,66,0.07);
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 14px;
+  }
+  .warn p { color: rgba(232,232,240,0.75); font-size: 0.86rem; margin: 0; }
+
+  /* tag pills */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+  .tag.a { color: var(--accent-a); border-color: rgba(124,92,252,0.35); }
+  .tag.b { color: var(--accent-b); border-color: rgba(26,188,254,0.35); }
+  .tag.c { color: var(--accent-c); border-color: rgba(255,114,98,0.35); }
+  .tag.d { color: var(--accent-d); border-color: rgba(10,207,131,0.35); }
+
+  /* sub-list */
+  .checklist { list-style: none; margin: 12px 0; }
+  .checklist li {
+    padding: 6px 0 6px 26px;
+    position: relative;
+    color: var(--muted);
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent-a);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* prompt example */
+  .prompt-box {
+    background: rgba(10,207,131,0.05);
+    border: 1px solid rgba(10,207,131,0.18);
+    border-left: 3px solid var(--accent-d);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-style: italic;
+    color: rgba(232,232,240,0.8);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .prompt-box .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-style: normal;
+    color: var(--accent-d);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  /* divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 64px 0 0;
+  }
+
+  /* summary table */
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+    font-size: 0.88rem;
+  }
+  .summary-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    vertical-align: top;
+  }
+  .summary-table td:first-child { color: var(--text); font-weight: 500; }
+  .summary-table tr:last-child td { border-bottom: none; }
+
+  /* footer */
+  footer {
+    text-align: center;
+    padding: 48px 24px;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="badge">Complete Beginner's Guide</div>
+  <h1><span class="c">Claude</span> × <span class="f">Figma</span><br>From Brief to Prototype</h1>
+  <p class="subtitle">A total beginner's step-by-step guide to building high-fidelity prototypes using Claude AI and Figma — no prior experience needed.</p>
+  <div class="flow">
+    <div class="flow-step hi">Your Idea</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Claude Chat</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">FigJam Flows</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Figma Make</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">Claude Code</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step hi">Live Prototype</div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Table of Contents</div>
+    <ol>
+      <li><a href="#phase0">What You Need Before Starting</a></li>
+      <li><a href="#phase1">Phase 1 — Define Your Idea with Claude</a></li>
+      <li><a href="#phase2">Phase 2 — Map Your Flows in FigJam</a></li>
+      <li><a href="#phase3">Phase 3 — Set Up Claude Code + Figma MCP</a></li>
+      <li><a href="#phase4">Phase 4 — Generate Hi-Fi Designs in Figma Make</a></li>
+      <li><a href="#phase5">Phase 5 — Convert Designs to Code</a></li>
+      <li><a href="#phase6">Phase 6 — Push Code Back to Figma Canvas</a></li>
+      <li><a href="#phase7">Phase 7 — Iterate and Polish</a></li>
+      <li><a href="#summary">Quick Reference Summary</a></li>
+    </ol>
+  </div>
+
+  <!-- ── PHASE 0 ── -->
+  <div class="phase" id="phase0">
+    <div class="phase-label"><span class="dot g"></span>Prerequisites</div>
+    <h2>What You Need Before Starting</h2>
+    <p class="phase-desc">Gather your tools. This takes about 15–20 minutes and you only do it once.</p>
+
+    <div class="step">
+      <div class="step-number">01</div>
+      <h3>Create a Figma Account</h3>
+      <p>Go to <strong>figma.com</strong> and sign up for free. The free plan works for this guide, though some advanced features (Code Connect, unlimited Dev Mode) require a paid plan.</p>
+      <div class="tags">
+        <span class="tag b">figma.com</span>
+        <span class="tag d">Free tier OK</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">02</div>
+      <h3>Download the Figma Desktop App</h3>
+      <p>Go to <strong>figma.com/downloads</strong> and install the desktop app. The MCP server connection <em>requires</em> the desktop app — the browser version won't work for this workflow.</p>
+      <div class="warn">
+        <div class="tip-icon">⚠️</div>
+        <p>Do not skip this. The web version of Figma cannot run the local MCP server that Claude connects to.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">03</div>
+      <h3>Create a Claude Account</h3>
+      <p>Go to <strong>claude.ai</strong> and sign up. A free account gives you access to Claude chat. You'll also need Claude Code for the later phases.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">04</div>
+      <h3>Install Node.js</h3>
+      <p>Claude Code runs via <code>npm</code>, which comes with Node.js. Download it from <strong>nodejs.org</strong> — choose the LTS (Long Term Support) version.</p>
+      <p>After installing, verify it worked by opening your terminal and running:</p>
+      <div class="code-block"><span class="cmd">node</span> --version
+<span class="cmd">npm</span> --version</div>
+      <p>You should see version numbers for both. If you do, you're ready.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">05</div>
+      <h3>Install Claude Code</h3>
+      <p>In your terminal (Mac: Terminal app / Windows: PowerShell), run:</p>
+      <div class="code-block"><span class="cmd">npm</span> install -g @anthropic-ai/claude-code</div>
+      <p>Then log in with your Anthropic account:</p>
+      <div class="code-block"><span class="cmd">claude</span> login</div>
+      <p>This opens a browser window to authenticate. Complete it and return to your terminal.</p>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <p>The <code>-g</code> flag installs Claude Code globally, so you can use it from any folder on your computer.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── PHASE 1 ── -->
+  <div class="phase" id="phase1">
+    <div class="phase-label"><span class="dot"></span>Phase 1</div>
+    <h2>Define Your Idea with Claude</h2>
+    <p class="phase-desc">Before touching Figma, use Claude chat to sharpen your idea into a structured design brief. This is where Claude becomes your thinking partner.</p>
+
+    <div class="step">
+      <div class="step-number">01</div>
+      <h3>Start a Claude Conversation</h3>
+      <p>Go to <strong>claude.ai</strong> and open a new chat. You're going to use Claude to turn a rough idea into a complete design brief.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">02</div>
+      <h3>Describe Your App Idea (Messy is Fine)</h3>
+      <p>Tell Claude what you want to build in plain language. Don't worry about being precise — Claude handles vague inputs well. For example:</p>
+      <div class="prompt-box">
+        <span class="label">Your prompt to Claude</span>
+        I want to build a mobile app that helps busy parents track their kids' homework and school assignments. Something simple, calming, not stressful to look at. Kind of like a to-do app but specifically for school stuff with multiple kids.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">03</div>
+      <h3>Ask Claude to Generate a Design Brief</h3>
+      <p>Once you've had a back-and-forth to refine the idea, ask Claude to structure it:</p>
+      <div class="prompt-box">
+        <span class="label">Your prompt to Claude</span>
+        Based on what we've discussed, write a full product design brief. Include: app name, target user, core problem, key screens (list each one), visual style direction (colors, tone, typography feel), and a one-line Figma Make prompt I can use to generate the first screen.
+      </div>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <p>The "Figma Make prompt" at the end is key. Claude will craft a precise, structured prompt for Figma's AI — which you'll use in Phase 4.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">04</div>
+      <h3>Save Your Brief</h3>
+      <p>Copy the output into a document (Notion, Google Docs, or even a text file). You'll refer back to the key screens list and the Figma Make prompt throughout the rest of the process.</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── PHASE 2 ── -->
+  <div class="phase" id="phase2">
+    <div class="phase-label"><span class="dot b"></span>Phase 2</div>
+    <h2>Map Your Flows in FigJam</h2>
+    <p class="phase-desc">Before designing screens, map out how users move through your app. Claude can generate these diagrams directly in FigJam.</p>
+
+    <div class="step">
+      <div class="step-number">01</div>
+      <h3>Connect Figma to Claude (claude.ai connector)</h3>
+      <p>In Claude.ai, click the plug icon (MCP Apps / Connectors) and search for <strong>Figma</strong>. Connect your Figma account. This is different from the Claude Code MCP setup — this is for the claude.ai web interface.</p>
+      <div class="tags">
+        <span class="tag b">claude.ai → Connectors</span>
+        <span class="tag d">One-time setup</span>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">02</div>
+      <h3>Create a New FigJam File</h3>
+      <p>In the Figma desktop app, click <strong>New file</strong> → <strong>FigJam</strong>. Name it something like "App User Flows".</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">03</div>
+      <h3>Ask Claude to Generate a User Flow Diagram</h3>
+      <p>Back in Claude chat (with Figma connected), paste your brief and ask:</p>
+      <div class="prompt-box">
+        <span class="label">Your prompt to Claude</span>
+        Using my design brief, generate a user flow diagram in FigJam that maps out the full journey from onboarding to the core task of adding a homework assignment. Show all screens and decision points.
+      </div>
+      <p>Claude will create the diagram directly on your FigJam canvas as editable shapes and arrows.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">04</div>
+      <h3>Review and Edit the Flow</h3>
+      <p>Open the FigJam file. You'll see Claude's generated flow. Edit any nodes, add sticky notes with questions, and use the canvas to explore alternatives side by side. This is the most important thinking step — don't rush it.</p>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <p>If Claude missed a screen or branch, just tell it: "Add a flow for the password reset path" and it will update the diagram.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── PHASE 3 ── -->
+  <div class="phase" id="phase3">
+    <div class="phase-label"><span class="dot c"></span>Phase 3</div>
+    <h2>Set Up Claude Code + Figma MCP</h2>
+    <p class="phase-desc">This is the technical backbone of the whole workflow. You're connecting Claude Code (in your terminal) to your Figma files. Do this once.</p>
+
+    <div class="step">
+      <div class="step-number">01</div>
+      <h3>Open Your Terminal</h3>
+      <p>On Mac: press <code>Cmd + Space</code>, type <strong>Terminal</strong>, press Enter.<br>On Windows: press <code>Win + R</code>, type <strong>powershell</strong>, press Enter.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">02</div>
+      <h3>Connect the Remote Figma MCP Server</h3>
+      <p>Run this single command (this is the recommended method for most users):</p>
+      <div class="code-block"><span class="cmd">claude</span> mcp add --transport http figma https://mcp.figma.com/mcp</div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">03</div>
+      <h3>Authenticate Claude Code with Figma</h3>
+      <p>Now open Claude Code:</p>
+      <div class="code-block"><span class="cmd">claude</span></div>
+      <p>Once inside, type:</p>
+      <div class="code-block">/mcp</div>
+      <p>Select <strong>Figma</strong> from the list. A browser window will open — click <strong>Allow access</strong>. Return to your terminal. You're now connected.</p>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <p>To verify the connection worked, type <code>/mcp</code> again — you should see <strong>figma</strong> listed with a green connected status.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">04</div>
+      <h3>Alternative: Enable Desktop MCP in Figma (Optional)</h3>
+      <p>If you're on an enterprise plan or prefer local connection:</p>
+      <ul class="checklist">
+        <li>Open Figma desktop app</li>
+        <li>Click the Figma logo (top left) → Preferences</li>
+        <li>Select <strong>Enable Dev Mode MCP Server</strong></li>
+        <li>Note the local address shown: <code>http://127.0.0.1:3845/sse</code></li>
+        <li>In your terminal run: <code>claude mcp add --transport http figma-desktop http://127.0.0.1:3845/mcp</code></li>
+      </ul>
+      <div class="warn">
+        <div class="tip-icon">⚠️</div>
+        <p>Free Figma users are limited to ~6 uses/month with the desktop MCP. Use the remote MCP (Step 02) unless you have a specific reason for the desktop version.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">05</div>
+      <h3>Create a Project Folder</h3>
+      <p>Create a folder on your computer for your project's code. Then navigate to it in your terminal:</p>
+      <div class="code-block"><span class="comment"># Mac / Linux</span>
+<span class="cmd">mkdir</span> my-app-prototype
+<span class="cmd">cd</span> my-app-prototype
+
+<span class="comment"># Windows (PowerShell)</span>
+<span class="cmd">New-Item</span> -ItemType Directory -Name my-app-prototype
+<span class="cmd">cd</span> my-app-prototype</div>
+      <p>Launch Claude Code from inside this folder:</p>
+      <div class="code-block"><span class="cmd">claude</span></div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── PHASE 4 ── -->
+  <div class="phase" id="phase4">
+    <div class="phase-label"><span class="dot d"></span>Phase 4</div>
+    <h2>Generate Hi-Fi Designs in Figma Make</h2>
+    <p class="phase-desc">Now use Figma's AI to turn Claude's structured prompts into actual screen designs on the canvas.</p>
+
+    <div class="step">
+      <div class="step-number">01</div>
+      <h3>Open Figma Make</h3>
+      <p>In the Figma desktop app, create a new file. Look for <strong>Figma Make</strong> in the toolbar or from the main menu. This is Figma's prompt-to-design feature.</p>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <p>If you don't see Figma Make, make sure your Figma app is updated to the latest version.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">02</div>
+      <h3>Paste the Figma Make Prompt Claude Generated</h3>
+      <p>Remember that "one-line Figma Make prompt" you asked Claude to generate in Phase 1? Paste it into Figma Make. For example:</p>
+      <div class="prompt-box">
+        <span class="label">Example Figma Make Prompt (Claude-generated)</span>
+        Design a calming mobile app dashboard for parents tracking kids' homework. Soft sage green and warm cream palette, rounded cards per child, progress bars per subject, bottom nav with Home / Add Task / Calendar / Settings. Clean sans-serif typography, gentle shadows, iOS-style layout.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">03</div>
+      <h3>Generate and Review</h3>
+      <p>Figma Make renders the design onto your canvas. Review what it produced. Don't expect perfection on the first try.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">04</div>
+      <h3>Iterate with Follow-Up Prompts</h3>
+      <p>Refine the design by prompting again. Examples:</p>
+      <div class="prompt-box">
+        <span class="label">Refinement prompts</span>
+        Make the cards more spacious with more breathing room between elements.<br><br>
+        Add a floating action button for adding a new task — coral/orange color.<br><br>
+        Make the typography larger and more readable for users over 35.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">05</div>
+      <h3>Generate All Key Screens</h3>
+      <p>Go through your key screens list from Phase 1 and generate each one. Common screens to cover:</p>
+      <ul class="checklist">
+        <li>Onboarding / splash screen</li>
+        <li>Home / dashboard</li>
+        <li>Add item / form screen</li>
+        <li>Detail / single item view</li>
+        <li>Settings or profile screen</li>
+        <li>Empty state (no data yet)</li>
+      </ul>
+    </div>
+
+    <div class="step">
+      <div class="step-number">06</div>
+      <h3>Organize Screens on the Canvas</h3>
+      <p>Arrange all your screens in a logical order on the Figma canvas, left to right following the user flow. Name each frame clearly (e.g. "01 — Home Dashboard", "02 — Add Task"). This makes the next phase much smoother.</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── PHASE 5 ── -->
+  <div class="phase" id="phase5">
+    <div class="phase-label"><span class="dot"></span>Phase 5</div>
+    <h2>Convert Designs to Code with Claude Code</h2>
+    <p class="phase-desc">Now Claude Code reads your Figma designs and generates real, working frontend code from them.</p>
+
+    <div class="step">
+      <div class="step-number">01</div>
+      <h3>Copy the Link to a Figma Frame</h3>
+      <p>In Figma, right-click any screen frame → <strong>Copy/Paste as</strong> → <strong>Copy link to selection</strong>. This gives you a URL like:</p>
+      <div class="code-block">https://www.figma.com/design/ABC123.../My-App?node-id=1234-5678</div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">02</div>
+      <h3>Give Claude Code the Link and a Build Instruction</h3>
+      <p>In your terminal (inside Claude Code), paste the link with a prompt:</p>
+      <div class="prompt-box">
+        <span class="label">Claude Code prompt</span>
+        Build this screen as a React component with Tailwind CSS. Match the layout, colors, spacing, and typography exactly. Make it responsive for mobile-first. Here is the Figma frame: [paste your link]
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">03</div>
+      <h3>Review the Generated Code</h3>
+      <p>Claude Code will generate component files in your project folder. Open the file in VS Code or any text editor to review. You can also ask Claude Code to preview it:</p>
+      <div class="code-block"><span class="comment"># Ask Claude Code to spin up a local preview</span>
+Can you add a simple index.html that renders this component so I can preview it in my browser?</div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">04</div>
+      <h3>Repeat for Each Screen</h3>
+      <p>Go screen by screen. As you build more components, Claude Code will notice patterns from your earlier components and maintain design consistency automatically.</p>
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <p>After a few screens, ask: "Extract the shared colors, fonts, and spacing into a design tokens file so all components stay consistent."</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">05</div>
+      <h3>Use the Figma Specs Plugin for Precise Handoff</h3>
+      <p>Install the free <strong>Figma Specs</strong> plugin from the Figma Community. Select a frame → run Specs → it generates a structured YAML file that gives Claude Code precise dimensions, spacing, and component hierarchy — resulting in much more accurate code output.</p>
+      <div class="tags">
+        <span class="tag b">Figma Community → "Specs"</span>
+        <span class="tag d">Free plugin</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── PHASE 6 ── -->
+  <div class="phase" id="phase6">
+    <div class="phase-label"><span class="dot b"></span>Phase 6</div>
+    <h2>Push Code Back to Figma Canvas</h2>
+    <p class="phase-desc">The "Code to Canvas" feature lets you send your live, working UI back into Figma as editable layers — so designers and developers see the same thing.</p>
+
+    <div class="step">
+      <div class="step-number">01</div>
+      <h3>Use the generate_figma_design Tool</h3>
+      <p>When your code is working and you want to push it to Figma, ask Claude Code:</p>
+      <div class="prompt-box">
+        <span class="label">Claude Code prompt</span>
+        Take the rendered version of the HomeScreen component and send it to my Figma canvas as editable layers using the generate_figma_design tool.
+      </div>
+      <div class="warn">
+        <div class="tip-icon">⚠️</div>
+        <p>This feature (Code to Canvas / generate_figma_design) requires the Remote MCP — not the desktop version — and is currently Claude Code-only.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">02</div>
+      <h3>Review in Figma</h3>
+      <p>Open your Figma file. The code-generated UI now appears as native Figma layers — fully editable shapes, text, and components. The design team can make tweaks directly here, and the result feeds back into the next code iteration.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">03</div>
+      <h3>Compare Side by Side</h3>
+      <p>Place the original Figma Make design and the code-generated version side by side on the canvas. This is your design QA step. Note the differences and fix them either in code or in Figma.</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── PHASE 7 ── -->
+  <div class="phase" id="phase7">
+    <div class="phase-label"><span class="dot g"></span>Phase 7</div>
+    <h2>Iterate and Polish</h2>
+    <p class="phase-desc">This is where good prototypes become great ones. Use the connected loop between Claude and Figma to refine until it feels right.</p>
+
+    <div class="step">
+      <div class="step-number">01</div>
+      <h3>Add Interactions in Figma Prototype Mode</h3>
+      <p>In Figma, switch to <strong>Prototype mode</strong> (top-right panel). Connect your frames with arrows: tap Home → goes to Add Task, etc. Set transitions (slide, fade). This creates a clickable prototype you can share with anyone via a link — no code required.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-number">02</div>
+      <h3>Ask Claude to Review Your Prototype</h3>
+      <p>Share your Figma file link with Claude (with the connector active) and ask:</p>
+      <div class="prompt-box">
+        <span class="label">Claude prompt</span>
+        Review this prototype for UX issues. Look at the user flows, screen hierarchy, and visual consistency. Flag anything that might confuse a first-time user. Here is the file: [Figma link]
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">03</div>
+      <h3>Use Claude Code to Add Real Interactions</h3>
+      <p>For a live, interactive prototype (not just click-through), ask Claude Code to add real functionality:</p>
+      <div class="prompt-box">
+        <span class="label">Claude Code prompt</span>
+        Add working state management to the HomeScreen so tasks can actually be checked off and the progress bar updates in real time. Keep everything in React local state for now.
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">04</div>
+      <h3>Deploy Your Live Prototype (Optional)</h3>
+      <p>Ask Claude Code to deploy your prototype to a shareable URL:</p>
+      <div class="prompt-box">
+        <span class="label">Claude Code prompt</span>
+        Deploy this prototype to Vercel so I can share a live URL with stakeholders for feedback. Set it up as a static React app.
+      </div>
+      <p>Claude Code will generate all the config files needed and walk you through the Vercel deployment steps.</p>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── SUMMARY ── -->
+  <div class="phase" id="summary">
+    <div class="phase-label"><span class="dot g"></span>Reference</div>
+    <h2>Quick Reference Summary</h2>
+    <p class="phase-desc">Everything in one place for when you're mid-flow and need a fast reminder.</p>
+
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Tool</th>
+          <th>What Happens</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Define Idea</td>
+          <td>Claude.ai chat</td>
+          <td>Rough idea → structured brief + Figma Make prompt</td>
+        </tr>
+        <tr>
+          <td>Map Flows</td>
+          <td>Claude.ai + FigJam connector</td>
+          <td>Brief → editable user flow diagrams in FigJam</td>
+        </tr>
+        <tr>
+          <td>MCP Setup</td>
+          <td>Terminal + Claude Code</td>
+          <td>Connect Claude Code to Figma files permanently</td>
+        </tr>
+        <tr>
+          <td>Generate Designs</td>
+          <td>Figma Make</td>
+          <td>Claude's prompt → hi-fi screens on Figma canvas</td>
+        </tr>
+        <tr>
+          <td>Design → Code</td>
+          <td>Claude Code + Figma MCP</td>
+          <td>Figma frame link → React/HTML component code</td>
+        </tr>
+        <tr>
+          <td>Code → Canvas</td>
+          <td>Claude Code (generate_figma_design)</td>
+          <td>Working UI → editable Figma layers</td>
+        </tr>
+        <tr>
+          <td>Prototype</td>
+          <td>Figma Prototype mode + Claude Code</td>
+          <td>Clickable flows + live interactive prototype</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="step" style="margin-top:32px">
+      <h3>Common Troubleshooting</h3>
+      <ul class="checklist">
+        <li><strong>MCP not connecting:</strong> Make sure Figma desktop app is open and updated, then re-run the <code>claude mcp add</code> command</li>
+        <li><strong>Claude Code not found:</strong> Close and reopen your terminal after installing via npm</li>
+        <li><strong>Figma Make not visible:</strong> Update Figma desktop to the latest version</li>
+        <li><strong>Code doesn't match design:</strong> Use the Figma Specs plugin to generate precise YAML before prompting Claude Code</li>
+        <li><strong>Free plan limits:</strong> Remote MCP is the most generous for free users; desktop MCP caps at ~6 uses/month</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Claude × Figma Prototype Guide &nbsp;·&nbsp; Built for total beginners &nbsp;·&nbsp; 2026
+</footer>
+
+</body>
+</html>

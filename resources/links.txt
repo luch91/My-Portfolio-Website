@@ -1,0 +1,25 @@
+CPNA EVAL PLATFORM URL:
+https://cpna-eval-one.vercel.app/
+
+
+CPNA URL:
+https://nutriintel-frontend.vercel.app
+
+COGNARC URL:
+https://cognarc-landing.vercel.app/
+
+FASHVILLE PLATFORM HI-FI PROTOTYPE URL:
+https://chat.qwen.ai/s/deploy/t_ac4274c9-037c-4e0b-b9da-22ef0451b787
+
+FASHVILLE ADMIN DASHBOARD HI-FI PROTOTYPE URL:
+https://chat.qwen.ai/s/deploy/t_fd3ebaf5-4c4b-403d-b119-22c2fe8f0906
+
+
+POWERHOUSE 9JA:
+https://powerhouse9ja.com/
+
+Video demo for cognarc:
+
+
+Blog article:
+https://www.linkedin.com/pulse/highly-accurate-protein-structure-prediction-paper-oluchi-ekeleme-fyohf/?trackingId=yDeWYOBgSuOYfFaKngmgsA%3D%3D

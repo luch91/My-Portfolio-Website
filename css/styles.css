@@ -1,0 +1,201 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* Header and Navigation */
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    gap: 2rem;
+}
+
+nav ul li a {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #3498db;
+}
+
+/* Main Content */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+section h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+/* About Section */
+#about {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#about .about-content {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+#about .profile-pic {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #3498db;
+}
+
+#about .about-text {
+    flex: 1;
+    min-width: 250px;
+}
+
+#about .about-text p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Experience Section */
+.experience-entry {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.experience-entry:last-child {
+    border-bottom: none;
+}
+
+.experience-entry h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.experience-entry h4 {
+    color: #3498db;
+    margin-bottom: 0.5rem;
+}
+
+.experience-entry .date {
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.experience-entry ul {
+    margin-left: 1.5rem;
+}
+
+.experience-entry li {
+    margin-bottom: 0.5rem;
+}
+
+/* Education Section */
+.education-entry {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.education-entry:last-child {
+    border-bottom: none;
+}
+
+.education-entry h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.education-entry h4 {
+    color: #</task_progress>
+- [x] Set up project structure
+- [x] Create basic files (index.html, css/styles.css, js/script.js)
+- [ ] Optimize profile picture for web use
+- [ ] Extract and format CV content for web display
+- [ ] Design portfolio layout and wireframe
+- [ ] Create color scheme and typography choices
+- [ ] Plan responsive design breakpoints
+- [ ] Implement HTML structure with semantic elements
+- [ ] Implement CSS styling and responsive design
+- [ ] Add profile picture and styling
+- [ ] Create sections: About, Experience, Education, Skills, Projects, Contact
+- [ ] Implement navigation menu
+- [ ] Add smooth scrolling and interactive elements
+- [ ] Ensure accessibility compliance
+- [ ] Populate About section with personal information
+- [ ] Add work experience from CV
+- [ ] Include educational background
+- [ ] List technical and soft skills
+- [ ] Showcase projects (if any)
+- [ ] Add contact information and social links
+- [ ] Test responsiveness across devices
+- [ ] Validate HTML and CSS
+- [ ] Optimize images and assets for web performance
+- [ ] Test cross-browser compatibility
+- [ ] Check page load performance
+- [ ] Fix any bugs or issues
+- [ ] Prepare final production build
+- [ ] Create README with deployment instructions
+- [ ] Add meta tags for SEO
+- [ ] Implement favicon and social sharing tags
+- [ ] Final review and quality assurance
+- [ ] Deploy portfolio to hosting service (GitHub Pages, Netlify, etc.)
+- [ ] Verify live site functionality
+- [ ] Test all links and forms
+- [ ] Submit to search engines if desired
+</task_progress</write_to_file>
