@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blog — Judith Oluchi Ekeleme. Articles, tutorials, and video walkthroughs on AI product management, LLMOps, and technical product design." />
+  <title>Blog — Judith Oluchi Ekeleme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="subpage">
+
+  <div id="cursor" aria-hidden="true"></div>
+  <div id="cursor-trail" aria-hidden="true"></div>
+  <button id="sound-toggle" aria-label="Toggle sound effects"><span id="sound-icon">♪</span></button>
+
+  <!-- NAV -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="nav-logo" aria-label="Home">JOE</a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div id="mobile-nav" aria-hidden="true">
+    <ul>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="index.html#experience">Experience</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- PAGE HERO -->
+  <header class="page-hero">
+    <div class="container">
+      <div class="page-hero-inner reveal">
+        <a href="index.html" class="back-link">← Back to Portfolio</a>
+        <div class="section-label">Writing &amp; Media</div>
+        <h1 class="page-hero-title">Blog</h1>
+        <p class="page-hero-sub">Articles, tutorials, and video walkthroughs on AI product management, LLMOps, agentic systems, and building things that matter.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- FILTER BAR -->
+  <div class="blog-filter-bar">
+    <div class="container">
+      <div class="blog-filters" id="blog-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="article">Articles</button>
+        <button class="filter-btn" data-filter="tutorial">Tutorials</button>
+        <button class="filter-btn" data-filter="video">Videos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOG GRID -->
+  <main class="section" id="blog-main">
+    <div class="container">
+      <div id="blog-full-grid" class="blog-full-grid"></div>
+    </div>
+  </main>
+
+  <!-- VIDEO MODAL -->
+  <div id="video-modal" class="modal" role="dialog" aria-modal="true" aria-label="Video player" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel modal-panel--video">
+      <button class="modal-close" aria-label="Close video">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <div id="video-modal-content" class="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-name">Judith Oluchi Ekeleme</span>
+        <span class="footer-copy">&#169; 2026 &middot; Built with intention.</span>
+        <div class="footer-links">
+          <a href="https://linkedin.com/in/ekeleme-judith" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/luch91" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/sfx.js"></script>
+  <script src="js/animations.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const D = window.DATA;
+    if (!D) return;
+
+    function esc(str) {
+      if (str == null) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    const grid = document.getElementById('blog-full-grid');
+    let activeFilter = 'all';
+
+    function renderPosts(filter) {
+      const posts = filter === 'all' ? D.blogPosts : D.blogPosts.filter(p => p.type === filter);
+      if (!posts.length) {
+        grid.innerHTML = `<p class="blog-empty">No posts in this category yet — check back soon.</p>`;
+        return;
+      }
+      grid.innerHTML = posts.map(post => buildFullCard(post)).join('');
+      // Animate in
+      grid.querySelectorAll('.blog-full-card').forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, i * 80);
+      });
+    }
+
+    function buildFullCard(post) {
+      const isVideo  = post.type === 'video';
+      const hasVideo = isVideo && (post.videoFile || post.videoUrl);
+      const hasFile  = post.filePath && !isVideo;
+      const hasUrl   = post.url;
+
+      const bannerBg = {
+        article:  'linear-gradient(135deg,#1A1500,#0F1117)',
+        tutorial: 'linear-gradient(135deg,#001A20,#0F1117)',
+        video:    'linear-gradient(135deg,#1A0008,#0F1117)',
+      }[post.type] || 'linear-gradient(135deg,#1A1D27,#0F1117)';
+
+      let actionBtn = '';
+      if (isVideo && hasVideo) {
+        actionBtn = `<button class="btn btn--primary blog-video-btn" data-video-id="${post.id}">▶ Watch Now</button>`;
+      } else if (isVideo && !hasVideo) {
+        actionBtn = `<span class="btn btn--outline" style="opacity:0.5;cursor:default;">Coming Soon</span>`;
+      } else if (hasUrl) {
+        actionBtn = `<a href="${post.url}" target="_blank" rel="noopener" class="btn btn--primary">Read Article ↗</a>`;
+      } else if (hasFile) {
+        actionBtn = `<a href="${post.filePath}" target="_blank" class="btn btn--primary">Read Article ↗</a>`;
+      }
+
+      return `
+        <article class="blog-full-card" id="${post.id}" data-type="${post.type}">
+          <div class="blog-full-banner" style="background:${bannerBg}">
+            <span class="blog-type-badge blog-type-badge--${post.type}">${post.type}</span>
+            ${isVideo ? `<div class="blog-video-placeholder blog-video-placeholder--lg">
+              <div class="blog-video-play blog-video-play--lg"${hasVideo ? ` data-video-id="${post.id}" style="cursor:pointer"` : ''}>▶</div>
+              ${!hasVideo ? `<span class="blog-coming-soon">Coming Soon</span>` : '<span class="blog-coming-soon">Click to play</span>'}
+            </div>` : ''}
+          </div>
+          <div class="blog-full-body">
+            <div class="blog-full-meta">
+              <span class="blog-full-date">${esc(post.date)}</span>
+              ${post.readTime ? `<span class="blog-full-read">${esc(post.readTime)}</span>` : ''}
+            </div>
+            <h2 class="blog-full-title">${esc(post.title)}</h2>
+            <p class="blog-full-excerpt">${esc(post.excerpt)}</p>
+            <div class="blog-card-tags" style="margin-bottom:20px;">
+              ${(post.tags || []).map(t => `<span class="blog-tag">${esc(t)}</span>`).join('')}
+            </div>
+            ${actionBtn}
+          </div>
+        </article>`;
+    }
+
+    // Filter buttons
+    document.getElementById('blog-filters').addEventListener('click', e => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      renderPosts(activeFilter);
+    });
+
+    // Video modal
+    const videoModal        = document.getElementById('video-modal');
+    const videoModalContent = document.getElementById('video-modal-content');
+
+    function openVideo(id) {
+      const post = D.blogPosts.find(p => p.id === id);
+      if (!post) return;
+      const src = post.videoUrl || post.videoFile;
+      if (!src) return;
+      videoModalContent.innerHTML = `
+        <div class="video-modal-title">${esc(post.title)}</div>
+        <div class="video-modal-player">
+          <video controls autoplay style="width:100%;height:100%;object-fit:contain;">
+            <source src="${src}" />
+          </video>
+        </div>`;
+      videoModal.classList.add('open');
+      videoModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideo() {
+      videoModal.classList.remove('open');
+      videoModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      const v = videoModalContent.querySelector('video');
+      if (v) { v.pause(); v.src = ''; }
+      videoModalContent.innerHTML = '';
+    }
+
+    videoModal.querySelector('.modal-backdrop').addEventListener('click', closeVideo);
+    videoModal.querySelector('.modal-close').addEventListener('click', closeVideo);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
+
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('[data-video-id]');
+      if (btn) openVideo(btn.dataset.videoId);
+    });
+
+    // Initial render
+    renderPosts('all');
+
+    // Scroll to anchor if present
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+
+    // Init animations
+    if (window.ANIM && window.ANIM.initAllAnimations) window.ANIM.initAllAnimations();
+  });
+  </script>
+</body>
+</html>
