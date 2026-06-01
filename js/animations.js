@@ -6,6 +6,10 @@
 // ── INTRO OVERLAY ──────────────────────────────────────────
 // Called immediately — overlay is already in HTML, not rendered by app.js
 document.addEventListener('DOMContentLoaded', function () {
+  // Sub-pages that don't load app.js still need js-ready
+  if (!document.body.classList.contains('js-ready')) {
+    document.body.classList.add('js-ready');
+  }
 
   // ── INTRO ───────────────────────────────────────────────
   const overlay = document.getElementById('intro-overlay');

@@ -5,6 +5,9 @@
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', function () {
+  // Mark body so CSS animation states activate only when JS is running
+  document.body.classList.add('js-ready');
+
   const D = window.DATA;
   if (!D) { console.error('data.js not loaded'); return; }
 
