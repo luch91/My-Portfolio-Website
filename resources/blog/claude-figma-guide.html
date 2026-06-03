@@ -3,387 +3,318 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Claude × Figma — Beginner's Prototype Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<meta name="description" content="Claude × Figma: Beginner's Prototype Guide — step-by-step tutorial by Judith Oluchi Ekeleme." />
+<title>Claude × Figma: Beginner's Prototype Guide — Judith Oluchi Ekeleme</title>
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #0a0a0f;
-    --surface: #111118;
-    --surface2: #18181f;
-    --border: rgba(255,255,255,0.07);
-    --text: #e8e8f0;
-    --muted: #7070a0;
-    --accent-a: #7c5cfc; /* Claude purple */
-    --accent-b: #1abcfe; /* Figma blue */
-    --accent-c: #ff7262; /* Figma coral */
-    --accent-d: #0acf83; /* Figma green */
-    --gold: #f5c842;
+    --bg:         #0F1117;
+    --bg-alt:     #131620;
+    --surface:    #1A1D27;
+    --border:     #2A2D3A;
+    --gold:       #C9A96E;
+    --gold-light: #E2C48A;
+    --gold-dim:   rgba(201,169,110,0.12);
+    --mauve:      #8B4A52;
+    --mauve-dim:  rgba(139,74,82,0.12);
+    --teal:       #4A9EBF;
+    --teal-dim:   rgba(74,158,191,0.10);
+    --text:       #F5F0E8;
+    --text-muted: #9A9585;
+    --text-dim:   #6B6560;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans:  'Inter', system-ui, sans-serif;
+    --font-mono:  'DM Mono', monospace;
+    --radius:     12px;
+    --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.75; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--gold-dim); color: var(--gold-light); }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    line-height: 1.7;
-    min-height: 100vh;
-  }
-
-  /* ── HEADER ── */
-  header {
-    position: relative;
-    padding: 80px 40px 60px;
-    text-align: center;
-    overflow: hidden;
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 64px;
+    background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
-  header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 30% 50%, rgba(124,92,252,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(26,188,254,0.12) 0%, transparent 70%);
+  .nav-logo { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; transition: color var(--transition); }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-back { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color var(--transition); }
+  .nav-back:hover { color: var(--gold); }
+  .nav-back svg { width: 16px; height: 16px; }
+  @media (max-width: 768px) { nav { padding: 0 24px; } .nav-links { display: none; } }
+
+  /* ── HERO ── */
+  .post-hero {
+    padding: 120px 0 64px;
+    background: linear-gradient(180deg, #131620 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .post-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(201,169,110,0.06) 0%, transparent 70%);
     pointer-events: none;
   }
-  .badge {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent-b);
-    border: 1px solid rgba(26,188,254,0.3);
-    padding: 4px 14px;
-    border-radius: 100px;
-    margin-bottom: 24px;
+  .container { max-width: 780px; margin: 0 auto; padding: 0 32px; }
+
+  .post-meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .post-tag {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); background: var(--gold-dim); border: 1px solid rgba(201,169,110,0.2);
+    padding: 4px 10px; border-radius: 4px;
   }
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2.2rem, 6vw, 4rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    margin-bottom: 20px;
+  .post-date, .post-read { font-size: 0.8rem; color: var(--text-dim); }
+  .meta-dot { color: var(--border); }
+
+  .post-title {
+    font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 20px;
   }
-  h1 span.c { color: var(--accent-a); }
-  h1 span.f { color: var(--accent-b); }
-  .subtitle {
-    max-width: 560px;
-    margin: 0 auto 40px;
-    color: var(--muted);
-    font-size: 1.05rem;
-    font-weight: 300;
+  .post-lede {
+    font-size: 1.05rem; color: var(--text-muted); line-height: 1.75;
+    border-left: 3px solid var(--gold); padding-left: 20px;
   }
 
   /* ── FLOW DIAGRAM ── */
+  .flow-wrap { margin-top: 40px; }
   .flow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 0 auto;
-    max-width: 800px;
+    display: flex; align-items: center; justify-content: flex-start;
+    flex-wrap: wrap; gap: 8px;
   }
   .flow-step {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--text);
-    white-space: nowrap;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+    padding: 6px 14px; font-family: var(--font-mono); font-size: 11px;
+    color: var(--text-muted); white-space: nowrap;
   }
-  .flow-step.hi { border-color: var(--accent-a); color: var(--accent-a); }
-  .flow-arrow { color: var(--muted); font-size: 18px; }
+  .flow-step.hi { border-color: rgba(201,169,110,0.4); color: var(--gold); }
+  .flow-arrow { color: var(--text-dim); font-size: 14px; }
 
-  /* ── MAIN LAYOUT ── */
-  .container {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 0 24px 100px;
-  }
+  /* ── BODY ── */
+  .post-body { padding: 64px 0 100px; }
 
-  /* ── TOC ── */
+  /* TOC */
   .toc {
-    margin: 60px 0 0;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 32px 36px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 32px 36px; margin-bottom: 64px;
   }
   .toc-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 20px;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 20px;
   }
-  .toc ol {
-    list-style: none;
-    counter-reset: toc;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 32px;
-  }
+  .toc ol { list-style: none; counter-reset: toc; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 32px; }
   @media (max-width: 560px) { .toc ol { grid-template-columns: 1fr; } }
   .toc li { counter-increment: toc; display: flex; align-items: baseline; gap: 10px; }
   .toc li::before {
     content: counter(toc, decimal-leading-zero);
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent-a);
-    flex-shrink: 0;
+    font-family: var(--font-mono); font-size: 10px; color: var(--gold); flex-shrink: 0;
   }
-  .toc a {
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.2s;
-  }
-  .toc a:hover { color: var(--accent-b); }
+  .toc a { color: var(--text-muted); font-size: 0.875rem; transition: color var(--transition); }
+  .toc a:hover { color: var(--gold); }
 
-  /* ── PHASE BLOCKS ── */
-  .phase {
-    margin-top: 72px;
-  }
+  /* Phase blocks */
+  .phase { margin-top: 72px; }
   .phase-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px;
   }
   .phase-label .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--accent-a);
-    flex-shrink: 0;
+    width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0;
   }
-  .phase-label .dot.b { background: var(--accent-b); }
-  .phase-label .dot.c { background: var(--accent-c); }
-  .phase-label .dot.d { background: var(--accent-d); }
-  .phase-label .dot.g { background: var(--gold); }
+  .phase-label .dot.b { background: var(--teal); }
+  .phase-label .dot.c { background: var(--mauve); }
 
   h2 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.8rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
-    line-height: 1.2;
+    font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700; line-height: 1.2; color: var(--text); margin-bottom: 8px;
   }
-  .phase-desc {
-    color: var(--muted);
-    font-size: 0.95rem;
-    margin-bottom: 32px;
-    font-weight: 300;
-  }
+  .phase-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 32px; line-height: 1.7; }
 
-  /* ── STEP CARD ── */
+  /* Step cards */
   .step {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 28px 32px;
-    margin-bottom: 16px;
-    position: relative;
-    transition: border-color 0.2s;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 28px 32px; margin-bottom: 16px; position: relative;
+    transition: border-color var(--transition);
   }
-  .step:hover { border-color: rgba(124,92,252,0.25); }
-
+  .step:hover { border-color: rgba(201,169,110,0.25); }
   .step-number {
-    position: absolute;
-    top: 28px; right: 28px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
+    position: absolute; top: 28px; right: 28px;
+    font-family: var(--font-mono); font-size: 10px; color: var(--text-dim);
   }
   .step h3 {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-    padding-right: 40px;
+    font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 12px; padding-right: 40px;
   }
-  .step p { color: var(--muted); font-size: 0.92rem; margin-bottom: 14px; }
+  .step p { color: var(--text-muted); font-size: 0.925rem; margin-bottom: 14px; line-height: 1.75; }
   .step p:last-child { margin-bottom: 0; }
+  .step strong { color: var(--text); }
+  .step code {
+    font-family: var(--font-mono); font-size: 0.82rem; color: var(--gold);
+    background: var(--gold-dim); padding: 1px 6px; border-radius: 4px;
+  }
 
-  /* code block */
+  /* Code block */
   .code-block {
-    background: #0d0d14;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 10px;
-    padding: 16px 20px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.82rem;
-    color: #a8b4ff;
-    overflow-x: auto;
-    margin: 14px 0;
-    line-height: 1.8;
-    white-space: pre;
+    background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0; padding: 16px 20px;
+    font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted);
+    overflow-x: auto; margin: 14px 0; line-height: 1.8; white-space: pre;
   }
-  .code-block .comment { color: #4a4a70; }
-  .code-block .cmd { color: var(--accent-b); }
-  .code-block .str { color: var(--accent-d); }
-  .code-block .kw { color: var(--accent-c); }
+  .code-block .comment { color: var(--text-dim); }
+  .code-block .cmd { color: var(--gold); }
+  .code-block .str { color: var(--teal); }
 
-  /* tip */
+  /* Tip */
   .tip {
-    display: flex;
-    gap: 12px;
-    background: rgba(124,92,252,0.08);
-    border: 1px solid rgba(124,92,252,0.2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin-top: 14px;
+    display: flex; gap: 12px; background: var(--gold-dim);
+    border: 1px solid rgba(201,169,110,0.2); border-radius: 8px;
+    padding: 14px 18px; margin-top: 14px;
   }
-  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
-  .tip p { color: rgba(232,232,240,0.75); font-size: 0.86rem; margin: 0; }
+  .tip-icon { font-size: 15px; flex-shrink: 0; margin-top: 2px; }
+  .tip p { color: var(--text-muted); font-size: 0.875rem; margin: 0; line-height: 1.65; }
 
+  /* Warn */
   .warn {
-    display: flex;
-    gap: 12px;
-    background: rgba(245,200,66,0.07);
-    border: 1px solid rgba(245,200,66,0.2);
-    border-radius: 10px;
-    padding: 14px 18px;
-    margin-top: 14px;
+    display: flex; gap: 12px; background: var(--mauve-dim);
+    border: 1px solid rgba(139,74,82,0.25); border-radius: 8px;
+    padding: 14px 18px; margin-top: 14px;
   }
-  .warn p { color: rgba(232,232,240,0.75); font-size: 0.86rem; margin: 0; }
+  .warn p { color: var(--text-muted); font-size: 0.875rem; margin: 0; line-height: 1.65; }
 
-  /* tag pills */
+  /* Prompt box */
+  .prompt-box {
+    background: var(--teal-dim); border: 1px solid rgba(74,158,191,0.2);
+    border-left: 3px solid var(--teal); border-radius: 0 8px 8px 0;
+    padding: 16px 20px; margin: 14px 0;
+    font-style: italic; color: var(--text-muted); font-size: 0.9rem; line-height: 1.65;
+  }
+  .prompt-box .label {
+    font-family: var(--font-mono); font-size: 9px; font-style: normal;
+    color: var(--teal); letter-spacing: 0.12em; text-transform: uppercase;
+    display: block; margin-bottom: 8px;
+  }
+
+  /* Tags */
   .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
   .tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 100px;
-    border: 1px solid;
+    font-family: var(--font-mono); font-size: 10px; padding: 3px 10px;
+    border-radius: 100px; border: 1px solid; color: var(--text-muted); border-color: var(--border);
   }
-  .tag.a { color: var(--accent-a); border-color: rgba(124,92,252,0.35); }
-  .tag.b { color: var(--accent-b); border-color: rgba(26,188,254,0.35); }
-  .tag.c { color: var(--accent-c); border-color: rgba(255,114,98,0.35); }
-  .tag.d { color: var(--accent-d); border-color: rgba(10,207,131,0.35); }
+  .tag.gold { color: var(--gold); border-color: rgba(201,169,110,0.3); }
+  .tag.teal { color: var(--teal); border-color: rgba(74,158,191,0.3); }
 
-  /* sub-list */
+  /* Checklist */
   .checklist { list-style: none; margin: 12px 0; }
   .checklist li {
-    padding: 6px 0 6px 26px;
-    position: relative;
-    color: var(--muted);
-    font-size: 0.9rem;
-    border-bottom: 1px solid var(--border);
+    padding: 7px 0 7px 24px; position: relative; color: var(--text-muted);
+    font-size: 0.9rem; border-bottom: 1px solid var(--border); line-height: 1.6;
   }
   .checklist li:last-child { border-bottom: none; }
   .checklist li::before {
-    content: '→';
-    position: absolute; left: 0;
-    color: var(--accent-a);
-    font-family: 'DM Mono', monospace;
+    content: '→'; position: absolute; left: 0; color: var(--gold);
+    font-family: var(--font-mono);
+  }
+  .checklist li strong { color: var(--text); }
+  .checklist li code {
+    font-family: var(--font-mono); font-size: 0.82rem; color: var(--gold);
+    background: var(--gold-dim); padding: 1px 6px; border-radius: 4px;
   }
 
-  /* prompt example */
-  .prompt-box {
-    background: rgba(10,207,131,0.05);
-    border: 1px solid rgba(10,207,131,0.18);
-    border-left: 3px solid var(--accent-d);
-    border-radius: 0 10px 10px 0;
-    padding: 16px 20px;
-    margin: 14px 0;
-    font-style: italic;
-    color: rgba(232,232,240,0.8);
-    font-size: 0.9rem;
-    line-height: 1.6;
-  }
-  .prompt-box .label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-style: normal;
-    color: var(--accent-d);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 8px;
-  }
+  /* Divider */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 64px 0 0; }
 
-  /* divider */
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 64px 0 0;
-  }
-
-  /* summary table */
-  .summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 24px;
-    font-size: 0.88rem;
-  }
+  /* Summary table */
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
   .summary-table th {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-align: left;
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); text-align: left; padding: 12px 16px;
+    border-bottom: 2px solid var(--border);
   }
-  .summary-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    color: var(--muted);
-    vertical-align: top;
-  }
-  .summary-table td:first-child { color: var(--text); font-weight: 500; }
+  .summary-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; }
+  .summary-table td:first-child { color: var(--text); font-weight: 600; }
   .summary-table tr:last-child td { border-bottom: none; }
+  .summary-table tr:hover td { background: rgba(201,169,110,0.03); }
 
-  /* footer */
-  footer {
-    text-align: center;
-    padding: 48px 24px;
-    border-top: 1px solid var(--border);
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
+  /* Footer */
+  footer { padding: 48px 32px; border-top: 1px solid var(--border); text-align: center; }
+  .footer-back {
+    display: inline-flex; align-items: center; gap: 10px; font-size: 0.875rem;
+    color: var(--text-muted); border: 1px solid var(--border); padding: 12px 24px;
+    border-radius: 100px; transition: all var(--transition); margin-bottom: 32px;
   }
+  .footer-back:hover { border-color: var(--gold); color: var(--gold); }
+  .footer-copy { font-size: 0.8rem; color: var(--text-dim); }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <div class="badge">Complete Beginner's Guide</div>
-  <h1><span class="c">Claude</span> × <span class="f">Figma</span><br>From Brief to Prototype</h1>
-  <p class="subtitle">A total beginner's step-by-step guide to building high-fidelity prototypes using Claude AI and Figma — no prior experience needed.</p>
-  <div class="flow">
-    <div class="flow-step hi">Your Idea</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">Claude Chat</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">FigJam Flows</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">Figma Make</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step">Claude Code</div>
-    <div class="flow-arrow">→</div>
-    <div class="flow-step hi">Live Prototype</div>
+<!-- NAV -->
+<nav>
+  <a href="../../index.html" class="nav-logo">JOE</a>
+  <div class="nav-links">
+    <a href="../../index.html#about">About</a>
+    <a href="../../index.html#projects">Projects</a>
+    <a href="../../case-studies.html">Case Studies</a>
+    <a href="../../index.html#experience">Experience</a>
+    <a href="../../blog.html">Blog</a>
+    <a href="../../index.html#contact">Contact</a>
+  </div>
+  <a href="../../blog.html" class="nav-back">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
+    Blog
+  </a>
+</nav>
+
+<!-- HERO -->
+<header class="post-hero">
+  <div class="container">
+    <div class="post-meta-row">
+      <span class="post-tag">AI</span>
+      <span class="post-tag">Figma</span>
+      <span class="post-tag">Product Design</span>
+      <span class="post-tag">Tutorial</span>
+      <span class="meta-dot">·</span>
+      <span class="post-date">2025</span>
+      <span class="meta-dot">·</span>
+      <span class="post-read">8 min read</span>
+    </div>
+    <h1 class="post-title">Claude × Figma<br>From Brief to Prototype</h1>
+    <p class="post-lede">A total beginner's step-by-step guide to building high-fidelity prototypes using Claude AI and Figma. No prior experience needed.</p>
+    <div class="flow-wrap">
+      <div class="flow">
+        <div class="flow-step hi">Your Idea</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">Claude Chat</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">FigJam Flows</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">Figma Make</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">Claude Code</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step hi">Live Prototype</div>
+      </div>
+    </div>
   </div>
 </header>
 
+<main class="post-body">
 <div class="container">
 
   <!-- TOC -->
@@ -402,9 +333,9 @@
     </ol>
   </div>
 
-  <!-- ── PHASE 0 ── -->
+  <!-- PHASE 0 -->
   <div class="phase" id="phase0">
-    <div class="phase-label"><span class="dot g"></span>Prerequisites</div>
+    <div class="phase-label"><span class="dot"></span>Prerequisites</div>
     <h2>What You Need Before Starting</h2>
     <p class="phase-desc">Gather your tools. This takes about 15–20 minutes and you only do it once.</p>
 
@@ -413,8 +344,8 @@
       <h3>Create a Figma Account</h3>
       <p>Go to <strong>figma.com</strong> and sign up for free. The free plan works for this guide, though some advanced features (Code Connect, unlimited Dev Mode) require a paid plan.</p>
       <div class="tags">
-        <span class="tag b">figma.com</span>
-        <span class="tag d">Free tier OK</span>
+        <span class="tag teal">figma.com</span>
+        <span class="tag gold">Free tier OK</span>
       </div>
     </div>
 
@@ -461,7 +392,7 @@
 
   <hr class="divider" />
 
-  <!-- ── PHASE 1 ── -->
+  <!-- PHASE 1 -->
   <div class="phase" id="phase1">
     <div class="phase-label"><span class="dot"></span>Phase 1</div>
     <h2>Define Your Idea with Claude</h2>
@@ -506,7 +437,7 @@
 
   <hr class="divider" />
 
-  <!-- ── PHASE 2 ── -->
+  <!-- PHASE 2 -->
   <div class="phase" id="phase2">
     <div class="phase-label"><span class="dot b"></span>Phase 2</div>
     <h2>Map Your Flows in FigJam</h2>
@@ -517,8 +448,8 @@
       <h3>Connect Figma to Claude (claude.ai connector)</h3>
       <p>In Claude.ai, click the plug icon (MCP Apps / Connectors) and search for <strong>Figma</strong>. Connect your Figma account. This is different from the Claude Code MCP setup — this is for the claude.ai web interface.</p>
       <div class="tags">
-        <span class="tag b">claude.ai → Connectors</span>
-        <span class="tag d">One-time setup</span>
+        <span class="tag teal">claude.ai → Connectors</span>
+        <span class="tag gold">One-time setup</span>
       </div>
     </div>
 
@@ -552,7 +483,7 @@
 
   <hr class="divider" />
 
-  <!-- ── PHASE 3 ── -->
+  <!-- PHASE 3 -->
   <div class="phase" id="phase3">
     <div class="phase-label"><span class="dot c"></span>Phase 3</div>
     <h2>Set Up Claude Code + Figma MCP</h2>
@@ -620,9 +551,9 @@
 
   <hr class="divider" />
 
-  <!-- ── PHASE 4 ── -->
+  <!-- PHASE 4 -->
   <div class="phase" id="phase4">
-    <div class="phase-label"><span class="dot d"></span>Phase 4</div>
+    <div class="phase-label"><span class="dot"></span>Phase 4</div>
     <h2>Generate Hi-Fi Designs in Figma Make</h2>
     <p class="phase-desc">Now use Figma's AI to turn Claude's structured prompts into actual screen designs on the canvas.</p>
 
@@ -687,9 +618,9 @@
 
   <hr class="divider" />
 
-  <!-- ── PHASE 5 ── -->
+  <!-- PHASE 5 -->
   <div class="phase" id="phase5">
-    <div class="phase-label"><span class="dot"></span>Phase 5</div>
+    <div class="phase-label"><span class="dot b"></span>Phase 5</div>
     <h2>Convert Designs to Code with Claude Code</h2>
     <p class="phase-desc">Now Claude Code reads your Figma designs and generates real, working frontend code from them.</p>
 
@@ -733,17 +664,17 @@ Can you add a simple index.html that renders this component so I can preview it 
       <h3>Use the Figma Specs Plugin for Precise Handoff</h3>
       <p>Install the free <strong>Figma Specs</strong> plugin from the Figma Community. Select a frame → run Specs → it generates a structured YAML file that gives Claude Code precise dimensions, spacing, and component hierarchy — resulting in much more accurate code output.</p>
       <div class="tags">
-        <span class="tag b">Figma Community → "Specs"</span>
-        <span class="tag d">Free plugin</span>
+        <span class="tag teal">Figma Community → "Specs"</span>
+        <span class="tag gold">Free plugin</span>
       </div>
     </div>
   </div>
 
   <hr class="divider" />
 
-  <!-- ── PHASE 6 ── -->
+  <!-- PHASE 6 -->
   <div class="phase" id="phase6">
-    <div class="phase-label"><span class="dot b"></span>Phase 6</div>
+    <div class="phase-label"><span class="dot c"></span>Phase 6</div>
     <h2>Push Code Back to Figma Canvas</h2>
     <p class="phase-desc">The "Code to Canvas" feature lets you send your live, working UI back into Figma as editable layers — so designers and developers see the same thing.</p>
 
@@ -776,9 +707,9 @@ Can you add a simple index.html that renders this component so I can preview it 
 
   <hr class="divider" />
 
-  <!-- ── PHASE 7 ── -->
+  <!-- PHASE 7 -->
   <div class="phase" id="phase7">
-    <div class="phase-label"><span class="dot g"></span>Phase 7</div>
+    <div class="phase-label"><span class="dot"></span>Phase 7</div>
     <h2>Iterate and Polish</h2>
     <p class="phase-desc">This is where good prototypes become great ones. Use the connected loop between Claude and Figma to refine until it feels right.</p>
 
@@ -822,9 +753,9 @@ Can you add a simple index.html that renders this component so I can preview it 
 
   <hr class="divider" />
 
-  <!-- ── SUMMARY ── -->
+  <!-- SUMMARY -->
   <div class="phase" id="summary">
-    <div class="phase-label"><span class="dot g"></span>Reference</div>
+    <div class="phase-label"><span class="dot"></span>Reference</div>
     <h2>Quick Reference Summary</h2>
     <p class="phase-desc">Everything in one place for when you're mid-flow and need a fast reminder.</p>
 
@@ -837,41 +768,13 @@ Can you add a simple index.html that renders this component so I can preview it 
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Define Idea</td>
-          <td>Claude.ai chat</td>
-          <td>Rough idea → structured brief + Figma Make prompt</td>
-        </tr>
-        <tr>
-          <td>Map Flows</td>
-          <td>Claude.ai + FigJam connector</td>
-          <td>Brief → editable user flow diagrams in FigJam</td>
-        </tr>
-        <tr>
-          <td>MCP Setup</td>
-          <td>Terminal + Claude Code</td>
-          <td>Connect Claude Code to Figma files permanently</td>
-        </tr>
-        <tr>
-          <td>Generate Designs</td>
-          <td>Figma Make</td>
-          <td>Claude's prompt → hi-fi screens on Figma canvas</td>
-        </tr>
-        <tr>
-          <td>Design → Code</td>
-          <td>Claude Code + Figma MCP</td>
-          <td>Figma frame link → React/HTML component code</td>
-        </tr>
-        <tr>
-          <td>Code → Canvas</td>
-          <td>Claude Code (generate_figma_design)</td>
-          <td>Working UI → editable Figma layers</td>
-        </tr>
-        <tr>
-          <td>Prototype</td>
-          <td>Figma Prototype mode + Claude Code</td>
-          <td>Clickable flows + live interactive prototype</td>
-        </tr>
+        <tr><td>Define Idea</td><td>Claude.ai chat</td><td>Rough idea → structured brief + Figma Make prompt</td></tr>
+        <tr><td>Map Flows</td><td>Claude.ai + FigJam connector</td><td>Brief → editable user flow diagrams in FigJam</td></tr>
+        <tr><td>MCP Setup</td><td>Terminal + Claude Code</td><td>Connect Claude Code to Figma files permanently</td></tr>
+        <tr><td>Generate Designs</td><td>Figma Make</td><td>Claude's prompt → hi-fi screens on Figma canvas</td></tr>
+        <tr><td>Design → Code</td><td>Claude Code + Figma MCP</td><td>Figma frame link → React/HTML component code</td></tr>
+        <tr><td>Code → Canvas</td><td>Claude Code (generate_figma_design)</td><td>Working UI → editable Figma layers</td></tr>
+        <tr><td>Prototype</td><td>Figma Prototype mode + Claude Code</td><td>Clickable flows + live interactive prototype</td></tr>
       </tbody>
     </table>
 
@@ -888,9 +791,14 @@ Can you add a simple index.html that renders this component so I can preview it 
   </div>
 
 </div>
+</main>
 
 <footer>
-  Claude × Figma Prototype Guide &nbsp;·&nbsp; Built for total beginners &nbsp;·&nbsp; 2026
+  <a href="../../blog.html" class="footer-back">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
+    Back to Blog
+  </a>
+  <p class="footer-copy">© 2026 Judith Oluchi Ekeleme</p>
 </footer>
 
 </body>
