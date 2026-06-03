@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Fashville — How AI Transforms Discovery, Monetization, and Live Commerce. Full case study by Judith Oluchi Ekeleme." />
+  <title>Fashville Case Study — Judith Oluchi Ekeleme</title>
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="shortcut icon" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0F1117;
+      --bg-alt:     #131620;
+      --surface:    #1A1D27;
+      --border:     #2A2D3A;
+      --gold:       #C9A96E;
+      --gold-light: #E2C48A;
+      --gold-dim:   rgba(201,169,110,0.12);
+      --mauve:      #8B4A52;
+      --mauve-dim:  rgba(139,74,82,0.12);
+      --text:       #F5F0E8;
+      --text-muted: #9A9585;
+      --text-dim:   #6B6560;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --radius:     12px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.75; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    img { display: block; max-width: 100%; }
+    ::selection { background: var(--gold-dim); color: var(--gold-light); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color var(--transition); }
+    .nav-back:hover { color: var(--gold); }
+    .nav-back svg { width: 16px; height: 16px; }
+
+    /* ── HERO ── */
+    .cs-hero {
+      padding: 140px 0 80px;
+      background: linear-gradient(180deg, #1F0D1A 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .cs-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,169,110,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 32px; }
+
+    .cs-label { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+    .cs-title { font-family: var(--font-serif); font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 16px; }
+    .cs-subtitle { font-family: var(--font-serif); font-size: clamp(1rem, 2vw, 1.25rem); font-style: italic; color: var(--gold); margin-bottom: 12px; }
+    .cs-tagline { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 48px; line-height: 1.7; }
+
+    .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 48px; }
+    .stat-cell { background: var(--surface); padding: 24px 20px; text-align: center; }
+    .stat-value { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .meta-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .meta-table tr { border-bottom: 1px solid var(--border); }
+    .meta-table tr:last-child { border-bottom: none; }
+    .meta-table td { padding: 14px 0; vertical-align: top; }
+    .meta-table td:first-child { font-weight: 600; color: var(--text-muted); width: 160px; padding-right: 24px; }
+
+    .proto-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
+    .proto-btn { display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; font-weight: 600; padding: 10px 20px; border-radius: 100px; border: 1px solid var(--gold); color: var(--gold); transition: all var(--transition); }
+    .proto-btn:hover { background: var(--gold-dim); }
+    .proto-btn svg { width: 14px; height: 14px; }
+
+    /* ── SECTIONS ── */
+    .cs-section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+    .cs-section:nth-child(even) { background: var(--bg-alt); }
+
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .section-title { font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: var(--text); margin-bottom: 32px; line-height: 1.2; }
+    .sub-heading { font-size: 1.05rem; font-weight: 600; color: var(--gold); margin: 36px 0 14px; }
+
+    .prose p { font-size: 1rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.8; }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose em { color: var(--text); font-style: italic; }
+    .prose strong { color: var(--text); font-weight: 600; }
+
+    .callout { background: var(--gold-dim); border-left: 3px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0; padding: 24px 28px; margin: 32px 0; }
+    .callout-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .callout p { font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: var(--text); line-height: 1.7; margin: 0; }
+
+    /* ── MEDIA: IMAGE PLACEHOLDER ── */
+    .media-placeholder {
+      width: 100%; border: 2px dashed var(--border);
+      border-radius: var(--radius); background: var(--surface);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 48px 24px; text-align: center; margin: 28px 0;
+      color: var(--text-dim);
+    }
+    .media-placeholder svg { width: 40px; height: 40px; margin-bottom: 14px; opacity: 0.4; }
+    .media-placeholder p { font-size: 0.85rem; line-height: 1.6; }
+    .media-placeholder strong { color: var(--text-muted); display: block; margin-bottom: 6px; font-size: 0.9rem; }
+    .media-placeholder.tall { min-height: 320px; }
+    .media-placeholder.short { min-height: 200px; }
+
+    /* ── MEDIA: VIDEO EMBED ── */
+    .video-section { margin: 28px 0; }
+    .video-wrap {
+      position: relative; width: 100%; padding-top: 56.25%; /* 16:9 */
+      background: var(--surface); border-radius: var(--radius);
+      border: 1px solid var(--border); overflow: hidden;
+    }
+    .video-wrap iframe, .video-wrap video {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+    }
+    .video-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      color: var(--text-dim); text-align: center; padding: 24px;
+    }
+    .video-placeholder svg { width: 48px; height: 48px; margin-bottom: 14px; opacity: 0.35; }
+    .video-placeholder strong { color: var(--text-muted); display: block; margin-bottom: 8px; font-size: 0.95rem; }
+    .video-placeholder p { font-size: 0.82rem; line-height: 1.6; }
+    .video-caption { font-size: 0.8rem; color: var(--text-dim); margin-top: 10px; text-align: center; }
+
+    /* ── GAP CARDS ── */
+    .gaps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 28px 0; }
+    .gap-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; border-top: 3px solid var(--mauve); transition: border-color var(--transition); }
+    .gap-card:hover { border-top-color: var(--gold); }
+    .gap-num { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+    .gap-title { font-weight: 600; color: var(--text); margin-bottom: 10px; }
+    .gap-body { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── PRINCIPLES ── */
+    .principles-list { margin: 28px 0; }
+    .principle-item { display: flex; gap: 20px; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .principle-item:last-child { border-bottom: none; }
+    .principle-num { font-size: 0.7rem; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; min-width: 28px; margin-top: 3px; }
+    .principle-content h4 { font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .principle-content p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── LAYER CARDS ── */
+    .layer-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 32px; margin-bottom: 16px; }
+    .layer-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .layer-badge { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,169,110,0.25); }
+    .layer-title { font-weight: 600; color: var(--text); font-size: 1rem; }
+    .layer-body { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; }
+    .layer-body p { margin-bottom: 12px; }
+    .layer-body p:last-child { margin-bottom: 0; }
+    .layer-body strong { color: var(--text); }
+
+    /* ── DATA TABLE ── */
+    .table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); margin: 24px 0; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    .data-table thead tr { background: var(--surface); }
+    .data-table thead th { padding: 14px 16px; text-align: left; font-weight: 600; color: var(--text-muted); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 2px solid var(--border); }
+    .data-table tbody tr { border-bottom: 1px solid var(--border); transition: background var(--transition); }
+    .data-table tbody tr:hover { background: rgba(201,169,110,0.04); }
+    .data-table td { padding: 14px 16px; vertical-align: top; color: var(--text-muted); line-height: 1.6; }
+    .data-table td:first-child { font-weight: 600; color: var(--text); }
+
+    /* ── RESULTS ── */
+    .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 28px 0; }
+    .result-cell { background: var(--surface); padding: 28px 24px; text-align: center; }
+    .result-value { font-family: var(--font-serif); font-size: 2.4rem; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+    .result-label { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
+    .result-detail { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
+
+    /* ── ROI ── */
+    .roi-box { background: var(--gold-dim); border: 1px solid rgba(201,169,110,0.25); border-radius: var(--radius); padding: 32px; margin: 28px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .roi-item { text-align: center; }
+    .roi-value { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+    .roi-label { font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── KV TABLE ── */
+    .kv-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 20px 0; }
+    .kv-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .kv-table tr { border-bottom: 1px solid var(--border); }
+    .kv-table tr:last-child { border-bottom: none; }
+    .kv-table td { padding: 16px; vertical-align: top; line-height: 1.6; }
+    .kv-table td:first-child { font-weight: 600; color: var(--text); width: 220px; background: var(--surface); border-right: 1px solid var(--border); }
+    .kv-table td:last-child { color: var(--text-muted); }
+
+    /* ── DECISION CARDS ── */
+    .decision-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 16px; transition: border-color var(--transition); }
+    .decision-card:hover { border-color: rgba(201,169,110,0.3); }
+    .decision-num { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .decision-title { font-weight: 600; color: var(--text); font-size: 1rem; margin-bottom: 12px; }
+    .decision-body { font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; }
+
+    /* ── GOVERNANCE ── */
+    .gov-list { margin: 20px 0; }
+    .gov-item { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+    .gov-item:last-child { border-bottom: none; }
+    .gov-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 8px; }
+
+    /* ── LEARNINGS ── */
+    .learnings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+    .learning-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+    .learning-num { font-size: 0.7rem; font-weight: 700; color: var(--gold); letter-spacing: 0.12em; margin-bottom: 8px; }
+    .learning-card h4 { font-weight: 600; color: var(--text); margin-bottom: 10px; }
+    .learning-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── DIAGRAMS ── */
+    .diagram-wrap { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); padding: 28px 24px 20px; overflow-x: auto; }
+    .diagram-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+
+    /* ── FOOTER ── */
+    footer { padding: 48px 32px; border-top: 1px solid var(--border); text-align: center; }
+    .footer-back { display: inline-flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--text-muted); border: 1px solid var(--border); padding: 12px 24px; border-radius: 100px; transition: all var(--transition); margin-bottom: 32px; }
+    .footer-back:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-copy { font-size: 0.8rem; color: var(--text-dim); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .cs-hero { padding: 100px 0 60px; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .gaps-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr; }
+      .roi-box { grid-template-columns: 1fr; }
+      .learnings-grid { grid-template-columns: 1fr; }
+      .kv-table td:first-child { width: 140px; font-size: 0.82rem; }
+    }
+    @media (max-width: 480px) {
+      .cs-title { font-size: 2.2rem; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="../index.html" class="nav-logo">JOE</a>
+    <div class="nav-links">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../case-studies.html">Case Studies</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <a href="../case-studies.html" class="nav-back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
+      Case Studies
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="cs-hero">
+    <div class="container">
+      <span class="cs-label">AI Product Management · Case Study</span>
+      <h1 class="cs-title">Fashville</h1>
+      <p class="cs-subtitle">How AI Transforms Discovery, Monetization, and Live Commerce</p>
+      <p class="cs-tagline">A full technical case study covering problem framing, production architecture, experimentation, results, platform leverage, and governance.</p>
+
+      <div class="stats-bar">
+        <div class="stat-cell"><div class="stat-value">2</div><div class="stat-label">Hi-Fi Prototypes</div></div>
+        <div class="stat-cell"><div class="stat-value">2-sided</div><div class="stat-label">Marketplace</div></div>
+        <div class="stat-cell"><div class="stat-value">$31B</div><div class="stat-label">Market Size</div></div>
+        <div class="stat-cell"><div class="stat-value">$22:1</div><div class="stat-label">AI ROI (Yr 1)</div></div>
+      </div>
+
+      <table class="meta-table">
+        <tr><td>Role</td><td>AI Product Manager — zero-to-one product design</td></tr>
+        <tr><td>Product Type</td><td>AI Social Commerce Platform</td></tr>
+        <tr><td>Scope</td><td>Product vision, dual hi-fi prototypes, admin PRD, technical AI case study</td></tr>
+        <tr><td>Market</td><td>African fashion creators &amp; diaspora buyers — $31B industry, 10% YoY growth</td></tr>
+        <tr><td>AI Stack</td><td>Claude 3 Opus · GPT-4V · DeBERTa-v3-large · RAG · Knowledge Distillation</td></tr>
+      </table>
+
+      <div class="proto-links">
+        <a href="https://chat.qwen.ai/s/deploy/t_ac4274c9-037c-4e0b-b9da-22ef0451b787" target="_blank" rel="noopener" class="proto-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3H3v10h10V8M10 2h4v4M14 2L8 8"/></svg>
+          Consumer Prototype
+        </a>
+        <a href="https://chat.qwen.ai/s/deploy/t_fd3ebaf5-4c4b-403d-b119-22c2fe8f0906" target="_blank" rel="noopener" class="proto-btn">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3H3v10h10V8M10 2h4v4M14 2L8 8"/></svg>
+          Admin Dashboard
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT DEMO VIDEO -->
+  <section class="cs-section" id="demo">
+    <div class="container">
+      <p class="section-label">Product Demo</p>
+      <h2 class="section-title">Platform Walkthrough</h2>
+
+      <div class="video-section">
+        <div class="video-wrap">
+          <!--
+            TO ADD VIDEO: replace this placeholder div with one of the following:
+
+            YouTube embed:
+            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+
+            Self-hosted video:
+            <video controls poster="path/to/thumbnail.jpg">
+              <source src="path/to/demo.mp4" type="video/mp4">
+            </video>
+          -->
+          <div class="video-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="24" cy="24" r="20"/>
+              <polygon points="19,16 35,24 19,32" fill="currentColor" stroke="none"/>
+            </svg>
+            <strong>Fashville Platform Demo</strong>
+            <p>Video walkthrough coming soon — covering the consumer marketplace, live commerce, and admin dashboard.</p>
+          </div>
+        </div>
+        <p class="video-caption">Full platform walkthrough: consumer discovery flow, AI search, live commerce, and operator admin dashboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET CONTEXT -->
+  <section class="cs-section" id="market">
+    <div class="container">
+      <p class="section-label">Market Context</p>
+      <h2 class="section-title">Why This Platform, Why Now</h2>
+      <div class="prose">
+        <p>The African fashion market is not a niche. It is a $31 billion industry growing at approximately 10 percent annually, with diaspora spending in the United States, United Kingdom, and Canada adding a further $2.5 billion in cross-border demand that existing global marketplaces have not meaningfully served.</p>
+        <p>The structural gap is on both sides. African fashion creators — from Lagos Ankara tailors to Accra streetwear labels — have no dedicated platform that understands their aesthetic vocabulary, supports African mobile payment infrastructure, or protects them through escrow on cross-border transactions. African and diaspora buyers searching for occasion-specific, culturally specific garments are underserved on every general-purpose marketplace because those platforms were not built with their vocabulary, their occasions, or their aesthetics in mind.</p>
+        <p>Fashville enters as a vertical two-sided marketplace built specifically for this gap. The creator supply side is large, fragmented, and currently monetizing through Instagram DMs, WhatsApp, and informal logistics with no buyer protection and no discovery infrastructure. The buyer demand side is high-intent, willing to pay premium prices for culturally resonant garments, and deeply frustrated by search experiences that return irrelevant results for queries like <em>Owambe ready co-ord</em> or <em>modern Kente blazer</em>.</p>
+        <p>A platform that closes the vocabulary gap and builds trust infrastructure on both sides is not competing with Etsy or ASOS. It is opening a market that has not been properly served before. The AI platform described in this case study is not a feature differentiator. It is the mechanism that makes the two-sided market work at scale.</p>
+      </div>
+
+      <!-- Platform screenshots placeholder -->
+      <div class="media-placeholder tall">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="4" y="8" width="40" height="32" rx="3"/>
+          <circle cx="17" cy="20" r="5"/>
+          <path d="M4 32l10-8 8 6 8-10 14 12"/>
+        </svg>
+        <strong>Platform Screenshots</strong>
+        <p>Consumer marketplace and admin dashboard screens.<br>Add prototype screenshots here.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="cs-section" id="exec-summary">
+    <div class="container">
+      <p class="section-label">Executive Summary</p>
+      <h2 class="section-title">The Core Problem and the Strategic Response</h2>
+      <div class="prose">
+        <p>As Fashville scales, discovery systems optimized for engagement signals produce ranking behavior that does not consistently align with buyer intent or creator monetization goals. On a platform where African cultural aesthetic vocabulary is central to the product, the gap between what buyers mean and what traditional keyword systems understand is structurally large and structurally growing as the creator base expands.</p>
+        <p>This case study describes the design of a semantic relevance and AI intelligence platform that introduces LLM-aligned scoring anchored to human ground truth, distills semantic reasoning into production-grade models, integrates multimodal signals across text, image, video, and live streams, reduces cold start friction for emerging creators, and becomes a reusable AI infrastructure layer across all ranking and recommendation surfaces.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">The central strategic asset</div>
+        <p>A proprietary African fashion ontology built before any model was selected. It is the asset that makes the platform's AI defensible. General-purpose models trained on standard corpora do not understand what <em>Owambe ready</em> means in a fashion context. The ontology does. Every downstream model benefits from it permanently.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PLATFORM PROBLEM -->
+  <section class="cs-section" id="problem">
+    <div class="container">
+      <p class="section-label">The Platform Problem</p>
+      <h2 class="section-title">Four Failure Modes, One Root Cause</h2>
+      <div class="prose"><p>The system was not broken. It was optimizing for the wrong thing. Four failure modes were mapped before a single requirement was written.</p></div>
+
+      <div class="gaps-grid">
+        <div class="gap-card">
+          <div class="gap-num">Gap 01</div>
+          <div class="gap-title">Engagement dominated ranking</div>
+          <div class="gap-body">Clicks and saves outweighed purchase intent signals. Popular items were not necessarily relevant. Cart abandonment rose while mismatch returns climbed.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-num">Gap 02</div>
+          <div class="gap-title">Cultural vocabulary invisible to search</div>
+          <div class="gap-body">Queries for <em>Owambe ready co-ord</em> or <em>modern Ankara blazer</em> returned nothing useful. Lowest conversion occurred on the platform's highest-intent queries. The vocabulary gap was not a minor inconvenience. It was a structural revenue problem.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-num">Gap 03</div>
+          <div class="gap-title">Live commerce lacked real-time intelligence</div>
+          <div class="gap-body">Creators streamed without optimal timing guidance, audience targeting, or dynamic pricing insights. Live conversion rates plateaued.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-num">Gap 04</div>
+          <div class="gap-title">Visual-text mismatch drove returns</div>
+          <div class="gap-body">Generically captioned products did not match what buyers saw in videos or live streams. Surprise at checkout eroded buyer trust and margins.</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>All four failure modes pointed to the same root cause: no shared semantic understanding. The ranking and recommendation systems understood behavior but not intent. They knew what people clicked. They had no idea what people meant. African aesthetic vocabulary like <em>Owambe</em>, <em>Adire casual</em>, or <em>Kente formal</em> was absent from standard training corpora.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT STRATEGY -->
+  <section class="cs-section" id="strategy">
+    <div class="container">
+      <p class="section-label">Product Strategy</p>
+      <h2 class="section-title">Build the Understanding Once. Serve It Everywhere.</h2>
+      <div class="prose">
+        <p>The first instinct was to patch each gap separately. But the right question was: if the same underlying gap appears across search, feed, live streams, and recommendations, why build four separate solutions?</p>
+        <p><strong>Strategic goal:</strong> build a semantic relevance and AI intelligence platform that functions as foundational infrastructure — a shared scoring and recommendation service consumed across all surfaces rather than a one-off feature improvement.</p>
+      </div>
+
+      <h3 class="sub-heading">Five Principles That Shaped Every Decision</h3>
+      <div class="principles-list">
+        <div class="principle-item">
+          <span class="principle-num">01</span>
+          <div class="principle-content">
+            <h4>Human-anchored relevance</h4>
+            <p>AI models without human ground truth diverge from real buyer intent. Build the dataset first. Build the ontology alongside it.</p>
+          </div>
+        </div>
+        <div class="principle-item">
+          <span class="principle-num">02</span>
+          <div class="principle-content">
+            <h4>AI offline, not in live serving paths</h4>
+            <p>LLM inference at query time or during live streams violates latency and cost requirements. This is non-negotiable. Offline restriction also means annotation quality can be improved independently of serving infrastructure.</p>
+          </div>
+        </div>
+        <div class="principle-item">
+          <span class="principle-num">03</span>
+          <div class="principle-content">
+            <h4>Distill into production models</h4>
+            <p>Transfer AI quality into fast, cheap serving models so quality and speed coexist.</p>
+          </div>
+        </div>
+        <div class="principle-item">
+          <span class="principle-num">04</span>
+          <div class="principle-content">
+            <h4>Multimodal from day one</h4>
+            <p>Fashion relevance lives at the visual-textual intersection. Text alone is insufficient. Live video requires frame-level analysis. The annotation layer must process images directly, not rely on seller-provided captions.</p>
+          </div>
+        </div>
+        <div class="principle-item">
+          <span class="principle-num">05</span>
+          <div class="principle-content">
+            <h4>Platform leverage</h4>
+            <p>Build once. API-expose. All surfaces benefit. Focus on infrastructure, not isolated features.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ONTOLOGY -->
+  <section class="cs-section" id="ontology">
+    <div class="container">
+      <p class="section-label">Strategic Foundation</p>
+      <h2 class="section-title">The African Fashion Ontology</h2>
+      <div class="prose">
+        <p>Before any model was selected, a foundational decision was made that shapes the entire architecture. The African fashion ontology is a proprietary, versioned knowledge base covering aesthetic categories, occasion types, garment attributes, silhouette vocabulary, fabric signal mappings, and regional style signals specific to African fashion contexts. It was built through structured LLM-assisted taxonomy generation combined with cultural context annotators who understand the difference between traditional and fusion Ankara, Owambe-appropriate styling, Kente formal versus Kente casual, and the formality gradients within African streetwear.</p>
+        <p>This ontology is not a dataset. It is a platform asset. No competitor can replicate it without the same annotator investment and cultural grounding. The ontology is versioned — when new aesthetic categories emerge, like Afrofuturism now requiring dedicated labels, the ontology is updated first. Model retraining follows from the ontology, not the other way around.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">The competitive moat argument</div>
+        <p>Replicating this ontology requires cultural context annotators who understand African fashion vocabulary at the level of occasion, region, and aesthetic tradition. A well-resourced competitor starting today would need a minimum of 12 to 18 months to reach comparable ontology depth. The ontology compounds. Every labeling cycle, every new creator uploading inventory with culturally specific tagging, and every buyer interaction with culturally specific queries adds signal that refines it further. A competitor cannot buy their way into that compounding effect after the fact.</p>
+      </div>
+
+      <!-- Ontology diagram -->
+      <div class="diagram-wrap" style="margin-top:36px;">
+        <p class="diagram-label">African Fashion Ontology — Taxonomy Structure</p>
+        <svg viewBox="0 0 820 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;" aria-label="African Fashion Ontology taxonomy diagram">
+          <defs>
+            <marker id="arr-o" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#C9A96E" opacity="0.5"/>
+            </marker>
+          </defs>
+
+          <!-- Root node -->
+          <rect x="295" y="16" width="230" height="52" rx="10" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.5"/>
+          <text x="410" y="39" text-anchor="middle" fill="#C9A96E" font-family="'Playfair Display',Georgia,serif" font-size="13" font-weight="700">African Fashion Ontology</text>
+          <text x="410" y="57" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="10">Versioned proprietary knowledge base</text>
+
+          <!-- Branch lines from root to L1 nodes -->
+          <!-- Occasions -->
+          <line x1="340" y1="68" x2="100" y2="138" stroke="#C9A96E" stroke-width="1" opacity="0.35" marker-end="url(#arr-o)"/>
+          <!-- Aesthetics -->
+          <line x1="380" y1="68" x2="263" y2="138" stroke="#C9A96E" stroke-width="1" opacity="0.35" marker-end="url(#arr-o)"/>
+          <!-- Fabrics -->
+          <line x1="410" y1="68" x2="410" y2="138" stroke="#C9A96E" stroke-width="1" opacity="0.35" marker-end="url(#arr-o)"/>
+          <!-- Silhouettes -->
+          <line x1="440" y1="68" x2="557" y2="138" stroke="#C9A96E" stroke-width="1" opacity="0.35" marker-end="url(#arr-o)"/>
+          <!-- Regional -->
+          <line x1="480" y1="68" x2="720" y2="138" stroke="#C9A96E" stroke-width="1" opacity="0.35" marker-end="url(#arr-o)"/>
+
+          <!-- L1: Occasion Types -->
+          <rect x="30" y="138" width="140" height="44" rx="8" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.2"/>
+          <text x="100" y="157" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">Occasion Types</text>
+          <text x="100" y="173" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="9">Owambe · Casual · Formal</text>
+
+          <!-- L1: Aesthetic Categories -->
+          <rect x="193" y="138" width="140" height="44" rx="8" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.2"/>
+          <text x="263" y="157" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">Aesthetic Categories</text>
+          <text x="263" y="173" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="9">Traditional · Fusion · Streetwear</text>
+
+          <!-- L1: Fabric Signals -->
+          <rect x="340" y="138" width="140" height="44" rx="8" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.2"/>
+          <text x="410" y="157" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">Fabric Signals</text>
+          <text x="410" y="173" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="9">Ankara · Kente · Adire · Aso-oke</text>
+
+          <!-- L1: Silhouette Vocabulary -->
+          <rect x="487" y="138" width="140" height="44" rx="8" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.2"/>
+          <text x="557" y="157" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">Silhouette Vocabulary</text>
+          <text x="557" y="173" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="9">A-line · Buba · Co-ord · Bodycon</text>
+
+          <!-- L1: Regional Style Signals -->
+          <rect x="650" y="138" width="140" height="44" rx="8" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.2"/>
+          <text x="720" y="157" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">Regional Style Signals</text>
+          <text x="720" y="173" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="9">Yoruba · Igbo · Ghanaian · Diaspora</text>
+
+          <!-- L1 → L2 lines (Occasions) -->
+          <line x1="60" y1="182" x2="60" y2="248" stroke="#2A2D3A" stroke-width="1" marker-end="url(#arr-o)"/>
+          <line x1="100" y1="182" x2="100" y2="248" stroke="#2A2D3A" stroke-width="1" marker-end="url(#arr-o)"/>
+          <line x1="140" y1="182" x2="140" y2="248" stroke="#2A2D3A" stroke-width="1" marker-end="url(#arr-o)"/>
+
+          <!-- L2: Occasion sub-nodes -->
+          <rect x="18" y="248" width="84" height="36" rx="6" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="60" y="264" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Owambe</text>
+          <text x="60" y="277" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Party · Celebration</text>
+
+          <rect x="58" y="248" width="84" height="36" rx="6" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="100" y="264" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Bridal</text>
+          <text x="100" y="277" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Intro · Trad · White</text>
+
+          <rect x="98" y="248" width="84" height="36" rx="6" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="140" y="264" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Corporate</text>
+          <text x="140" y="277" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Formal · Smart-casual</text>
+
+          <!-- L1 → L2 lines (Fabrics) -->
+          <line x1="370" y1="182" x2="370" y2="248" stroke="#2A2D3A" stroke-width="1" marker-end="url(#arr-o)"/>
+          <line x1="410" y1="182" x2="410" y2="248" stroke="#2A2D3A" stroke-width="1" marker-end="url(#arr-o)"/>
+          <line x1="450" y1="182" x2="450" y2="248" stroke="#2A2D3A" stroke-width="1" marker-end="url(#arr-o)"/>
+
+          <!-- L2: Fabric sub-nodes -->
+          <rect x="323" y="248" width="94" height="36" rx="6" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="370" y="264" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Ankara</text>
+          <text x="370" y="277" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Print type · Colorway</text>
+
+          <rect x="363" y="248" width="94" height="36" rx="6" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="410" y="264" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Kente</text>
+          <text x="410" y="277" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Formal / Casual gradient</text>
+
+          <rect x="403" y="248" width="94" height="36" rx="6" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="450" y="264" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Adire / Aso-oke</text>
+          <text x="450" y="277" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Region · Weave type</text>
+
+          <!-- Versioning note at bottom -->
+          <rect x="240" y="336" width="340" height="48" rx="8" fill="rgba(201,169,110,0.06)" stroke="rgba(201,169,110,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="410" y="356" text-anchor="middle" fill="#C9A96E" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">Versioned · Annotator-maintained · Feeds all models</text>
+          <text x="410" y="373" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="9">New aesthetic categories detected via clustering → ontology proposals → human review → model retrain</text>
+
+          <!-- Connector from sub-nodes to versioning note -->
+          <line x1="410" y1="284" x2="410" y2="336" stroke="#2A2D3A" stroke-width="1" stroke-dasharray="3,3"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYSTEM ARCHITECTURE -->
+  <section class="cs-section" id="architecture">
+    <div class="container">
+      <p class="section-label">System Architecture</p>
+      <h2 class="section-title">Three Layers, Three Jobs</h2>
+      <div class="prose">
+        <p>The architecture has one governing idea: <strong>separate the quality problem from the latency problem.</strong> Large language models understand what <em>Owambe ready</em> means in a fashion context. But calling a large language model at query time on a live marketplace is not viable. Knowledge distillation solves this — the large model teaches a smaller model how to reason about fashion intent, and the smaller model carries that reasoning into production at sub-20ms latency.</p>
+      </div>
+
+      <div class="layer-card">
+        <div class="layer-header"><span class="layer-badge">Layer 1</span><span class="layer-title">Human Ground Truth</span></div>
+        <div class="layer-body">
+          <p>Golden datasets across four dimensions: query-to-product relevance, live video-to-product consistency, caption-to-attribute alignment, and occasion-to-garment fit. Investment in labeling infrastructure came first, before any model selection.</p>
+          <p>Labeling required annotators with cultural context who understand Owambe-appropriate styling, traditional versus fusion Ankara, and the formality spectrum within African streetwear. Generic crowdsourced annotation would have failed because the vocabulary gap is cultural, not linguistic.</p>
+        </div>
+      </div>
+
+      <div class="layer-card">
+        <div class="layer-header"><span class="layer-badge">Layer 2</span><span class="layer-title">LLM Annotation Layer with RAG</span></div>
+        <div class="layer-body">
+          <p><strong>Claude 3 Opus</strong> handles complex attribute inference and cultural vocabulary resolution. <strong>GPT-4V</strong> handles image-to-attribute annotation. Both models are restricted to offline operation — they never touch production traffic.</p>
+          <p>Before any annotation call, the pipeline queries the African fashion ontology and injects the relevant vocabulary context directly into the prompt via RAG. A query for <em>Owambe ready co-ord</em> triggers retrieval of occasion classification rules, appropriate silhouette definitions, color signal guidelines, and fabric attribute mappings from the ontology. This is what closes the vocabulary gap structurally.</p>
+          <p><strong>Annotation Quality Gate:</strong> every batch passes through a quality gate before it enters the training dataset. The gate runs the teacher model as a quality oracle. Batches falling below a precision threshold are flagged for human review. Bad annotations corrupt the student model. The quality gate keeps annotation quality and serving quality coupled across every model update cycle.</p>
+        </div>
+      </div>
+
+      <div class="layer-card">
+        <div class="layer-header"><span class="layer-badge">Layer 3</span><span class="layer-title">Teacher Model (DeBERTa-v3-large)</span></div>
+        <div class="layer-body">
+          <p>A mid-size transformer fine-tuned from DeBERTa-v3-large, trained via supervised fine-tuning to match LLM annotation outputs across all four labeling dimensions. Runs batch scoring weekly on new catalog items and serves as the quality oracle during ranker training.</p>
+          <p><strong>Cost architecture:</strong> At ~350,000 items annotated per week at 600 tokens per item, weekly LLM annotation cost runs to ~$180 at current API pricing. Scaling to one million items reaches ~$500/week. Serving costs are entirely decoupled because the student model handles all real-time queries.</p>
+        </div>
+      </div>
+
+      <div class="layer-card">
+        <div class="layer-header"><span class="layer-badge">Layer 4</span><span class="layer-title">Student Production Model</span></div>
+        <div class="layer-body">
+          <p>A compact transformer distilled from the teacher. Sub-20ms P95 latency. High QPS. Memory-efficient via quantization. Outputs relevance scores, style confidence vectors, visual-text alignment scores, and live commerce engagement predictions.</p>
+          <p>A small precision loss relative to the teacher was accepted in exchange for a 10x latency improvement. The student model is consumed by the search ranker, feed ranker, live stream optimizer, AI shopping assistant, pricing engine, and creator caption generation tool — all from the same underlying service.</p>
+        </div>
+      </div>
+
+      <!-- Architecture diagram -->
+      <div class="diagram-wrap" style="margin-top:40px;">
+        <p class="diagram-label">System Architecture — Quality → Speed Pipeline</p>
+        <svg viewBox="0 0 820 580" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;" aria-label="Fashville AI system architecture diagram showing four layers from human ground truth to student production model">
+          <defs>
+            <marker id="arr-arch" markerWidth="9" markerHeight="9" refX="8" refY="3.5" orient="auto">
+              <path d="M0,0 L0,7 L9,3.5 z" fill="#C9A96E" opacity="0.7"/>
+            </marker>
+            <marker id="arr-side" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="#8B4A52" opacity="0.6"/>
+            </marker>
+          </defs>
+
+          <!-- ── LAYER 1: Human Ground Truth ── -->
+          <rect x="30" y="20" width="760" height="100" rx="10" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.5"/>
+          <rect x="30" y="20" width="8" height="100" rx="4" fill="#C9A96E"/>
+          <text x="58" y="46" fill="#C9A96E" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="0.12em">LAYER 1 — HUMAN GROUND TRUTH</text>
+          <text x="58" y="64" fill="#F5F0E8" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="600">Cultural Context Annotators + Golden Datasets</text>
+          <!-- 4 dataset boxes -->
+          <rect x="58" y="75" width="160" height="30" rx="5" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="138" y="95" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9">Query→Product Relevance</text>
+          <rect x="228" y="75" width="160" height="30" rx="5" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="308" y="95" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9">Video→Product Consistency</text>
+          <rect x="398" y="75" width="160" height="30" rx="5" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="478" y="95" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9">Caption→Attribute Alignment</text>
+          <rect x="568" y="75" width="160" height="30" rx="5" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="648" y="95" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9">Occasion→Garment Fit</text>
+
+          <!-- Arrow L1 → L2 -->
+          <line x1="410" y1="120" x2="410" y2="150" stroke="#C9A96E" stroke-width="1.5" marker-end="url(#arr-arch)"/>
+
+          <!-- ── LAYER 2: LLM Annotation + RAG ── -->
+          <rect x="30" y="150" width="760" height="118" rx="10" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.5"/>
+          <rect x="30" y="150" width="8" height="118" rx="4" fill="#8B4A52"/>
+          <text x="58" y="174" fill="#8B4A52" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="0.12em">LAYER 2 — LLM ANNOTATION (OFFLINE ONLY)</text>
+
+          <!-- RAG box -->
+          <rect x="58" y="182" width="180" height="70" rx="8" fill="#131620" stroke="rgba(201,169,110,0.3)" stroke-width="1"/>
+          <text x="148" y="200" text-anchor="middle" fill="#C9A96E" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">African Ontology RAG</text>
+          <text x="148" y="215" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Vocab context injected into</text>
+          <text x="148" y="227" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">every annotation prompt</text>
+          <text x="148" y="243" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8" font-style="italic">Owambe · Kente · Adire…</text>
+
+          <!-- RAG → LLMs arrow -->
+          <line x1="238" y1="217" x2="278" y2="217" stroke="#C9A96E" stroke-width="1" opacity="0.5" marker-end="url(#arr-arch)"/>
+
+          <!-- Claude 3 Opus -->
+          <rect x="278" y="182" width="165" height="70" rx="8" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="360" y="200" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">Claude 3 Opus</text>
+          <text x="360" y="215" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Complex attribute inference</text>
+          <text x="360" y="228" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Cultural vocab resolution</text>
+          <text x="360" y="243" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Caption generation</text>
+
+          <!-- GPT-4V -->
+          <rect x="453" y="182" width="165" height="70" rx="8" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="535" y="200" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">GPT-4V</text>
+          <text x="535" y="215" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Image→attribute annotation</text>
+          <text x="535" y="228" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Visual-text alignment score</text>
+          <text x="535" y="243" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Silhouette · texture · color</text>
+
+          <!-- Quality Gate -->
+          <rect x="628" y="182" width="162" height="70" rx="8" fill="rgba(201,169,110,0.06)" stroke="rgba(201,169,110,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="709" y="200" text-anchor="middle" fill="#C9A96E" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="600">Quality Gate</text>
+          <text x="709" y="215" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Teacher as quality oracle</text>
+          <text x="709" y="228" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Below threshold → human review</text>
+          <text x="709" y="243" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Passes → training dataset</text>
+
+          <!-- Arrow L2 → L3 -->
+          <line x1="410" y1="268" x2="410" y2="298" stroke="#C9A96E" stroke-width="1.5" marker-end="url(#arr-arch)"/>
+
+          <!-- ── LAYER 3: Teacher Model ── -->
+          <rect x="30" y="298" width="760" height="98" rx="10" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+          <rect x="30" y="298" width="8" height="98" rx="4" fill="#2A2D3A"/>
+          <text x="58" y="320" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="0.12em">LAYER 3 — TEACHER MODEL</text>
+          <text x="58" y="338" fill="#F5F0E8" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="600">DeBERTa-v3-large · Fine-tuned · Batch scoring · ~$180–500/week</text>
+
+          <rect x="58" y="348" width="200" height="32" rx="6" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="158" y="368" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9">Scores new catalog items weekly</text>
+
+          <rect x="268" y="348" width="200" height="32" rx="6" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="368" y="368" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9">Quality oracle during ranker training</text>
+
+          <rect x="478" y="348" width="200" height="32" rx="6" fill="#131620" stroke="#2A2D3A" stroke-width="1"/>
+          <text x="578" y="368" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="9">Distills knowledge to student</text>
+
+          <!-- Arrow L3 → L4 -->
+          <line x1="410" y1="396" x2="410" y2="426" stroke="#C9A96E" stroke-width="1.5" marker-end="url(#arr-arch)"/>
+          <text x="440" y="415" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="9" font-style="italic">knowledge distillation</text>
+
+          <!-- ── LAYER 4: Student Production Model ── -->
+          <rect x="30" y="426" width="760" height="108" rx="10" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.8"/>
+          <rect x="30" y="426" width="8" height="108" rx="4" fill="#C9A96E"/>
+          <text x="58" y="450" fill="#C9A96E" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="0.12em">LAYER 4 — STUDENT PRODUCTION MODEL · P95 &lt;20ms · All Surfaces</text>
+
+          <!-- Output boxes -->
+          <rect x="58" y="460" width="138" height="56" rx="6" fill="rgba(201,169,110,0.07)" stroke="rgba(201,169,110,0.25)" stroke-width="1"/>
+          <text x="127" y="479" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Search Ranker</text>
+          <text x="127" y="493" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Relevance score</text>
+          <text x="127" y="505" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Style confidence</text>
+
+          <rect x="206" y="460" width="138" height="56" rx="6" fill="rgba(201,169,110,0.07)" stroke="rgba(201,169,110,0.25)" stroke-width="1"/>
+          <text x="275" y="479" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Feed Ranker</text>
+          <text x="275" y="493" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Personalised scoring</text>
+          <text x="275" y="505" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Creator diversity index</text>
+
+          <rect x="354" y="460" width="138" height="56" rx="6" fill="rgba(201,169,110,0.07)" stroke="rgba(201,169,110,0.25)" stroke-width="1"/>
+          <text x="423" y="479" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Live Stream Optimizer</text>
+          <text x="423" y="493" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Engagement prediction</text>
+          <text x="423" y="505" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Timing · product placement</text>
+
+          <rect x="502" y="460" width="138" height="56" rx="6" fill="rgba(201,169,110,0.07)" stroke="rgba(201,169,110,0.25)" stroke-width="1"/>
+          <text x="571" y="479" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">AI Shopping Assistant</text>
+          <text x="571" y="493" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Style matching</text>
+          <text x="571" y="505" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Outfit pairing</text>
+
+          <rect x="650" y="460" width="140" height="56" rx="6" fill="rgba(201,169,110,0.07)" stroke="rgba(201,169,110,0.25)" stroke-width="1"/>
+          <text x="720" y="479" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="600">Pricing + Trends</text>
+          <text x="720" y="493" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Creator monetization</text>
+          <text x="720" y="505" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8">Subscription tier features</text>
+
+          <!-- Legend -->
+          <text x="58" y="545" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5" font-style="italic">LLMs restricted to offline paths only — never touch production traffic</text>
+          <text x="760" y="545" text-anchor="end" fill="#C9A96E" font-family="Inter,system-ui,sans-serif" font-size="8.5">One shared API · consumed by all surfaces</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- MULTIMODAL -->
+  <section class="cs-section" id="multimodal">
+    <div class="container">
+      <p class="section-label">Multimodal Feature Pipeline</p>
+      <h2 class="section-title">Signals Across Every Surface</h2>
+      <div class="prose"><p>Fashion relevance cannot be resolved from text alone. <em>Structured minimalist blazer</em> implies a specific silhouette, texture, and color density. These signals live in images, videos, and live stream frames.</p></div>
+
+      <div class="kv-wrap">
+        <table class="kv-table">
+          <tr><td>Text encoders</td><td>Process queries and captions. Handle the semantic vocabulary gap via ontology-grounded training.</td></tr>
+          <tr><td>Image encoders</td><td>Extract silhouette, texture, and color distribution directly from product images — closing the visual-text mismatch gap without requiring creator effort on captions.</td></tr>
+          <tr><td>Video &amp; live encoders</td><td>Streams run 1–3 hours. Sliding window chunking with 512-token segments and 128-token overlap. Frame sampling every 15 seconds. Real-time chat sentiment tracked through a lightweight classifier on a 60-second rolling window — a temporally grounded engagement signal without a context window bottleneck.</td></tr>
+          <tr><td>Attention fusion block</td><td>Learns cross-modal alignment weights dynamically. For <em>bold print co-ord</em> queries, the image signal dominates. For <em>breathable fabric casual dress</em> queries, text and attribute signals dominate. Weights are learned from the labeled dataset specifically for African aesthetic vocabulary.</td></tr>
+          <tr><td>Creator caption generation</td><td>Consumes the same semantic infrastructure — not a separate AI feature. When a creator uploads a product, the visual-text alignment score drives two outputs: a quality flag if the existing caption falls below threshold, and a suggested caption generated by calling Claude 3 Opus with the product image, GPT-4V-inferred attributes, and a generation prompt drawing vocabulary from the ontology.</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- RANKING -->
+  <section class="cs-section" id="ranking">
+    <div class="container">
+      <p class="section-label">Ranking &amp; AI Integration</p>
+      <h2 class="section-title">Four Integration Points</h2>
+
+      <div class="kv-wrap">
+        <table class="kv-table">
+          <tr><td>Point 01 — Candidate filter</td><td>Hard pruning before heavy ranking. Removes obvious mismatches to control compute cost.</td></tr>
+          <tr><td>Point 02 — Feature engineering</td><td>Relevance serves as the primary ranking feature, crossed with price, style embeddings, and live engagement signals.</td></tr>
+          <tr><td>Point 03 — Loss weighting</td><td>High semantic relevance pairs contribute more to training loss. The ranker learns intent structurally rather than additively.</td></tr>
+          <tr><td>Point 04 — Cold start &amp; live commerce boost</td><td>Strong semantic match unlocks visibility for new creators and first-time streamers. Marketplace fairness does not happen by accident — semantic matching gives quality a path to visibility that does not require historical engagement. Supply side health drives long-term GMV.</td></tr>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">New Platform Metric: Semantic Purchase Alignment (SPA)</h3>
+      <div class="prose">
+        <p>SPA is defined as the percentage of top 5 results rated highly relevant by the teacher model for a given query cohort. Updated daily. SPA is a leading indicator of intent alignment upstream of conversion — it tells us whether what was shown to buyers was actually correct, before conversion data arrives. Tracked alongside live stream-to-purchase conversion, creator subscription upgrade rate, return rate, creator exposure diversity index, and latency P95.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIMENTATION -->
+  <section class="cs-section" id="experimentation">
+    <div class="container">
+      <p class="section-label">Experimentation Strategy</p>
+      <h2 class="section-title">Four Phases, Hard Guardrails at Every Gate</h2>
+      <div class="prose"><p>No phase advanced without clearing all three guardrails: latency P95 below threshold, no GMV degradation, and diversity index above floor.</p></div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Phase</th><th>Scope</th><th>Key Outcome</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Phase 1 · Offline evaluation</td>
+              <td>Teacher model scored against human labels. Precision and recall targets set. Query buckets with largest semantic gap identified: occasion-based, cultural vocabulary, long-tail.</td>
+              <td>Early bias signals surfaced where model under-scored products tagged with certain regional attributes. Fixed during next labeling refresh using ontology as correction reference.</td>
+            </tr>
+            <tr>
+              <td>Phase 2 · Limited A/B test</td>
+              <td>Student model deployed on curated subset targeting occasion-based and cultural vocabulary queries. Live stream optimization tested on subset of creators.</td>
+              <td>GMV guardrail held. Latency P95 stabilized at 18ms. Diversity index remained stable.</td>
+            </tr>
+            <tr>
+              <td>Phase 3 · Full integration</td>
+              <td>Relevance scores and AI recommendations deployed across all search, feed, and live surfaces.</td>
+              <td>Active diversity index guardrails introduced to prevent aesthetic concentration around dominant style clusters.</td>
+            </tr>
+            <tr>
+              <td>Phase 4 · Platform API exposure</td>
+              <td>Semantic scoring and AI recommendation service exposed internally as a shared API.</td>
+              <td>AI shopping assistant, pricing insights, trend forecasting, and live stream tips began consuming the same service. The infrastructure flywheel activated.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="cs-section" id="results">
+    <div class="container">
+      <p class="section-label">Results</p>
+      <h2 class="section-title">90-Day Window Post Launch</h2>
+      <div class="prose"><p>Baseline: monthly GMV of $1.2M at point of deployment, average order value $85 across the platform.</p></div>
+
+      <div class="results-grid">
+        <div class="result-cell">
+          <div class="result-value">+18%</div>
+          <div class="result-label">Search-to-Purchase Conversion</div>
+          <div class="result-detail">3.1% → 3.7% conversion rate. ~$216K incremental monthly GMV. ~$2.6M annualized from discovery improvement alone.</div>
+        </div>
+        <div class="result-cell">
+          <div class="result-value">−22%</div>
+          <div class="result-label">Mismatch-Driven Return Rate</div>
+          <div class="result-detail">~$38K monthly cost savings at $12/return event. Over 12 months: $450K+ in cost recovery. Buyer LTV improves as return-driven churn decreases.</div>
+        </div>
+        <div class="result-cell">
+          <div class="result-value">+14%</div>
+          <div class="result-label">New Creator Discovery</div>
+          <div class="result-detail">Semantic match replacing pure engagement-signal ranking. Creators earning first sales faster → earlier Pro upgrade consideration.</div>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>Signal strength was highest for occasion-based and culturally specific queries. Buyers searching for <em>bridesmaid looks for outdoor Yoruba introduction ceremonies</em> expressed layered, multi-dimensional intent. The AI platform resolved it. Keyword matching could not. High-intent, culturally specific queries carry average order values 30–40% above the platform average. Conversion uplift concentrated in this query cohort compounded into the GMV impact described above.</p>
+      </div>
+
+      <h3 class="sub-heading">ROI on the Full AI Investment</h3>
+      <div class="roi-box">
+        <div class="roi-item"><div class="roi-value">$140K</div><div class="roi-label">Total Annual AI Cost</div></div>
+        <div class="roi-item"><div class="roi-value">$3.05M</div><div class="roi-label">Annual Value Generated</div></div>
+        <div class="roi-item"><div class="roi-value">$22:1</div><div class="roi-label">Platform Value per $1 AI Spend</div></div>
+      </div>
+      <div class="prose"><p>That ratio improves as the catalog scales because annotation costs grow sub-linearly relative to GMV growth, and the ontology appreciates in value without proportional additional investment.</p></div>
+    </div>
+  </section>
+
+  <!-- CREATOR ECONOMICS -->
+  <section class="cs-section" id="creator-economics">
+    <div class="container">
+      <p class="section-label">Creator Economics</p>
+      <h2 class="section-title">How AI Investment Becomes Subscription Revenue</h2>
+      <div class="prose">
+        <p>Fashville's primary revenue engine is not transaction commission. It is subscription tier upgrades. Commission rates drop from 8% on Free to 5% on Pro and 3% on Premium, while monthly fees of $9.99 and $29.99 shift the revenue mix toward predictable recurring income. The business only wins when creators on Pro and Premium tiers generate significantly higher GMV than they would on Free — which is exactly what the AI features are designed to produce.</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Tier</th><th>Commission</th><th>Monthly Fee</th><th>Creator at $5K GMV</th><th>Creator at $15K GMV</th></tr></thead>
+          <tbody>
+            <tr><td>Free</td><td>8%</td><td>—</td><td>$400 to Fashville</td><td>$1,200 to Fashville</td></tr>
+            <tr><td>Pro</td><td>5%</td><td>$9.99</td><td>$259.99 to Fashville</td><td>$759.99 to Fashville</td></tr>
+            <tr><td>Premium</td><td>3%</td><td>$29.99</td><td>$179.99 to Fashville</td><td>$479.99 to Fashville</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <p>The 14% uplift in new creator discovery is therefore not just a fairness metric. It is the top of the subscription upgrade funnel moving faster. Every new creator who reaches $2,000 monthly GMV within their first 60 days is a viable Pro upgrade candidate. At scale, compressing that timeline by two to three weeks across hundreds of new creators per month produces a measurable shift in monthly recurring subscription revenue. The AI platform does not just improve discovery. It accelerates the entire creator monetization journey from first sale to subscription commitment.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM LEVERAGE -->
+  <section class="cs-section" id="platform-leverage">
+    <div class="container">
+      <p class="section-label">Platform Leverage</p>
+      <h2 class="section-title">From Feature to Infrastructure</h2>
+      <div class="prose"><p>The single most important outcome was not in the search metrics. It was what happened when relevance and AI scores were exposed as an internal API.</p></div>
+
+      <div class="kv-wrap">
+        <table class="kv-table">
+          <tr><td>AI Shopping Assistant</td><td>Consumed semantic scoring for style matching and outfit pairing recommendations. No separate AI development required.</td></tr>
+          <tr><td>Live Streaming Team</td><td>Used engagement predictions for broadcast timing optimization and featured product placement within live sessions.</td></tr>
+          <tr><td>Creator Monetization Team</td><td>Integrated AI pricing insights and trend forecasting into the Pro and Premium subscription tiers — the features that make subscription upgrades commercially rational for creators.</td></tr>
+          <tr><td>Catalog Team</td><td>Used visual-text alignment scores to surface poorly tagged listings to creators at upload time. The caption generation tool closes the loop.</td></tr>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">The infrastructure flywheel</div>
+        <p>Each of these would have required separate AI development if built as isolated features. As infrastructure, they scaled at near-zero marginal cost. The African fashion ontology sits underneath all of them. Updating the ontology improves every surface simultaneously.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARDEST DECISIONS -->
+  <section class="cs-section" id="decisions">
+    <div class="container">
+      <p class="section-label">The Hardest Decisions</p>
+      <h2 class="section-title">Five Calls That Defined the Architecture</h2>
+
+      <div class="decision-card">
+        <div class="decision-num">Decision 01</div>
+        <div class="decision-title">LLM placement: offline annotation only</div>
+        <div class="decision-body">Chose Claude 3 Opus and GPT-4V for offline annotation only. Rejected LLM inference in serving paths. Latency and cost would have made the platform untenable at production scale. Offline restriction enables continuous annotation quality improvements without disrupting serving infrastructure and keeps costs bounded and forecastable.</div>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-num">Decision 02</div>
+        <div class="decision-title">Teacher-to-student distillation over a single large model end to end</div>
+        <div class="decision-body">Chose fine-tuning DeBERTa-v3-large as the teacher rather than prompt-engineering a frontier model. Fine-tuning produces a fully owned model with faster batch scoring and predictable costs. Distillation decouples quality iteration from serving cost — improve the teacher, re-distill, deploy the new student with no serving infrastructure changes required.</div>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-num">Decision 03</div>
+        <div class="decision-title">RAG for vocabulary closure rather than relying on training data alone</div>
+        <div class="decision-body">Chose RAG-injected ontology context for every annotation call. Relying on training data alone would have produced partial vocabulary coverage with no mechanism for improvement. The ontology gives the annotation layer a stable, versioned, culturally grounded vocabulary source that improves as annotators expand it.</div>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-num">Decision 04</div>
+        <div class="decision-title">Semantic match as a cold start quality proxy</div>
+        <div class="decision-body">Chose semantic match as a quality proxy for new creators. Rejected pure historical signal reliance. Semantic matching aligns business incentives with marketplace fairness — a new creator with high-quality, accurately tagged inventory should earn visibility before they have engagement history.</div>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-num">Decision 05</div>
+        <div class="decision-title">Disaggregated bias monitoring over aggregate metrics only</div>
+        <div class="decision-body">Chose explicit audits across body size, region, and aesthetic category. Fashion platforms have documented representation failures. Aggregate metrics mask systemic suppression of plus-size, darker-skinned, or regionally specific products. Disaggregated metrics are a product quality requirement, not a compliance checkbox.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOVERNANCE -->
+  <section class="cs-section" id="governance">
+    <div class="container">
+      <p class="section-label">Model Governance</p>
+      <h2 class="section-title">Governance Is a Roadmap Item, Not a Postmortem Action</h2>
+      <div class="prose"><p>An AI relevance platform that is not actively maintained degrades. Embedding distributions shift as the catalog grows. Fashion trends move. New aesthetic categories emerge. The ontology must be updated first. Models follow.</p></div>
+
+      <div class="gov-list">
+        <div class="gov-item"><div class="gov-dot"></div><div>Weekly embedding distribution drift detection, scheduled as a shipping milestone.</div></div>
+        <div class="gov-item"><div class="gov-dot"></div><div>Quarterly ontology versioning with cultural context annotators, followed by annotation refresh runs and teacher retraining.</div></div>
+        <div class="gov-item"><div class="gov-dot"></div><div>Bias audits across body size, region, and aesthetic category on a quarterly cycle.</div></div>
+        <div class="gov-item"><div class="gov-dot"></div><div>Prompt regression tests triggered on every underlying model update before any annotation batch proceeds.</div></div>
+        <div class="gov-item"><div class="gov-dot"></div><div>Student model retraining triggered on teacher updates.</div></div>
+        <div class="gov-item"><div class="gov-dot"></div><div>Feature store integration for reproducibility.</div></div>
+        <div class="gov-item"><div class="gov-dot"></div><div>Embedding cache invalidation on model updates.</div></div>
+        <div class="gov-item"><div class="gov-dot"></div><div>New aesthetic category detection via clustering fed back into ontology proposals for annotator review.</div></div>
+        <div class="gov-item"><div class="gov-dot"></div><div>Visual-text alignment floor for catalog quality gating enforced at upload time.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PM REFLECTION -->
+  <section class="cs-section" id="reflection">
+    <div class="container">
+      <p class="section-label">PM Reflection</p>
+      <h2 class="section-title">What Doing All Three Together Actually Teaches You</h2>
+      <div class="prose">
+        <p>Most PM assessments test one dimension at a time. This challenge tested all three simultaneously — prototype, PRD, and AI case study — and forced a coherence that isolated assessments cannot achieve. When you build the prototype, write the PRDs, and design the AI architecture for the same platform at the same time, nothing can be inconsistent. That constraint is where real product thinking happens. Not in any individual deliverable. In the connections between them.</p>
+      </div>
+
+      <div class="learnings-grid">
+        <div class="learning-card">
+          <div class="learning-num">01</div>
+          <h4>Platform choice is a product decision</h4>
+          <p>Choosing African fashion creators identified a real two-sided market gap, a real AI problem regarding cultural vocabulary underrepresentation, and a real infrastructure opportunity. The ontology is the proof.</p>
+        </div>
+        <div class="learning-card">
+          <div class="learning-num">02</div>
+          <h4>The dashboard is a product, not a report</h4>
+          <p>It has users, jobs to be done, a north star, and acceptance criteria. Treating it as an afterthought produces unused tools.</p>
+        </div>
+        <div class="learning-card">
+          <div class="learning-num">03</div>
+          <h4>PRDs fail when they start with features</h4>
+          <p>The requirement is downstream of the problem. Lead with who experiences what problem at what cost. Let features follow from that.</p>
+        </div>
+        <div class="learning-card">
+          <div class="learning-num">04</div>
+          <h4>Architectural decisions are PM decisions</h4>
+          <p>Where the LLM sits, what it annotates, what it never touches, whether RAG is needed, how prompts are versioned — these have direct cost, latency, and quality implications. Own them.</p>
+        </div>
+        <div class="learning-card">
+          <div class="learning-num">05</div>
+          <h4>Governance is a roadmap item</h4>
+          <p>If weekly drift detection, quarterly ontology updates, and prompt regression testing are not on the roadmap, they will not happen. The model will degrade and metrics will slip.</p>
+        </div>
+        <div class="learning-card">
+          <div class="learning-num">06</div>
+          <h4>Platform thinking is the unlock</h4>
+          <p>The AI relevance service started as a search improvement. It became infrastructure for multiple teams. The African fashion ontology started as a labeling aid. It became the platform's deepest competitive moat. That is the difference between a PM who ships features and a PM who builds foundations.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 40px;">
+        <div class="callout-label">On what this demonstrates</div>
+        <p>I came into this challenge knowing how to build products. I left knowing how to architect platforms — and understanding the difference between the two. Knowing where intelligence belongs in a production system. Knowing how to separate the quality problem from the latency problem. Knowing how to make AI infrastructure reusable across surfaces rather than rebuilt for each one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="../case-studies.html" class="footer-back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
+      Back to Case Studies
+    </a>
+    <p class="footer-copy">© 2026 Judith Oluchi Ekeleme &nbsp;·&nbsp; For Portfolio Use Only</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+# Judith Oluchi Ekeleme — Portfolio
+
+## Who I am
+
+Judith Oluchi Ekeleme is a Zero-to-One Product Lead and Technical AI PM based in Nigeria. She has taken three products from zero to live, owning the full product surface each time: consumer app, admin dashboard, backend architecture, and go-to-market strategy.
+
+Her technical depth spans MLOps pipelines, LLMOps orchestration, multi-agent RAG systems, and agentic system design. She builds high-fidelity Figma prototypes herself using Claude MCP integration, eliminating traditional design handoff cycles.
+
+## Current role
+
+Lead Product Manager (Contract) — building a three-platform Nigerian loan management system from zero: borrower mobile app, collector mobile & web app, and admin dashboard. Full PRD suite across all three platforms covering CBN/FCCPC compliance, NIBSS payment rails, and multi-lender portfolio management.
+
+Previously Lead PM at Powerhouse9ja, a prize-draw platform enabling Nigerians to win high-value homes as an alternative to mortgage debt.
+
+## Projects and case studies
+
+**CognArc** — Agentic AI platform for continuous cognitive evaluation of AI outputs. Scores AI systems for cognitive load, trust coherence, manipulation risk, and comprehension using TRIBE v2 fMRI research. Built on React 18, TypeScript, FastAPI, Docker, GCP Cloud Run. Live at cognarc-landing.vercel.app. Full case study at /case-studies/cognarc.html.
+
+**CPNA** — Multi-agent RAG clinical pediatric nutrition assistant. Provides evidence-based nutrition therapy for children with chronic conditions (cystic fibrosis, PKU, CKD, epilepsy) using deterministic safety guardrails. Zero LLM nutrient computations — all clinical outputs trace to the deterministic nutrient engine or DRI tables. Nigeria-specific food mapping included. Built on Python, LangChain, FAISS, DistilBERT, Groq API, LLaMA, Qdrant. Full case study at /case-studies/cpna.html.
+
+**CPNA Evaluation Suite** — Standalone precision instrument for testing and scoring every layer of the CPNA system. Built on Next.js and FastAPI.
+
+**Fashville** — AI-powered two-sided social commerce platform for African fashion creators entering global markets. Full AI architecture including a proprietary African fashion ontology, LLM-offline annotation pipeline (Claude 3 Opus + GPT-4V), teacher-student knowledge distillation, and multimodal feature pipeline. Full case study at /case-studies/fashville.html.
+
+**Powerhouse9ja** — Consumer fintech prize-draw platform. iOS, Android, and admin dashboard.
+
+**Hotel Cancellation Predictor** — End-to-end MLOps pipeline with LightGBM, MLflow, Docker, Jenkins, Flask, and GCP Cloud Run.
+
+## Writing
+
+- How to Use NotebookLM for In-Depth Market Research — /blog/notebooklm-market-research.html
+- Claude × Figma: Beginner's Prototype Guide — /resources/blog/claude-figma-guide.html
+- Highly Accurate Protein Structure Prediction — LinkedIn article
+
+## Credentials
+
+Oracle Cloud Infrastructure Generative AI Professional · Duke LLMOps · Duke MLOps · Stanford Machine Learning Specialization · IBM AI Product Manager Professional · McKinsey Digital Transformation Leadership · Coursera LLM Benchmarking and Evaluation
+
+MBA, Marketing — NEXT MBA, Next University Valencia (2025)
+BSc Nutrition & Dietetics — University of Nigeria, Nsukka (2013)
+
+## Contact
+
+Email: judithluchi@gmail.com
+LinkedIn: https://linkedin.com/in/ekeleme-judith
+GitHub: https://github.com/luch91
+
+## Sitemap
+
+- / — Portfolio home (About, Projects, Case Studies, Experience, Skills, Certifications, Blog, Contact)
+- /case-studies.html — All case studies index
+- /case-studies/cognarc.html — CognArc full case study
+- /case-studies/cpna.html — CPNA full case study
+- /case-studies/fashville.html — Fashville full case study
+- /blog.html — Blog index
+- /blog/notebooklm-market-research.html — NotebookLM research guide

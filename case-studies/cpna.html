@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CPNA v1 — Agentic RAG Clinical Pediatric Nutrition Assistant. Full case study by Judith Oluchi Ekeleme." />
+  <title>CPNA v1 Case Study — Judith Oluchi Ekeleme</title>
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="shortcut icon" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0F1117;
+      --bg-alt:     #131620;
+      --surface:    #1A1D27;
+      --border:     #2A2D3A;
+      --gold:       #C9A96E;
+      --gold-light: #E2C48A;
+      --gold-dim:   rgba(201,169,110,0.12);
+      --accent:     #4A9EBF;
+      --accent-dim: rgba(74,158,191,0.12);
+      --text:       #F5F0E8;
+      --text-muted: #9A9585;
+      --text-dim:   #6B6560;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --radius:     12px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.75; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    img { display: block; max-width: 100%; }
+    ::selection { background: var(--gold-dim); color: var(--gold-light); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color var(--transition); }
+    .nav-back:hover { color: var(--gold); }
+    .nav-back svg { width: 16px; height: 16px; }
+
+    /* HERO */
+    .cs-hero {
+      padding: 140px 0 80px;
+      background: linear-gradient(180deg, #0D1F2D 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .cs-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(74,158,191,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 32px; }
+
+    .cs-label { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .cs-title { font-family: var(--font-serif); font-size: clamp(2.6rem, 5.5vw, 4.5rem); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 16px; }
+    .cs-subtitle { font-family: var(--font-serif); font-size: clamp(1rem, 2vw, 1.25rem); font-style: italic; color: var(--accent); margin-bottom: 28px; }
+
+    /* stack pills */
+    .stack-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .stack-pill { font-size: 0.75rem; font-weight: 500; padding: 5px 12px; border-radius: 100px; border: 1px solid var(--border); color: var(--text-muted); background: var(--surface); letter-spacing: 0.04em; }
+
+    /* status badge */
+    .status-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 600; padding: 8px 16px; border-radius: 100px; background: var(--accent-dim); border: 1px solid rgba(74,158,191,0.3); color: var(--accent); margin-bottom: 48px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* stats */
+    .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 48px; }
+    .stat-cell { background: var(--surface); padding: 24px 20px; text-align: center; }
+    .stat-value { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* meta table */
+    .meta-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .meta-table tr { border-bottom: 1px solid var(--border); }
+    .meta-table tr:last-child { border-bottom: none; }
+    .meta-table td { padding: 14px 0; vertical-align: top; }
+    .meta-table td:first-child { font-weight: 600; color: var(--text-muted); width: 140px; padding-right: 24px; }
+
+    /* SECTIONS */
+    .cs-section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+    .cs-section:nth-child(even) { background: var(--bg-alt); }
+
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .section-title { font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: var(--text); margin-bottom: 32px; line-height: 1.2; }
+    .sub-heading { font-size: 1.05rem; font-weight: 600; color: var(--accent); margin: 36px 0 14px; }
+
+    .prose p { font-size: 1rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.8; }
+    .prose p:last-child { margin-bottom: 0; }
+
+    .callout { background: var(--accent-dim); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 24px 28px; margin: 32px 0; }
+    .callout-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .callout p { font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: var(--text); line-height: 1.7; margin: 0; }
+
+    .callout-gold { background: var(--gold-dim); border-left-color: var(--gold); }
+    .callout-gold .callout-label { color: var(--gold); }
+
+    .bullet-list { list-style: none; margin: 20px 0; }
+    .bullet-list li { position: relative; padding-left: 20px; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 14px; line-height: 1.75; }
+    .bullet-list li::before { content: '–'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .bullet-list li strong { color: var(--text); font-weight: 600; }
+
+    /* decision cards */
+    .decision-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px; margin-bottom: 24px; transition: border-color var(--transition);
+    }
+    .decision-card:hover { border-color: rgba(74,158,191,0.3); }
+    .decision-num { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .decision-title { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+    .decision-body { font-size: 0.925rem; color: var(--text-muted); line-height: 1.8; }
+    .decision-body p { margin-bottom: 14px; }
+    .decision-body p:last-child { margin-bottom: 0; }
+
+    /* proud-of items */
+    .proud-item { padding: 24px 28px; border-left: 3px solid var(--gold); background: var(--gold-dim); border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 20px; }
+    .proud-item h4 { font-weight: 600; color: var(--gold); margin-bottom: 10px; }
+    .proud-item p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.75; }
+
+    /* still-building items */
+    .building-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 16px; display: flex; gap: 20px; align-items: flex-start; }
+    .building-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--accent-dim); border: 1px solid rgba(74,158,191,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); font-size: 1rem; }
+    .building-content h4 { font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .building-content p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* kv */
+    .kv-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 20px 0; }
+    .kv-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .kv-table tr { border-bottom: 1px solid var(--border); }
+    .kv-table tr:last-child { border-bottom: none; }
+    .kv-table td { padding: 16px; vertical-align: top; line-height: 1.6; }
+    .kv-table td:first-child { font-weight: 600; color: var(--text); width: 200px; background: var(--surface); border-right: 1px solid var(--border); }
+    .kv-table td:last-child { color: var(--text-muted); }
+
+    /* code inline */
+    code { font-family: 'Courier New', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); padding: 1px 6px; border-radius: 4px; color: var(--accent); }
+
+    /* learnings */
+    .learning-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+    .learning-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+    .learning-card h4 { font-weight: 600; color: var(--accent); margin-bottom: 10px; font-size: 0.9rem; letter-spacing: 0.04em; }
+    .learning-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── DIAGRAMS ── */
+    .diagram-wrap { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); padding: 28px 24px 20px; overflow-x: auto; margin-top: 36px; }
+    .diagram-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+
+    /* FOOTER */
+    footer { padding: 48px 32px; border-top: 1px solid var(--border); text-align: center; }
+    .footer-back { display: inline-flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--text-muted); border: 1px solid var(--border); padding: 12px 24px; border-radius: 100px; transition: all var(--transition); margin-bottom: 32px; }
+    .footer-back:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-copy { font-size: 0.8rem; color: var(--text-dim); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .cs-hero { padding: 100px 0 60px; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .kv-table td:first-child { width: 130px; font-size: 0.82rem; }
+      .learning-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .cs-title { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="../index.html" class="nav-logo">JOE</a>
+    <div class="nav-links">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../case-studies.html">Case Studies</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <a href="../case-studies.html" class="nav-back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
+      Case Studies
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="cs-hero">
+    <div class="container">
+      <span class="cs-label">AI Product Management · Case Study</span>
+      <h1 class="cs-title">CPNA v1</h1>
+      <p class="cs-subtitle">Agentic RAG Clinical Pediatric Nutrition Assistant</p>
+
+      <div class="stack-bar">
+        <span class="stack-pill">Python</span>
+        <span class="stack-pill">FastAPI</span>
+        <span class="stack-pill">Next.js 14</span>
+        <span class="stack-pill">Qdrant</span>
+        <span class="stack-pill">Redis</span>
+        <span class="stack-pill">HuggingFace DistilBERT</span>
+        <span class="stack-pill">Anthropic Claude API</span>
+        <span class="stack-pill">LangChain</span>
+        <span class="stack-pill">FAISS</span>
+      </div>
+
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        MVP Shipped · Active Development Ongoing
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-cell"><div class="stat-value">4</div><div class="stat-label">Query Types</div></div>
+        <div class="stat-cell"><div class="stat-value">MVP</div><div class="stat-label">Status</div></div>
+        <div class="stat-cell"><div class="stat-value">0</div><div class="stat-label">LLM Nutrient Calls</div></div>
+        <div class="stat-cell"><div class="stat-value">NG</div><div class="stat-label">Localised For</div></div>
+      </div>
+
+      <table class="meta-table">
+        <tr><td>Role</td><td>Technical AI PM — zero to shipped MVP</td></tr>
+        <tr><td>Product Type</td><td>Agentic RAG Clinical Assistant</td></tr>
+        <tr><td>Scope</td><td>Zero-to-one: architecture, safety design, multi-agent pipeline, deployment</td></tr>
+        <tr><td>Build Method</td><td>12-prompt Claude Code Prompt Pack for zero-ambiguity developer handoff</td></tr>
+        <tr><td>Next</td><td>Knowledge graph layer, confidence calibration, observability dashboards</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <section class="cs-section" id="exec-summary">
+    <div class="container">
+      <p class="section-label">Executive Summary</p>
+      <h2 class="section-title">What CPNA Is and Why It Matters</h2>
+      <div class="prose">
+        <p>CPNA v1 is a clinical-grade pediatric nutrition assistant I built from scratch as a Technical AI PM. It uses a multi-agent RAG pipeline to support four query types: personalized therapy planning, dietary recommendations, food comparisons, and general nutrition education — with deterministic safety guardrails that ensure no clinical output is ever generated by an LLM without a traceable, rules-based computation underneath it.</p>
+        <p>The core product insight was this: the problem in clinical nutrition AI is not missing knowledge. It is missing structure. Existing tools either ignore the patient's clinical picture entirely, or use language models to generate answers that sound authoritative but have no deterministic basis. For a child with cystic fibrosis or chronic kidney disease, that distinction is the difference between helpful guidance and a safety event.</p>
+        <p>I owned every consequential decision: the choice of agentic RAG over a simpler LLM pipeline, the rule that no nutrient target may be LLM-generated, the gatekeeper logic that prevents partial patient data from producing a plan, and the scope constraints that made v1 shippable without compromising safety. I also developed the build methodology — a 12-prompt Claude Code Prompt Pack that translated architecture into zero-ambiguity developer instructions, enabling a complex multi-agent system to be delivered with full integration from day one.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">The core product insight</div>
+        <p>The problem in clinical nutrition AI is not missing knowledge. It is missing structure. No product had separated what the LLM should do from what deterministic computation must own.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM STATEMENT -->
+  <section class="cs-section" id="problem">
+    <div class="container">
+      <p class="section-label">Problem Statement</p>
+      <h2 class="section-title">A Gap That Existing Tools Weren't Filling</h2>
+      <div class="prose">
+        <p>Pediatric clinical nutrition is one of the most underserved domains in health technology. Children with chronic or metabolic conditions — cystic fibrosis, PKU, Type 1 diabetes, chronic kidney disease, epilepsy requiring ketogenic therapy — need individualized nutrition plans that account for their diagnosis, age, weight, medications, and biomarkers. Those plans must reference clinical guidelines, not population averages. They must adjust for drug-nutrient interactions. They must suggest foods that are actually available where the family lives.</p>
+        <p>No consumer tool does this. And the AI tools that have attempted it have failed in a predictable way: they generate responses that feel clinical but are not. A language model asked "what should a 6-year-old with CKD eat?" will produce a confident, well-formatted answer drawn from its training distribution. That answer has no binding to DRI tables, no awareness of GFR-stage protein restrictions, no knowledge of which foods to avoid based on the child's current medications. It is pattern-matching dressed as clinical reasoning.</p>
+        <p>The downstream consequence is not just inaccuracy. It is misplaced trust. A caregiver who receives a confident-sounding nutrition plan from an AI tool has no way of knowing whether that plan was computed or confabulated. In a healthy adult context, that gap is tolerable. In a pediatric clinical context, it is not.</p>
+      </div>
+
+      <div class="callout callout-gold">
+        <div class="callout-label">The problem I set out to solve</div>
+        <p>Not "how do we make AI answer nutrition questions better." But "how do we build a system where every clinical output is traceable, every gap is surfaced honestly, and the LLM is never trusted to do the work that belongs to deterministic computation."</p>
+      </div>
+
+      <h3 class="sub-heading">Where It Started</h3>
+      <div class="prose">
+        <p>I didn't come to this project with a brief. I came with a frustration. Clinical pediatric nutrition sits at one of the most consequential intersections in healthcare: the child is small, the stakes are high, the conditions are rare, and the guidance is scattered across academic papers, DRI tables, and specialist knowledge that most families and even many practitioners can't easily access or apply.</p>
+        <p>A parent managing a child's cystic fibrosis, PKU, or chronic kidney disease and trying to make daily food decisions is not well-served by a generic wellness app or a Google search. I saw a gap that existing tools — including early LLM-based nutrition assistants — weren't filling. Not because the knowledge didn't exist, but because no product had structured it correctly. A hallucinated nutrient target for a child with CKD isn't a bad answer. It's a harmful one. So I started building.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE HARDEST PM WORK -->
+  <section class="cs-section" id="decisions">
+    <div class="container">
+      <p class="section-label">The Hardest PM Work</p>
+      <h2 class="section-title">The Decisions That Happened Before Any Code</h2>
+      <div class="prose">
+        <p>I initiated CPNA from scratch — no inherited codebase, no existing team, no prior product to extend. That meant the first and most consequential decisions were mine alone. Looking back, four decisions shaped everything else. I made all of them under uncertainty, and I'd make them the same way again.</p>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-num">Decision 1</div>
+        <div class="decision-title">RAG over a simpler LLM pipeline</div>
+        <div class="decision-body">
+          <p>The easy path was a prompt-engineered LLM. Fast to prototype, easy to demo, and — in a wellness context — probably fine. But this wasn't wellness. It was clinical support.</p>
+          <p>The core issue with a pure LLM for this domain is that a language model cannot be trusted to hold clinical precision at generation time. It can approximate. It can sound right. But when I'm asking it to determine energy targets for a 7-year-old with cystic fibrosis, "sounds right" is the wrong bar. The answer needs to come from DRI tables and ESPGHAN consensus guidelines, not from a model's interpolation of its training distribution.</p>
+          <p>I chose a full agentic RAG architecture not because it was more impressive, but because it was the only structure that let me separate what the LLM should do (synthesize, explain, converse) from what it should never do (compute clinical targets). That boundary became the product's primary safety guarantee.</p>
+          <p>The practical cost was real: more infrastructure, more moving parts, more to specify and test. I accepted that cost. In a clinical domain, the simpler system that fails unsafely is not the pragmatic choice — it's just the faster way to build something I couldn't stand behind.</p>
+        </div>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-num">Decision 2</div>
+        <div class="decision-title">No LLM for nutrient computation</div>
+        <div class="decision-body">
+          <p>This followed from the first decision, but it was a sharper line to hold. It would have been tempting, mid-build, to let the model "fill in" for edge cases the deterministic engine didn't cover yet. I didn't allow it.</p>
+          <p>Every therapy output in CPNA traces to one of two sources: the deterministic nutrient engine (which wraps validated computation logic and applies condition-specific adjustment rules from cited clinical guidelines), or the DRI tables. If neither can produce a value, the system does not produce a value. It downgrades to a recommendation and tells the user why.</p>
+          <p>The rule sounds simple. Holding it was harder. It meant the therapy gatekeeper had to be strict — the system will not compute a personalized plan if required patient data is missing, even partially. It meant building a slot-filling flow patient enough to collect age, sex, weight, height, diagnosis, and medication data before proceeding. It meant accepting that some queries would not get the answer the user wanted, because giving them a wrong answer would be worse.</p>
+          <p>That is a product decision, not just a technical one. It defines what the product is willing to be.</p>
+        </div>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-num">Decision 3</div>
+        <div class="decision-title">Designing the safety rules from specific failure modes</div>
+        <div class="decision-body">
+          <p>The safety architecture in CPNA isn't a compliance layer bolted on at the end. It's load-bearing. I designed it around specific failure modes I identified before a line of code was written.</p>
+          <p>What happens if intent classification is ambiguous? Low-confidence results must trigger clarification, never silent routing. What happens if the user follows a therapy session with a food comparison question — does the system silently carry the patient's data into the new query? No. Context inheritance is explicit, not automatic. What happens if internal orchestration fields, debug traces, computation objects, make it into the API response? A hard error at the display adapter, not a soft warning.</p>
+          <p>Each rule came from a specific harm I was trying to prevent. The therapy gatekeeper exists because a plan built on incomplete patient data is worse than no plan. The display adapter exists because internal fields in a UI response erode trust and reveal system internals. The context inheritance rules exist because a child's medical profile should not silently attach itself to queries where the user didn't intend that.</p>
+          <p>Designing these rules was some of the most important product work I did on this project. None of it shows up in a demo. All of it shapes whether the product is safe to use.</p>
+        </div>
+      </div>
+
+      <div class="decision-card">
+        <div class="decision-num">Decision 4</div>
+        <div class="decision-title">Scoping v1 ruthlessly</div>
+        <div class="decision-body">
+          <p>I made an early list of everything CPNA would not do in v1: no EMR integration, no clinician permissioning, no autonomous treatment, no role-based UX, no button-driven interaction flows.</p>
+          <p>The temptation in a zero-to-one build is to scope generously. Every deferred feature feels like a gap. But every feature added to v1 is a feature that makes the core harder to get right, and in a clinical product, getting the core right is the only thing that matters.</p>
+          <p>The no-buttons rule is the one I get asked about most. The entire workflow advances through natural text input. No CTAs, no action menus, no structured choice prompts. This wasn't minimalism for its own sake. It was a decision to eliminate a class of UX dependency bugs, to keep the state model clean, and to force the system to handle the full range of natural language input rather than routing around it with UI scaffolding. If CPNA can't handle "she's 8" as a slot fill, that's a product problem — not something I should paper over with a button that says "Enter Age."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAFETY ARCHITECTURE -->
+  <section class="cs-section" id="safety">
+    <div class="container">
+      <p class="section-label">Safety Architecture</p>
+      <h2 class="section-title">How the Guardrails Work</h2>
+      <div class="prose">
+        <p>The safety rules are not documentation. They are structural constraints enforced at the code level. Each one was designed around a specific harm scenario identified before development began.</p>
+      </div>
+
+      <div class="kv-wrap">
+        <table class="kv-table">
+          <tr>
+            <td>Therapy Gatekeeper</td>
+            <td>The system will not generate a personalized nutrition plan unless all required patient fields — age, sex, weight, height, diagnosis, current medications — have been collected via a slot-filling conversation. Incomplete data → no plan, not a partial plan. A plan built on incomplete patient data is worse than no plan.</td>
+          </tr>
+          <tr>
+            <td>Deterministic Nutrient Engine</td>
+            <td>All nutrient targets are computed by a deterministic engine that wraps validated clinical computation logic and applies condition-specific adjustment rules from cited clinical guidelines (ESPGHAN, DRI tables). The LLM has zero access to this computation path. If the engine cannot produce a value, the system downgrades — it does not fill in.</td>
+          </tr>
+          <tr>
+            <td>Intent Classification Gate</td>
+            <td>All queries are classified by intent before routing. Low-confidence classifications (&lt;0.70) trigger a clarification request to the user — never silent routing to the nearest available handler. Ambiguous intent that proceeds silently is a safety failure.</td>
+          </tr>
+          <tr>
+            <td>Context Inheritance Rules</td>
+            <td>Patient clinical context — diagnosis, biomarkers, medication profile — does not automatically carry from one query type to the next. When a user follows a therapy session with a food comparison question, context inheritance is explicit: the system asks, never assumes. A child's medical profile should not silently attach to queries where the user didn't intend it.</td>
+          </tr>
+          <tr>
+            <td>Display Adapter</td>
+            <td>A hard boundary at the API layer strips all internal orchestration fields, debug traces, and computation objects before any response reaches the UI. This is a hard error — not a soft warning — if internal fields breach the adapter. Internal fields in a UI response erode trust and expose system internals.</td>
+          </tr>
+          <tr>
+            <td>Downgrade Path</td>
+            <td>When the system cannot deliver therapy — diagnosis not in v1 scope, required patient data missing, no deterministic value available — it downgrades gracefully. It explains what it can and cannot do, states why, and tells the user what additional information would make a full plan possible. Failing silently is not an option.</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">On safety rules as product design</div>
+        <p>Every safety rule in CPNA could have been a guideline in a README. Instead, each one is a constraint in the code — a raised exception, a failing test, a hard boundary at the API layer. That's the difference between a product that behaves well in demos and one that behaves well in production.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUERY TYPES -->
+  <section class="cs-section" id="query-types">
+    <div class="container">
+      <p class="section-label">Product Capability</p>
+      <h2 class="section-title">Four Query Types, One Pipeline</h2>
+
+      <div class="kv-wrap">
+        <table class="kv-table">
+          <tr>
+            <td>Therapy Planning</td>
+            <td>Fully personalized nutrition therapy plans computed from patient clinical data. Requires complete patient profile via slot-filling. Nutrient targets computed deterministically from DRI tables and condition-specific clinical guidelines. LLM role: synthesis and plain-language presentation only.</td>
+          </tr>
+          <tr>
+            <td>Dietary Recommendations</td>
+            <td>Food-level guidance grounded in clinical context. For patients with an active profile, recommendations are filtered through the deterministic engine's output. For general users, routed through the retrieval pipeline against a curated clinical knowledge base. Nigeria-specific food mappings applied for NG locale.</td>
+          </tr>
+          <tr>
+            <td>Food Comparisons</td>
+            <td>Side-by-side nutritional analysis of two or more foods against the patient's computed targets or against standard DRI thresholds. Deterministic comparison — the LLM presents and explains, it does not compute. Context inheritance is explicit: patient profile is not silently attached unless user indicates intent.</td>
+          </tr>
+          <tr>
+            <td>Nutrition Education</td>
+            <td>General evidence-based nutrition information for caregivers and practitioners. Routes through the RAG retrieval pipeline against curated clinical literature. LLM synthesizes and explains. No personalized clinical guidance produced in this mode. Clear mode boundary communicated to user.</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Multi-agent pipeline diagram -->
+      <div class="diagram-wrap">
+        <p class="diagram-label">CPNA Multi-Agent Pipeline — Query to Safe Clinical Response</p>
+        <svg viewBox="0 0 820 460" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;" aria-label="CPNA multi-agent RAG pipeline showing query routing through intent classification, four handlers, deterministic engine, and safety layer">
+          <defs>
+            <marker id="arr-cpna" markerWidth="9" markerHeight="9" refX="8" refY="3.5" orient="auto">
+              <path d="M0,0 L0,7 L9,3.5 z" fill="#4A9EBF" opacity="0.85"/>
+            </marker>
+            <marker id="arr-safe" markerWidth="9" markerHeight="9" refX="8" refY="3.5" orient="auto">
+              <path d="M0,0 L0,7 L9,3.5 z" fill="#C9A96E" opacity="0.85"/>
+            </marker>
+            <marker id="arr-det" markerWidth="9" markerHeight="9" refX="8" refY="3.5" orient="auto">
+              <path d="M0,0 L0,7 L9,3.5 z" fill="#8B4A52" opacity="0.8"/>
+            </marker>
+          </defs>
+
+          <!-- ── USER QUERY ── -->
+          <rect x="320" y="16" width="180" height="44" rx="8" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.5"/>
+          <text x="410" y="36" text-anchor="middle" fill="#4A9EBF" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700">User Query</text>
+          <text x="410" y="51" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8.5">Caregiver / Practitioner</text>
+
+          <!-- Arrow down to intent gate -->
+          <line x1="410" y1="60" x2="410" y2="88" stroke="#4A9EBF" stroke-width="1.3" marker-end="url(#arr-cpna)"/>
+
+          <!-- ── INTENT CLASSIFICATION GATE ── -->
+          <rect x="240" y="88" width="340" height="56" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.8"/>
+          <text x="410" y="111" text-anchor="middle" fill="#C9A96E" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700">Intent Classification Gate</text>
+          <text x="410" y="127" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8.5">Confidence ≥ 0.70 → route · Confidence &lt; 0.70 → clarification request (never silent routing)</text>
+
+          <!-- 4 routing arrows from gate to handlers -->
+          <!-- Therapy -->
+          <line x1="295" y1="144" x2="100" y2="188" stroke="#4A9EBF" stroke-width="1.1" marker-end="url(#arr-cpna)"/>
+          <!-- Dietary -->
+          <line x1="355" y1="144" x2="282" y2="188" stroke="#4A9EBF" stroke-width="1.1" marker-end="url(#arr-cpna)"/>
+          <!-- Food Compare -->
+          <line x1="465" y1="144" x2="538" y2="188" stroke="#4A9EBF" stroke-width="1.1" marker-end="url(#arr-cpna)"/>
+          <!-- Education -->
+          <line x1="525" y1="144" x2="720" y2="188" stroke="#4A9EBF" stroke-width="1.1" marker-end="url(#arr-cpna)"/>
+
+          <!-- ── FOUR QUERY HANDLERS ── -->
+          <!-- Therapy Planning -->
+          <rect x="20" y="188" width="160" height="80" rx="8" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.3"/>
+          <text x="100" y="208" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700">Therapy Planning</text>
+          <text x="100" y="222" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">Slot-filling required</text>
+          <text x="100" y="234" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">All patient fields complete</text>
+          <text x="100" y="246" text-anchor="middle" fill="#8B4A52" font-family="Inter,system-ui,sans-serif" font-size="8" font-weight="600">→ Deterministic engine</text>
+          <text x="100" y="260" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="7.5" font-style="italic">LLM: synthesis only</text>
+
+          <!-- Dietary Recommendations -->
+          <rect x="202" y="188" width="160" height="80" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+          <text x="282" y="208" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700">Dietary Recommendations</text>
+          <text x="282" y="222" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">With patient → engine</text>
+          <text x="282" y="234" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">General → RAG pipeline</text>
+          <text x="282" y="246" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">NG locale food mapping</text>
+          <text x="282" y="260" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="7.5" font-style="italic">liver · crayfish · moringa</text>
+
+          <!-- Food Comparisons -->
+          <rect x="458" y="188" width="160" height="80" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+          <text x="538" y="208" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700">Food Comparisons</text>
+          <text x="538" y="222" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">vs patient targets or DRI</text>
+          <text x="538" y="234" text-anchor="middle" fill="#8B4A52" font-family="Inter,system-ui,sans-serif" font-size="8" font-weight="600">Deterministic only</text>
+          <text x="538" y="246" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">Context explicit — not</text>
+          <text x="538" y="258" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">silently inherited</text>
+
+          <!-- Nutrition Education -->
+          <rect x="640" y="188" width="160" height="80" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+          <text x="720" y="208" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="9" font-weight="700">Nutrition Education</text>
+          <text x="720" y="222" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">RAG → clinical literature</text>
+          <text x="720" y="234" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">LLM synthesizes</text>
+          <text x="720" y="246" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8">No personalized guidance</text>
+          <text x="720" y="260" text-anchor="middle" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="7.5" font-style="italic">Clear mode boundary</text>
+
+          <!-- ── DETERMINISTIC NUTRIENT ENGINE (center, below therapy + dietary) ── -->
+          <!-- Arrows from Therapy and Dietary to engine -->
+          <line x1="100" y1="268" x2="240" y2="316" stroke="#8B4A52" stroke-width="1.1" marker-end="url(#arr-det)"/>
+          <line x1="282" y1="268" x2="280" y2="316" stroke="#8B4A52" stroke-width="1.1" marker-end="url(#arr-det)"/>
+          <line x1="538" y1="268" x2="400" y2="316" stroke="#8B4A52" stroke-width="1.1" marker-end="url(#arr-det)"/>
+
+          <rect x="180" y="316" width="280" height="56" rx="8" fill="rgba(139,74,82,0.1)" stroke="#8B4A52" stroke-width="1.5"/>
+          <text x="320" y="339" text-anchor="middle" fill="#E2C48A" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700">Deterministic Nutrient Engine</text>
+          <text x="320" y="354" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8.5">DRI tables · ESPGHAN guidelines · condition-specific adjustments</text>
+          <text x="320" y="366" text-anchor="middle" fill="#8B4A52" font-family="Inter,system-ui,sans-serif" font-size="8" font-weight="600">LLM has zero access to this computation path</text>
+
+          <!-- Arrow from engine to safety layer -->
+          <line x1="320" y1="372" x2="410" y2="400" stroke="#C9A96E" stroke-width="1.3" marker-end="url(#arr-safe)"/>
+          <!-- Arrow from Education to safety layer -->
+          <line x1="720" y1="268" x2="560" y2="400" stroke="#4A9EBF" stroke-width="1" marker-end="url(#arr-cpna)"/>
+
+          <!-- ── SAFETY LAYER ── -->
+          <rect x="180" y="400" width="460" height="44" rx="8" fill="rgba(201,169,110,0.07)" stroke="#C9A96E" stroke-width="1.5"/>
+          <text x="410" y="419" text-anchor="middle" fill="#C9A96E" font-family="Inter,system-ui,sans-serif" font-size="10" font-weight="700">Safety Layer</text>
+          <text x="410" y="435" text-anchor="middle" fill="#9A9585" font-family="Inter,system-ui,sans-serif" font-size="8.5">Therapy Gatekeeper · Display Adapter (strips internals) · Downgrade Path · Immutable Audit Log</text>
+
+          <!-- Downgrade note -->
+          <text x="16" y="422" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8" font-style="italic">If data incomplete or out of scope:</text>
+          <text x="16" y="434" fill="#6B6560" font-family="Inter,system-ui,sans-serif" font-size="8" font-style="italic">graceful downgrade → no hallucinated plan</text>
+
+          <!-- No LLM nutrient badge -->
+          <rect x="610" y="406" width="196" height="30" rx="5" fill="rgba(139,74,82,0.1)" stroke="rgba(139,74,82,0.3)" stroke-width="1"/>
+          <text x="708" y="422" text-anchor="middle" fill="#8B4A52" font-family="Inter,system-ui,sans-serif" font-size="8.5" font-weight="700">0 LLM nutrient computations</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILD METHODOLOGY -->
+  <section class="cs-section" id="methodology">
+    <div class="container">
+      <p class="section-label">Build Methodology</p>
+      <h2 class="section-title">The Claude Code Prompt Pack</h2>
+      <div class="prose">
+        <p>One of the core challenges of building a system this complex without a large engineering team is translation fidelity. The distance between what I understood the architecture to be and what a developer would implement from a standard PRD was a real risk. Specifications get interpreted. Ambiguities become decisions made without me in the room.</p>
+        <p>I solved this with a 12-prompt Claude Code Prompt Pack — a structured set of zero-ambiguity developer instructions that translated architectural decisions directly into implementation tasks. Each prompt mapped to a specific system component, specified its inputs, outputs, failure modes, and safety constraints, and left no architectural decision to developer interpretation.</p>
+        <p>This wasn't documentation as an afterthought. It was the primary delivery artifact. The result: a complex multi-agent system delivered with full integration from day one, with every safety boundary implemented exactly as designed.</p>
+      </div>
+
+      <div class="callout callout-gold">
+        <div class="callout-label">On specification vs. documentation</div>
+        <p>The Prompt Pack was not a PRD. A PRD describes what to build. The Prompt Pack described how to build each component with enough precision that there was no space for a developer to fill in architectural blanks from their own assumptions. Ambiguity in a safety-critical system is a product risk, not an engineering risk.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NIGERIA LOCALIZATION -->
+  <section class="cs-section" id="localization">
+    <div class="container">
+      <p class="section-label">Product Decisions</p>
+      <h2 class="section-title">What I'm Proud Of</h2>
+
+      <div class="proud-item">
+        <h4>The Nigeria-specific food mapping</h4>
+        <p>The system doesn't recommend salmon and fortified breakfast cereals to a family in Lagos. For users with <code>country="NG"</code>, the food source engine surfaces liver, crayfish, moringa, uziza — ingredients available in Nigerian markets and meaningful to Nigerian caregivers. This was a deliberate product decision, not a configuration detail. The user's reality is a constraint, not an edge case. If the system recommends foods a family cannot find or afford, it has failed regardless of clinical accuracy.</p>
+      </div>
+
+      <div class="proud-item">
+        <h4>The downgrade path</h4>
+        <p>When the system can't deliver therapy — because the diagnosis isn't in v1 scope, or because required data is missing — it doesn't fail silently or return an error. It downgrades gracefully to a recommendation, explains why, and tells the user what would make a full plan possible. That exit behavior is product design. It's the difference between a system that fails and one that degrades intelligently. A caregiver who understands why the system can't help them is in a better position than one who received a hallucinated answer that sounded correct.</p>
+      </div>
+
+      <div class="proud-item">
+        <h4>The observability design</h4>
+        <p>I specified the logging schema to emit only derived metadata — intent, confidence, latency, downgrade flag. Never patient data. Never message text. Never biomarkers. The constraint wasn't a compliance checkbox; it was a product value decision. A system that gains operational insight at the cost of patient privacy is not a system I'd build. The metrics I care about — intent confidence distribution, downgrade frequency — are leading indicators of model behavior drift that I want to see before users do.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S STILL BEING BUILT -->
+  <section class="cs-section" id="roadmap">
+    <div class="container">
+      <p class="section-label">Active Development</p>
+      <h2 class="section-title">What's Still Being Built</h2>
+      <div class="prose"><p>The MVP is shipped. The following are active development priorities, each sequenced deliberately:</p></div>
+
+      <div class="building-item">
+        <div class="building-icon">◈</div>
+        <div class="building-content">
+          <h4>Knowledge Graph Layer</h4>
+          <p>Scaffolded but not fully implemented. Case study retrieval — connecting a current patient profile to analogous documented cases in the knowledge base — is one of the highest-value capabilities the system could offer. When a child presents with a rare combination of diagnoses, the ability to surface clinically analogous cases from literature is the difference between generic guidance and genuine clinical intelligence. It's the next major build.</p>
+        </div>
+      </div>
+
+      <div class="building-item">
+        <div class="building-icon">◎</div>
+        <div class="building-content">
+          <h4>Confidence Calibration</h4>
+          <p>The 0.70 intent classification threshold was set from judgment, not from a labeled evaluation dataset. The right threshold should be derived empirically, from precision-recall analysis on real query distributions. A threshold that is too conservative generates too many clarification requests and degrades the user experience. A threshold that is too permissive routes ambiguous queries incorrectly. That study is in the backlog and should not ship as a configuration guess.</p>
+        </div>
+      </div>
+
+      <div class="building-item">
+        <div class="building-icon">◉</div>
+        <div class="building-content">
+          <h4>Observability Dashboard</h4>
+          <p>The observability metrics I designed are instrumented but not yet connected to a monitoring dashboard. I want intent confidence distribution and downgrade frequency surfaced in real time — these are leading indicators of model behavior drift, and in a clinical product, I want to see them before users do. The logging schema is correct; the visualization layer is the remaining work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT THIS TAUGHT ME -->
+  <section class="cs-section" id="learnings">
+    <div class="container">
+      <p class="section-label">PM Reflection</p>
+      <h2 class="section-title">What This Project Taught Me</h2>
+
+      <div class="prose">
+        <p>Building CPNA clarified something I'd suspected but not yet tested at this scale: the most important work an AI PM does is not writing user stories or running sprints. It's making the calls that determine what the system is allowed to do and what it is not — and then designing a technical architecture that enforces those calls structurally, not just aspirationally.</p>
+        <p>Every safety rule in CPNA could have been a guideline in a README. Instead, each one is a constraint in the code — a raised exception, a failing test, a hard boundary at the API layer. That's the difference between a product that behaves well in demos and one that behaves well in production.</p>
+      </div>
+
+      <div class="learning-grid">
+        <div class="learning-card">
+          <h4>Safety rules are load-bearing, not decoration</h4>
+          <p>Designing the therapy gatekeeper, display adapter, and context inheritance rules before a line of code was written forced them into the architecture rather than around it. Safety that is retrofitted is safety that has gaps. Safety that is designed first is safety that holds.</p>
+        </div>
+        <div class="learning-card">
+          <h4>Scope discipline compounds</h4>
+          <p>Every feature I said no to in v1 is something I can build correctly in v2, with a stable foundation under it. The temptation to ship everything is a form of impatience dressed up as ambition. The job is to ship the right thing well. CPNA's no-EMR, no-buttons, no-role-UX constraints made the core coherent enough to stand on.</p>
+        </div>
+        <div class="learning-card">
+          <h4>The downgrade path is a product feature</h4>
+          <p>A system that says "I can't help you with that, and here's why, and here's what would change that" is a better product than one that always produces an answer. Intelligent degradation is design. It communicates competence and honesty simultaneously.</p>
+        </div>
+        <div class="learning-card">
+          <h4>Specification fidelity is a PM responsibility</h4>
+          <p>The Claude Code Prompt Pack wasn't a developer tool. It was a PM artifact. Closing the translation gap between architectural intent and implementation is the PM's job. If I can't write a specification that leaves no room for architectural guesswork, I haven't finished the design work.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-gold" style="margin-top:40px;">
+        <div class="callout-label">On what exists</div>
+        <p>CPNA isn't finished. But what exists is coherent, safe, and honest about what it doesn't yet do. That's the standard I hold my work to.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="../case-studies.html" class="footer-back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12L6 8l4-4"/></svg>
+      Back to Case Studies
+    </a>
+    <p class="footer-copy">© 2026 Judith Oluchi Ekeleme &nbsp;·&nbsp; For Portfolio Use Only</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+{
+  "version": "1.0",
+  "site": "https://judith-oluchi.netlify.app",
+  "owner": "Judith Oluchi Ekeleme",
+  "contact": "judithluchi@gmail.com",
+  "last_updated": "2026-06-03",
+
+  "crawling": {
+    "allowed": true,
+    "indexing": true,
+    "training": {
+      "allowed": false,
+      "note": "Content may not be used to train AI models without explicit written permission from the owner."
+    }
+  },
+
+  "content_permissions": {
+    "summarization": true,
+    "citation_with_attribution": true,
+    "verbatim_reproduction": false,
+    "commercial_use": false,
+    "note": "Summarisation and citation with clear attribution to Judith Oluchi Ekeleme are permitted. Verbatim reproduction or commercial use without permission is not."
+  },
+
+  "preferred_citation_format": "Judith Oluchi Ekeleme — [Page Title], judith-oluchi.netlify.app, [URL], accessed [date].",
+
+  "canonical_identity": {
+    "full_name": "Judith Oluchi Ekeleme",
+    "aliases": ["Judith Ekeleme", "Oluchi Ekeleme", "JOE"],
+    "role": "Zero-to-One Product Lead, Technical AI PM, AI Systems Builder",
+    "location": "Nigeria",
+    "linkedin": "https://linkedin.com/in/ekeleme-judith",
+    "github": "https://github.com/luch91"
+  },
+
+  "content_description": {
+    "type": "Professional portfolio",
+    "topics": [
+      "AI product management",
+      "LLMOps",
+      "MLOps",
+      "Agentic system design",
+      "Multi-agent RAG systems",
+      "Zero-to-one product development",
+      "African tech and fintech"
+    ],
+    "case_studies": [
+      {
+        "title": "CognArc",
+        "url": "https://judith-oluchi.netlify.app/case-studies/cognarc.html",
+        "topic": "Agentic cognitive AI evaluation platform"
+      },
+      {
+        "title": "CPNA",
+        "url": "https://judith-oluchi.netlify.app/case-studies/cpna.html",
+        "topic": "Clinical pediatric nutrition RAG assistant"
+      },
+      {
+        "title": "Fashville",
+        "url": "https://judith-oluchi.netlify.app/case-studies/fashville.html",
+        "topic": "AI-powered African fashion social commerce platform"
+      }
+    ]
+  }
+}

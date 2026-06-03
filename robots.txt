@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://judith-oluchi.netlify.app/sitemap.xml

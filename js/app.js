@@ -49,7 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
       <article class="project-card" aria-label="${esc(p.title)}">
         <div class="project-card-header">
           <span class="project-type-tag">${esc(p.type)}</span>
-          <span class="project-year">${esc(p.year)}</span>
+          <div style="display:flex;align-items:center;gap:8px;">
+            ${p.personal ? `<span class="project-personal-tag">Personal Project</span>` : ''}
+            <span class="project-year">${esc(p.year)}</span>
+          </div>
         </div>
         <h3 class="project-title">${esc(p.title)}</h3>
         <p class="project-desc">${esc(p.description)}</p>
