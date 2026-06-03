@@ -147,7 +147,7 @@ var DATA = {
         { value: "4",   label: "Query Types"       },
         { value: "MVP", label: "Status"             },
         { value: "0",   label: "LLM Nutrient Calls" },
-        { value: "NG",  label: "Localised For"      }
+        { value: "Africa",  label: "Localised For"  }
       ],
       role: "Technical AI PM, zero to shipped MVP",
       productType: "Agentic RAG Clinical Assistant",
@@ -172,7 +172,7 @@ var DATA = {
         { value: "2",      label: "Hi-Fi Prototypes" },
         { value: "2-sided", label: "Marketplace"     },
         { value: "AI",     label: "Search Engine"    },
-        { value: "Live",   label: "Commerce"         }
+        { value: "Live",   label: "Live Commerce"    }
       ],
       role: "AI Product Manager, zero-to-one product design",
       productType: "AI Social Commerce Platform",
