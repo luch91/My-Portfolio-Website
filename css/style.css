@@ -673,6 +673,7 @@ ul { list-style: none; }
   font-weight: 500;
 }
 .project-personal-tag {
+  display: inline-block;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -681,7 +682,7 @@ ul { list-style: none; }
   background: var(--mauve-dim);
   padding: 3px 8px;
   border-radius: 4px;
-  white-space: nowrap;
+  margin-bottom: 12px;
 }
 .project-title {
   font-family: var(--font-serif);
