@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A PM's Deep Dive into RAG Systems: how Retrieval-Augmented Generation actually works in production, by Judith Oluchi Ekeleme." />
+  <title>A PM's Deep Dive into RAG Systems — Judith Oluchi Ekeleme</title>
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="shortcut icon" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0F1117;
+      --bg-alt:     #131620;
+      --surface:    #1A1D27;
+      --border:     #2A2D3A;
+      --gold:       #C9A96E;
+      --gold-light: #E2C48A;
+      --gold-dim:   rgba(201,169,110,0.12);
+      --mauve:      #8B4A52;
+      --mauve-dim:  rgba(139,74,82,0.12);
+      --teal:       #4A9EBF;
+      --teal-dim:   rgba(74,158,191,0.12);
+      --text:       #F5F0E8;
+      --text-muted: #9A9585;
+      --text-dim:   #6B6560;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-mono:  'DM Mono', 'Fira Code', monospace;
+      --radius:     12px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.75; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--gold-dim); color: var(--gold-light); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-back { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color var(--transition); }
+    .nav-back:hover { color: var(--gold); }
+
+    /* HERO */
+    .post-hero {
+      padding: 120px 0 64px;
+      background: linear-gradient(180deg, #131620 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .container { max-width: 740px; margin: 0 auto; padding: 0 32px; }
+
+    .post-meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .post-tag {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); background: var(--gold-dim); border: 1px solid rgba(201,169,110,0.2);
+      padding: 4px 10px; border-radius: 4px;
+    }
+    .post-date, .post-read { font-size: 0.8rem; color: var(--text-dim); }
+    .meta-dot { color: var(--border); }
+
+    .post-title {
+      font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 2.9rem);
+      font-weight: 700; line-height: 1.2; color: var(--text); margin-bottom: 20px;
+    }
+    .post-lede {
+      font-size: 1.08rem; color: var(--text-muted); line-height: 1.75;
+      border-left: 3px solid var(--gold); padding-left: 20px;
+    }
+
+    /* BODY */
+    .post-body { padding: 64px 0 96px; }
+
+    .post-body h2 {
+      font-family: var(--font-serif); font-size: 1.55rem; font-weight: 700;
+      color: var(--gold-light); margin: 56px 0 18px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .post-body h3 {
+      font-size: 1rem; font-weight: 700; color: var(--text);
+      margin: 28px 0 10px; letter-spacing: 0.03em;
+    }
+    .post-body p { margin-bottom: 16px; color: var(--text); font-size: 1rem; line-height: 1.75; }
+    .post-body ul, .post-body ol { margin: 0 0 16px 22px; color: var(--text); }
+    .post-body li { margin-bottom: 7px; line-height: 1.65; }
+    .post-body strong { color: var(--gold-light); font-weight: 600; }
+
+    /* TOC */
+    .toc {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 28px; margin: 40px 0 48px;
+    }
+    .toc-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 14px;
+    }
+    .toc ol { margin: 0 0 0 18px; }
+    .toc li { margin-bottom: 6px; }
+    .toc a { color: var(--text-muted); font-size: 0.875rem; transition: color var(--transition); }
+    .toc a:hover { color: var(--gold); }
+
+    /* DIAGRAM WRAPPER */
+    .diagram-wrap {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg-alt); padding: 24px 20px 16px;
+      overflow-x: auto; margin: 28px 0;
+    }
+    .diagram-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 18px;
+    }
+
+    /* LAYER SECTIONS */
+    .layer {
+      margin: 44px 0 0;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+    .layer-header {
+      display: flex; align-items: baseline; gap: 14px; margin-bottom: 16px;
+    }
+    .layer-num {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500;
+      color: var(--teal); letter-spacing: 0.12em; flex-shrink: 0;
+      background: var(--teal-dim); border: 1px solid rgba(74,158,191,0.2);
+      padding: 3px 8px; border-radius: 4px;
+    }
+    .layer-title {
+      font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--text);
+    }
+
+    /* CODE / PROMPT BLOCKS */
+    .code-block {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 22px; margin: 18px 0;
+      font-family: var(--font-mono); font-size: 0.82rem;
+      color: var(--text-muted); line-height: 1.85; overflow-x: auto;
+      white-space: pre;
+    }
+    .code-block .hl  { color: var(--gold); }
+    .code-block .arr { color: var(--teal); }
+
+    /* CALLOUT BOXES */
+    .callout {
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 18px; margin: 20px 0;
+    }
+    .callout-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 7px;
+    }
+    .callout p, .callout ul { margin: 0; font-size: 0.93rem; }
+    .callout ul { padding-left: 18px; }
+    .callout li { margin-bottom: 4px; }
+
+    .callout--insight {
+      background: var(--gold-dim); border: 1px solid rgba(201,169,110,0.2);
+      border-left: 3px solid var(--gold);
+    }
+    .callout--insight .callout-label { color: var(--gold); }
+
+    .callout--failure {
+      background: var(--mauve-dim); border: 1px solid rgba(139,74,82,0.2);
+      border-left: 3px solid var(--mauve);
+    }
+    .callout--failure .callout-label { color: var(--mauve); }
+
+    /* TRADE-OFFS TABLE */
+    .table-wrap { overflow-x: auto; margin: 24px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th {
+      text-align: left; padding: 9px 16px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-dim); border-bottom: 1px solid var(--border);
+    }
+    td { padding: 11px 16px; border-bottom: 1px solid rgba(42,45,58,0.5); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { color: var(--gold); font-family: var(--font-mono); font-size: 0.83rem; font-weight: 500; white-space: nowrap; }
+    td:last-child { color: var(--text-muted); }
+
+    /* FOOTER */
+    .post-footer { padding: 48px 0 64px; border-top: 1px solid var(--border); text-align: center; }
+    .back-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 40px; padding: 10px 22px;
+      font-size: 0.85rem; color: var(--text-muted); transition: all var(--transition);
+    }
+    .back-pill:hover { border-color: var(--gold); color: var(--gold); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .post-hero { padding: 96px 0 48px; }
+      .post-body { padding: 40px 0 64px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="../index.html" class="nav-logo">JOE</a>
+    <div class="nav-links">
+      <a href="../index.html#about">About</a>
+      <a href="../case-studies.html">Case Studies</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <a href="../blog.html" class="nav-back">&#8592; Blog</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="post-hero">
+    <div class="container">
+      <div class="post-meta-row">
+        <span class="post-tag">Article</span>
+        <span class="post-date">2025</span>
+        <span class="meta-dot">·</span>
+        <span class="post-read">10 min read</span>
+      </div>
+      <h1 class="post-title">A PM's Deep Dive into RAG Systems</h1>
+      <p class="post-lede">
+        RAG is usually described as "retrieve documents, send to LLM, get answer." That description hides exactly where systems fail in production. Here is what the pipeline actually looks like and what it means for product decisions.
+      </p>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <article class="post-body">
+    <div class="container">
+
+      <!-- TOC -->
+      <div class="toc" role="navigation" aria-label="Table of contents">
+        <div class="toc-label">In this article</div>
+        <ol>
+          <li><a href="#context">Why the simple description is not enough</a></li>
+          <li><a href="#overview">Full system overview</a></li>
+          <li><a href="#query">Layer 1: Query Processing</a></li>
+          <li><a href="#retrieval">Layer 2: Retrieval</a></li>
+          <li><a href="#context-construction">Layer 3: Context Construction</a></li>
+          <li><a href="#llm">Layer 4: LLM Inference</a></li>
+          <li><a href="#guardrails">Layer 5: Post-processing &amp; Guardrails</a></li>
+          <li><a href="#evaluation">Layer 6: Evaluation</a></li>
+          <li><a href="#feedback">Layer 7: Feedback Loop</a></li>
+          <li><a href="#tradeoffs">System trade-offs</a></li>
+          <li><a href="#mistakes">What most teams get wrong</a></li>
+          <li><a href="#closing">Closing</a></li>
+        </ol>
+      </div>
+
+      <!-- WHY -->
+      <h2 id="context">Why the Simple Description Is Not Enough</h2>
+      <p>RAG is usually described as: retrieve documents, send to LLM, generate answer.</p>
+      <p>
+        That description hides where systems fail in production. A real RAG system is a
+        <strong>multi-stage pipeline with independent failure modes, latency constraints, and evaluation challenges</strong>.
+        Understanding those layers is what separates feature PMs from platform PMs.
+      </p>
+
+      <!-- OVERVIEW -->
+      <h2 id="overview">Full System Overview</h2>
+      <p>A production-grade RAG system is better understood as seven distinct stages, each with its own failure surface.</p>
+
+      <!-- DIAGRAM: Full pipeline horizontal -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">RAG Production Pipeline — 7 Stages</div>
+        <svg viewBox="0 0 760 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:520px;display:block;">
+          <defs>
+            <marker id="arrowA" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+            </marker>
+          </defs>
+
+          <!-- Stage boxes -->
+          <!-- 1: User Query -->
+          <rect x="8"   y="52" width="88" height="56" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+          <text x="52" y="77" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#9A9585">User</text>
+          <text x="52" y="93" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#9A9585">Query</text>
+
+          <!-- 2: Query Processing -->
+          <rect x="116" y="52" width="88" height="56" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="160" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#C9A96E">Query</text>
+          <text x="160" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#C9A96E">Processing</text>
+          <text x="160" y="102" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">01</text>
+
+          <!-- 3: Retrieval -->
+          <rect x="224" y="52" width="88" height="56" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="268" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#C9A96E">Retrieval</text>
+          <text x="268" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#C9A96E">System</text>
+          <text x="268" y="102" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">02</text>
+
+          <!-- 4: Context Construction -->
+          <rect x="332" y="52" width="88" height="56" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="376" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#C9A96E">Context</text>
+          <text x="376" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#C9A96E">Construction</text>
+          <text x="376" y="102" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">03</text>
+
+          <!-- 5: LLM Inference -->
+          <rect x="440" y="52" width="88" height="56" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="484" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#C9A96E">LLM</text>
+          <text x="484" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#C9A96E">Inference</text>
+          <text x="484" y="102" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">04</text>
+
+          <!-- 6: Guardrails -->
+          <rect x="548" y="52" width="88" height="56" rx="8" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.2"/>
+          <text x="592" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#8B4A52">Post-proc</text>
+          <text x="592" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#8B4A52">&amp; Guards</text>
+          <text x="592" y="102" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">05</text>
+
+          <!-- 7: Eval + Feedback -->
+          <rect x="656" y="52" width="96" height="56" rx="8" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+          <text x="704" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#4A9EBF">Eval &amp;</text>
+          <text x="704" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#4A9EBF">Feedback</text>
+          <text x="704" y="102" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">06-07</text>
+
+          <!-- Forward arrows -->
+          <line x1="97"  y1="80" x2="114" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowA)"/>
+          <line x1="205" y1="80" x2="222" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowA)"/>
+          <line x1="313" y1="80" x2="330" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowA)"/>
+          <line x1="421" y1="80" x2="438" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowA)"/>
+          <line x1="529" y1="80" x2="546" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowA)"/>
+          <line x1="637" y1="80" x2="654" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowA)"/>
+
+          <!-- Feedback loop arc back -->
+          <path d="M 752 108 Q 752 145 380 145 Q 8 145 8 108" fill="none" stroke="#4A9EBF" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+          <polygon points="8,102 5,110 11,110" fill="#4A9EBF" opacity="0.5"/>
+          <text x="380" y="158" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF" opacity="0.6">feedback loop</text>
+        </svg>
+      </div>
+
+      <p>Each stage introduces trade-offs. The rest of this article breaks each one down.</p>
+
+
+      <!-- LAYER 1: QUERY PROCESSING -->
+      <div class="layer" id="query">
+        <div class="layer-header">
+          <span class="layer-num">LAYER 01</span>
+          <span class="layer-title">Query Processing</span>
+        </div>
+        <p><strong>Purpose:</strong> Transform raw user input into a structured query optimised for retrieval.</p>
+
+        <h3>Components</h3>
+        <ul>
+          <li>Query rewriting (LLM-assisted or rule-based)</li>
+          <li>Intent classification</li>
+          <li>Entity extraction</li>
+        </ul>
+
+        <!-- DIAGRAM: query rewriting -->
+        <div class="diagram-wrap">
+          <div class="diagram-label">Query Rewriting</div>
+          <svg viewBox="0 0 480 110" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:480px;display:block;">
+            <defs>
+              <marker id="arrowB" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+              </marker>
+            </defs>
+            <!-- Raw input box -->
+            <rect x="8" y="18" width="180" height="74" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+            <text x="98" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#6B6560">RAW INPUT</text>
+            <text x="98" y="56" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#F5F0E8">"Best diet for iron</text>
+            <text x="98" y="71" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#F5F0E8">deficiency in toddlers"</text>
+
+            <!-- Rewriter box -->
+            <rect x="210" y="32" width="76" height="46" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+            <text x="248" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Query</text>
+            <text x="248" y="66" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Rewriter</text>
+
+            <!-- Rewritten box -->
+            <rect x="306" y="18" width="168" height="74" rx="8" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+            <text x="390" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#6B6560">STRUCTURED QUERY</text>
+            <text x="390" y="55" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#4A9EBF">"Dietary recs: pediatric</text>
+            <text x="390" y="69" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#4A9EBF">iron deficiency (age 1-3)"</text>
+
+            <!-- Arrows -->
+            <line x1="189" y1="55" x2="208" y2="55" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowB)"/>
+            <line x1="287" y1="55" x2="304" y2="55" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowB)"/>
+          </svg>
+        </div>
+
+        <div class="callout callout--failure">
+          <div class="callout-label">Failure Modes</div>
+          <ul>
+            <li>Loss of intent nuance during rewriting</li>
+            <li>Over-generalisation that broadens the query too much</li>
+            <li>Incorrect entity extraction</li>
+          </ul>
+        </div>
+        <div class="callout callout--insight">
+          <div class="callout-label">PM Insight</div>
+          <p>Query processing directly impacts retrieval quality. Weak rewriting cascades downstream: every subsequent stage inherits the error.</p>
+        </div>
+      </div>
+
+
+      <!-- LAYER 2: RETRIEVAL -->
+      <div class="layer" id="retrieval">
+        <div class="layer-header">
+          <span class="layer-num">LAYER 02</span>
+          <span class="layer-title">Retrieval (the Core)</span>
+        </div>
+        <p><strong>Purpose:</strong> Fetch the most relevant information from the knowledge base.</p>
+
+        <h3>Architecture Options</h3>
+        <ul>
+          <li><strong>Dense retrieval:</strong> embeddings via sentence transformers, then vector similarity search (FAISS, Pinecone, Qdrant)</li>
+          <li><strong>Sparse retrieval:</strong> keyword-based BM25</li>
+          <li><strong>Hybrid retrieval:</strong> combine both, then re-rank</li>
+        </ul>
+
+        <!-- DIAGRAM: hybrid retrieval -->
+        <div class="diagram-wrap">
+          <div class="diagram-label">Hybrid Retrieval Architecture</div>
+          <svg viewBox="0 0 560 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;display:block;">
+            <defs>
+              <marker id="arrowC" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+              </marker>
+            </defs>
+
+            <!-- Query input -->
+            <rect x="8" y="72" width="74" height="46" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+            <text x="45" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#9A9585">Query</text>
+            <text x="45" y="107" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#9A9585">In</text>
+
+            <!-- Dense path -->
+            <rect x="112" y="28" width="100" height="42" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+            <text x="162" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Embed &amp;</text>
+            <text x="162" y="61" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Vector Search</text>
+
+            <!-- Sparse path -->
+            <rect x="112" y="120" width="100" height="42" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+            <text x="162" y="139" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">BM25</text>
+            <text x="162" y="153" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Keyword Search</text>
+
+            <!-- Top-K labels -->
+            <rect x="240" y="28" width="66" height="42" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+            <text x="273" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">Top-K</text>
+            <text x="273" y="61" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">Dense</text>
+
+            <rect x="240" y="120" width="66" height="42" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+            <text x="273" y="139" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">Top-K</text>
+            <text x="273" y="153" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">Sparse</text>
+
+            <!-- Merge -->
+            <rect x="334" y="72" width="68" height="46" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+            <text x="368" y="93" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">Merge</text>
+            <text x="368" y="107" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">&amp; Dedupe</text>
+
+            <!-- Re-rank -->
+            <rect x="430" y="72" width="72" height="46" rx="8" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+            <text x="466" y="93" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#4A9EBF">Re-rank</text>
+            <text x="466" y="107" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#4A9EBF">Top-N</text>
+
+            <!-- Arrows: query splits up and down -->
+            <line x1="83" y1="88" x2="95" y2="88" stroke="#4A9EBF" stroke-width="1.2"/>
+            <line x1="95" y1="88" x2="95" y2="49"  stroke="#4A9EBF" stroke-width="1.2"/>
+            <line x1="95" y1="49" x2="110" y2="49"  stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#arrowC)"/>
+            <line x1="95" y1="88" x2="95" y2="141" stroke="#4A9EBF" stroke-width="1.2"/>
+            <line x1="95" y1="141" x2="110" y2="141" stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#arrowC)"/>
+
+            <!-- Dense to merge -->
+            <line x1="213" y1="49" x2="225" y2="49" stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#arrowC)"/>
+            <line x1="307" y1="49" x2="326" y2="49" stroke="#4A9EBF" stroke-width="1.2"/>
+            <line x1="326" y1="49" x2="326" y2="95" stroke="#4A9EBF" stroke-width="1.2"/>
+            <line x1="326" y1="95" x2="332" y2="95" stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#arrowC)"/>
+
+            <!-- Sparse to merge -->
+            <line x1="213" y1="141" x2="225" y2="141" stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#arrowC)"/>
+            <line x1="307" y1="141" x2="326" y2="141" stroke="#4A9EBF" stroke-width="1.2"/>
+            <line x1="326" y1="141" x2="326" y2="101" stroke="#4A9EBF" stroke-width="1.2"/>
+            <line x1="326" y1="101" x2="332" y2="101" stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#arrowC)"/>
+
+            <!-- Merge to rerank -->
+            <line x1="403" y1="95" x2="428" y2="95" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowC)"/>
+          </svg>
+        </div>
+
+        <h3>Key Decisions</h3>
+        <ul>
+          <li>Embedding model choice</li>
+          <li>Chunk size: too small loses context; too large reduces precision</li>
+          <li>Top-K retrieval size</li>
+          <li>Re-ranking strategy</li>
+        </ul>
+
+        <div class="callout callout--failure">
+          <div class="callout-label">Failure Modes</div>
+          <ul>
+            <li>Irrelevant but semantically similar chunks returned</li>
+            <li>Missing critical context because the chunk boundary was wrong</li>
+            <li>Outdated or low-quality data in the knowledge base</li>
+          </ul>
+        </div>
+        <div class="callout callout--insight">
+          <div class="callout-label">PM Insight</div>
+          <p>Retrieval quality sets the upper bound of system accuracy. The LLM cannot recover missing knowledge. This is the layer to invest in first.</p>
+        </div>
+      </div>
+
+
+      <!-- LAYER 3: CONTEXT CONSTRUCTION -->
+      <div class="layer" id="context-construction">
+        <div class="layer-header">
+          <span class="layer-num">LAYER 03</span>
+          <span class="layer-title">Context Construction</span>
+        </div>
+        <p><strong>Purpose:</strong> Assemble retrieved chunks into a structured prompt that the LLM can reason over.</p>
+
+        <h3>Considerations</h3>
+        <ul>
+          <li>Token limits: you cannot fit everything</li>
+          <li>Ordering of context chunks (recency vs. relevance)</li>
+          <li>Deduplication of overlapping chunks</li>
+          <li>Metadata inclusion: source name, date, confidence score</li>
+        </ul>
+
+        <!-- DIAGRAM: context window assembly -->
+        <div class="diagram-wrap">
+          <div class="diagram-label">Prompt Assembly Under Token Constraints</div>
+          <svg viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;display:block;">
+            <!-- Prompt window -->
+            <rect x="8" y="8" width="484" height="164" rx="10" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.5"/>
+            <text x="250" y="28" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#6B6560">PROMPT WINDOW  (context limit)</text>
+
+            <!-- System instruction strip -->
+            <rect x="20" y="36" width="460" height="20" rx="4" fill="#1F2230" stroke="#2A2D3A"/>
+            <text x="30" y="50" font-family="DM Mono,monospace" font-size="8" fill="#6B6560">System: You are a clinical assistant. Use ONLY provided context. Cite sources.</text>
+
+            <!-- Chunk 1 -->
+            <rect x="20" y="62" width="143" height="46" rx="4" fill="#162018" stroke="#2A4020"/>
+            <text x="28" y="76" font-family="Inter,sans-serif" font-size="7.5" fill="#4A9EBF">Context 1</text>
+            <text x="28" y="89" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Clinical guideline</text>
+            <text x="28" y="102" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">score: 0.92</text>
+
+            <!-- Chunk 2 -->
+            <rect x="169" y="62" width="143" height="46" rx="4" fill="#162018" stroke="#2A4020"/>
+            <text x="177" y="76" font-family="Inter,sans-serif" font-size="7.5" fill="#4A9EBF">Context 2</text>
+            <text x="177" y="89" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Nutritional study</text>
+            <text x="177" y="102" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">score: 0.87</text>
+
+            <!-- Chunk 3 -->
+            <rect x="318" y="62" width="143" height="46" rx="4" fill="#162018" stroke="#2A4020"/>
+            <text x="326" y="76" font-family="Inter,sans-serif" font-size="7.5" fill="#4A9EBF">Context 3</text>
+            <text x="326" y="89" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Regional food data</text>
+            <text x="326" y="102" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">score: 0.81</text>
+
+            <!-- Token limit bar -->
+            <rect x="20" y="116" width="460" height="8" rx="4" fill="#2A2D3A"/>
+            <rect x="20" y="116" width="330" height="8" rx="4" fill="#C9A96E" opacity="0.5"/>
+            <text x="356" y="124" font-family="Inter,sans-serif" font-size="7" fill="#8B4A52">↑ truncation risk</text>
+
+            <!-- User question strip -->
+            <rect x="20" y="132" width="460" height="20" rx="4" fill="#1F2230" stroke="#2A2D3A"/>
+            <text x="30" y="146" font-family="DM Mono,monospace" font-size="8" fill="#9A9585">Question: {user_query}</text>
+
+            <!-- Token count label -->
+            <text x="250" y="165" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">used tokens  ///  available budget</text>
+          </svg>
+        </div>
+
+        <div class="callout callout--failure">
+          <div class="callout-label">Failure Modes</div>
+          <ul>
+            <li>Context overflow causing truncation of high-value chunks</li>
+            <li>Wrong ordering reducing LLM attention on key passages</li>
+            <li>Conflicting information with no resolution signal</li>
+          </ul>
+        </div>
+        <div class="callout callout--insight">
+          <div class="callout-label">PM Insight</div>
+          <p>Context construction is an information compression problem under hard constraints. The quality of this step determines what the model can and cannot reason about.</p>
+        </div>
+      </div>
+
+
+      <!-- LAYER 4: LLM INFERENCE -->
+      <div class="layer" id="llm">
+        <div class="layer-header">
+          <span class="layer-num">LAYER 04</span>
+          <span class="layer-title">LLM Inference</span>
+        </div>
+        <p><strong>Purpose:</strong> Generate a response grounded in the retrieved context.</p>
+
+        <h3>Key Decisions</h3>
+        <ul>
+          <li>Model selection: latency vs. reasoning quality</li>
+          <li>Prompt design and instruction clarity</li>
+          <li>Temperature and decoding strategy</li>
+        </ul>
+
+        <div class="code-block"><span class="hl">System:</span>  You are a clinical assistant.
+         Use ONLY the provided context. Cite sources.
+         If unsure, say so explicitly.
+
+<span class="hl">Context:</span> [assembled chunks from Layer 03]
+
+<span class="hl">Question:</span> {user_query}</div>
+
+        <div class="callout callout--failure">
+          <div class="callout-label">Failure Modes</div>
+          <ul>
+            <li>Hallucination despite relevant context being present</li>
+            <li>Ignoring provided documents and falling back on parametric memory</li>
+            <li>Shallow reasoning on complex multi-step queries</li>
+          </ul>
+        </div>
+        <div class="callout callout--insight">
+          <div class="callout-label">PM Insight</div>
+          <p>Model choice affects cost per request, latency, and reasoning depth simultaneously. This is a <strong>product and infrastructure trade-off</strong>, not just a model decision.</p>
+        </div>
+      </div>
+
+
+      <!-- LAYER 5: GUARDRAILS -->
+      <div class="layer" id="guardrails">
+        <div class="layer-header">
+          <span class="layer-num">LAYER 05</span>
+          <span class="layer-title">Post-processing &amp; Guardrails</span>
+        </div>
+        <p><strong>Purpose:</strong> Ensure every response meets safety and quality standards before delivery.</p>
+
+        <h3>Components</h3>
+        <ul>
+          <li>Output validation (schema, format, length)</li>
+          <li>Toxicity filtering</li>
+          <li>Rule-based constraints (domain-specific blocklists)</li>
+          <li>Citation verification</li>
+        </ul>
+
+        <div class="callout callout--failure">
+          <div class="callout-label">Failure Modes</div>
+          <ul>
+            <li>Unsafe recommendations passing through undetected</li>
+            <li>Incorrect or fabricated citations</li>
+            <li>Over-filtering that removes genuinely helpful responses</li>
+          </ul>
+        </div>
+        <div class="callout callout--insight">
+          <div class="callout-label">PM Insight</div>
+          <p>Guardrails are not optional in high-stakes domains (healthcare, finance, legal). The cost of a failure is asymmetric. Design for the worst-case output, not the average one.</p>
+        </div>
+      </div>
+
+
+      <!-- LAYER 6: EVALUATION -->
+      <div class="layer" id="evaluation">
+        <div class="layer-header">
+          <span class="layer-num">LAYER 06</span>
+          <span class="layer-title">Evaluation (the Most Underrated Stage)</span>
+        </div>
+        <p><strong>Purpose:</strong> Measure system performance and pinpoint exactly where failures occur.</p>
+
+        <h3>Evaluation Types</h3>
+        <ul>
+          <li><strong>Retrieval:</strong> Recall@K, Precision@K, MRR</li>
+          <li><strong>Generation:</strong> answer correctness, citation accuracy, hallucination rate</li>
+          <li><strong>End-to-end:</strong> task success rate, user satisfaction</li>
+        </ul>
+
+        <!-- DIAGRAM: evaluation pipeline -->
+        <div class="diagram-wrap">
+          <div class="diagram-label">Evaluation Pipeline</div>
+          <svg viewBox="0 0 580 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;display:block;">
+            <defs>
+              <marker id="arrowD" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+                <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+              </marker>
+            </defs>
+            <rect x="4"   y="22" width="82" height="36" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+            <text x="45"  y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Test</text>
+            <text x="45"  y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Dataset</text>
+
+            <rect x="104" y="22" width="90" height="36" rx="7" fill="#1A1D27" stroke="#C9A96E"/>
+            <text x="149" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Retrieval</text>
+            <text x="149" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Eval</text>
+
+            <rect x="212" y="22" width="96" height="36" rx="7" fill="#1A1D27" stroke="#C9A96E"/>
+            <text x="260" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">LLM Response</text>
+            <text x="260" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Generation</text>
+
+            <rect x="326" y="22" width="108" height="36" rx="7" fill="#1A1D27" stroke="#C9A96E"/>
+            <text x="380" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">LLM-as-judge</text>
+            <text x="380" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">/ Human Review</text>
+
+            <rect x="452" y="22" width="122" height="36" rx="7" fill="#1A1D27" stroke="#8B4A52"/>
+            <text x="513" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#8B4A52">Failure</text>
+            <text x="513" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#8B4A52">Categorisation</text>
+
+            <line x1="87"  y1="40" x2="102" y2="40" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowD)"/>
+            <line x1="195" y1="40" x2="210" y2="40" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowD)"/>
+            <line x1="309" y1="40" x2="324" y2="40" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowD)"/>
+            <line x1="435" y1="40" x2="450" y2="40" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arrowD)"/>
+          </svg>
+        </div>
+
+        <h3>Failure Categories to Track</h3>
+        <ul>
+          <li>Retrieval miss: the right chunk was never fetched</li>
+          <li>Reasoning error: chunks were present but the LLM misinterpreted them</li>
+          <li>Hallucination: model invented information not in context</li>
+          <li>Incomplete answer: query only partially addressed</li>
+        </ul>
+
+        <div class="callout callout--insight">
+          <div class="callout-label">PM Insight</div>
+          <p>Evaluation must <strong>isolate where the system failed</strong>, not just that it failed. A single quality score is too coarse to drive any meaningful improvement decision.</p>
+        </div>
+      </div>
+
+
+      <!-- LAYER 7: FEEDBACK LOOP -->
+      <div class="layer" id="feedback">
+        <div class="layer-header">
+          <span class="layer-num">LAYER 07</span>
+          <span class="layer-title">Feedback Loop &amp; Iteration</span>
+        </div>
+        <p><strong>Purpose:</strong> Continuously improve system performance after deployment using live signals.</p>
+
+        <h3>Signal Sources</h3>
+        <ul>
+          <li>User feedback: thumbs, corrections, escalations</li>
+          <li>System logs: latency, retrieval scores, refusals</li>
+          <li>Evaluation datasets: curated ground truth</li>
+        </ul>
+
+        <h3>Actions</h3>
+        <ul>
+          <li>Improve chunking strategy</li>
+          <li>Refine prompts based on failure analysis</li>
+          <li>Update and refresh embeddings</li>
+          <li>Retrain or swap re-rankers</li>
+        </ul>
+
+        <div class="callout callout--insight">
+          <div class="callout-label">PM Insight</div>
+          <p>RAG systems improve through <strong>data and iteration loops</strong>, not one-time tuning. The product roadmap for an AI system is a sequence of data flywheels. Build the loop on day one.</p>
+        </div>
+      </div>
+
+
+      <!-- TRADE-OFFS -->
+      <h2 id="tradeoffs">System Trade-offs: Where PMs Add Value</h2>
+      <p>Strong PMs make these trade-offs explicit rather than leaving them to engineering intuition.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Dimension</th><th>Trade-off</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Latency</td>
+              <td>Deeper retrieval (better answers) vs. faster response (better UX)</td>
+            </tr>
+            <tr>
+              <td>Cost</td>
+              <td>Larger models (stronger reasoning) vs. cheaper inference (lower unit cost)</td>
+            </tr>
+            <tr>
+              <td>Accuracy</td>
+              <td>More context in the prompt vs. token limits and cost constraints</td>
+            </tr>
+            <tr>
+              <td>Freshness</td>
+              <td>Real-time data ingestion vs. cached embeddings (cheaper, but stale)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <!-- MISTAKES -->
+      <h2 id="mistakes">What Most Teams Get Wrong</h2>
+      <ol>
+        <li><strong>Treating RAG as a feature, not a system.</strong> It has independent failure modes at every stage. One "RAG ticket" will not cover it.</li>
+        <li><strong>Ignoring retrieval quality and blaming the model.</strong> Most RAG failures trace back to what was (or was not) retrieved, not how the LLM reasoned.</li>
+        <li><strong>Lacking structured evaluation.</strong> You cannot improve what you cannot measure. User thumbs-down is not an evaluation pipeline.</li>
+        <li><strong>Optimising prompts instead of fixing data.</strong> Prompt engineering is the last lever, not the first. Fix the knowledge base, fix chunking, then refine the prompt.</li>
+      </ol>
+
+
+      <!-- CLOSING -->
+      <h2 id="closing">Closing</h2>
+      <p>RAG is not really about making LLMs smarter. It is about building a system where:</p>
+      <ul>
+        <li>Retrieval provides the right knowledge</li>
+        <li>The model reasons over it correctly</li>
+        <li>Evaluation ensures reliability</li>
+        <li>Iteration improves performance over time</li>
+      </ul>
+      <p>That system thinking is what defines an AI Platform Product Manager.</p>
+
+      <div class="callout callout--insight" style="margin-top:36px;">
+        <div class="callout-label">About this piece</div>
+        <p>Written by Judith Oluchi Ekeleme, Technical AI PM. CPNA, her multi-agent RAG system for paediatric clinical nutrition, applies every layer described here in a live production system. <a href="../case-studies/cpna.html" style="color:var(--gold);border-bottom:1px solid rgba(201,169,110,0.3);">Read the CPNA case study &#8594;</a></p>
+      </div>
+
+    </div>
+  </article>
+
+  <!-- FOOTER -->
+  <footer class="post-footer">
+    <div class="container">
+      <a href="../blog.html" class="back-pill">&#8592; Back to Blog</a>
+    </div>
+  </footer>
+
+</body>
+</html>

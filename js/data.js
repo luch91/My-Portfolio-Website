@@ -311,6 +311,19 @@ var DATA = {
   // For videos: set videoFile (filename in resources/videos/) OR videoUrl for external
   blogPosts: [
     {
+      id: "decision-intelligence",
+      type: "article",
+      title: "The System Design Masterclass: Turning Raw Data into Decision Intelligence",
+      excerpt: "Most systems collect data. Very few turn it into something people can act on. Six layers every data system needs to close the gap between storage and decisions.",
+      date: "2025",
+      readTime: "12 min read",
+      tags: ["System Design", "Data Engineering", "Product Management", "Decision Intelligence"],
+      url: null,
+      filePath: "blog/decision-intelligence.html",
+      videoFile: null,
+      videoUrl: null
+    },
+    {
       id: "protein-structure",
       type: "article",
       title: "Highly Accurate Protein Structure Prediction",
@@ -333,6 +346,19 @@ var DATA = {
       tags: ["AI", "Figma", "Product Design", "Tutorial"],
       url: null,
       filePath: "resources/blog/claude-figma-guide.html",
+      videoFile: null,
+      videoUrl: null
+    },
+    {
+      id: "rag-deep-dive",
+      type: "article",
+      title: "A PM's Deep Dive into RAG Systems",
+      excerpt: "How Retrieval-Augmented Generation actually works in production: seven failure-prone layers, system trade-offs, and what separates feature PMs from platform PMs.",
+      date: "2025",
+      readTime: "10 min read",
+      tags: ["RAG", "AI Systems", "Product Management", "LLMs"],
+      url: null,
+      filePath: "blog/rag-deep-dive.html",
       videoFile: null,
       videoUrl: null
     },

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The System Design Masterclass: Turning Raw Data into Decision Intelligence. Six layers every data system needs, by Judith Oluchi Ekeleme." />
+  <title>The System Design Masterclass: Turning Raw Data into Decision Intelligence — Judith Oluchi Ekeleme</title>
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="shortcut icon" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0F1117;
+      --bg-alt:     #131620;
+      --surface:    #1A1D27;
+      --border:     #2A2D3A;
+      --gold:       #C9A96E;
+      --gold-light: #E2C48A;
+      --gold-dim:   rgba(201,169,110,0.12);
+      --mauve:      #8B4A52;
+      --mauve-dim:  rgba(139,74,82,0.12);
+      --teal:       #4A9EBF;
+      --teal-dim:   rgba(74,158,191,0.12);
+      --text:       #F5F0E8;
+      --text-muted: #9A9585;
+      --text-dim:   #6B6560;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-mono:  'DM Mono', 'Fira Code', monospace;
+      --radius:     12px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.75; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--gold-dim); color: var(--gold-light); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-back { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color var(--transition); }
+    .nav-back:hover { color: var(--gold); }
+
+    /* HERO */
+    .post-hero {
+      padding: 120px 0 64px;
+      background: linear-gradient(180deg, #131620 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .container { max-width: 740px; margin: 0 auto; padding: 0 32px; }
+
+    .post-meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .post-tag {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); background: var(--gold-dim); border: 1px solid rgba(201,169,110,0.2);
+      padding: 4px 10px; border-radius: 4px;
+    }
+    .post-date, .post-read { font-size: 0.8rem; color: var(--text-dim); }
+    .meta-dot { color: var(--border); }
+
+    .post-title {
+      font-family: var(--font-serif); font-size: clamp(1.9rem, 5vw, 2.8rem);
+      font-weight: 700; line-height: 1.2; color: var(--text); margin-bottom: 20px;
+    }
+    .post-lede {
+      font-size: 1.08rem; color: var(--text-muted); line-height: 1.75;
+      border-left: 3px solid var(--gold); padding-left: 20px; font-style: italic;
+    }
+
+    /* BODY */
+    .post-body { padding: 64px 0 96px; }
+
+    .post-body h2 {
+      font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700;
+      color: var(--gold-light); margin: 56px 0 18px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .post-body p { margin-bottom: 18px; color: var(--text); font-size: 1rem; line-height: 1.8; }
+    .post-body ul, .post-body ol { margin: 0 0 18px 22px; color: var(--text); }
+    .post-body li { margin-bottom: 8px; line-height: 1.7; }
+    .post-body strong { color: var(--gold-light); font-weight: 600; }
+    .post-body em { color: var(--text-muted); font-style: italic; }
+
+    /* PULL QUOTE */
+    .pull-quote {
+      margin: 40px 0; padding: 28px 32px;
+      border-left: 4px solid var(--gold);
+      background: var(--gold-dim);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .pull-quote p {
+      font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.65;
+      color: var(--gold-light); margin: 0; font-style: italic;
+    }
+
+    /* SECTION DIVIDER */
+    .section-divider {
+      display: flex; align-items: center; gap: 16px;
+      margin: 56px 0 0; padding-top: 28px;
+      border-top: 1px solid var(--border);
+    }
+    .section-num {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500;
+      color: var(--teal); letter-spacing: 0.12em; flex-shrink: 0;
+      background: var(--teal-dim); border: 1px solid rgba(74,158,191,0.2);
+      padding: 3px 9px; border-radius: 4px;
+    }
+    .section-title {
+      font-family: var(--font-serif); font-size: 1.3rem; font-weight: 700; color: var(--text);
+    }
+
+    /* CALLOUTS */
+    .callout {
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 20px; margin: 24px 0;
+    }
+    .callout-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .callout p { margin: 0; font-size: 0.93rem; }
+    .callout ul { margin: 0 0 0 18px; }
+    .callout li { margin-bottom: 4px; font-size: 0.93rem; }
+    .callout--tip {
+      background: var(--teal-dim); border: 1px solid rgba(74,158,191,0.2);
+      border-left: 3px solid var(--teal);
+    }
+    .callout--tip .callout-label { color: var(--teal); }
+    .callout--warn {
+      background: var(--mauve-dim); border: 1px solid rgba(139,74,82,0.2);
+      border-left: 3px solid var(--mauve);
+    }
+    .callout--warn .callout-label { color: var(--mauve); }
+
+    /* STACK LIST */
+    .stack-list {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 24px; margin: 20px 0;
+    }
+    .stack-list dt {
+      font-family: var(--font-mono); font-size: 0.82rem; color: var(--gold);
+      font-weight: 500; margin-bottom: 4px;
+    }
+    .stack-list dd {
+      font-size: 0.92rem; color: var(--text-muted); margin: 0 0 16px 0;
+      padding-left: 0;
+    }
+    .stack-list dd:last-child { margin-bottom: 0; }
+
+    /* DIAGRAM */
+    .diagram-wrap {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg-alt); padding: 24px 20px 16px;
+      overflow-x: auto; margin: 28px 0;
+    }
+    .diagram-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 18px;
+    }
+
+    /* COMPARISON GRID */
+    .compare-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;
+    }
+    .compare-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+    }
+    .compare-card.bad { border-color: rgba(139,74,82,0.4); }
+    .compare-card.good { border-color: rgba(74,158,191,0.4); }
+    .compare-card-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+    .compare-card.bad  .compare-card-label { color: var(--mauve); }
+    .compare-card.good .compare-card-label { color: var(--teal); }
+    .compare-card ul { margin: 0 0 0 16px; }
+    .compare-card li { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 6px; }
+
+    /* SUMMARY TABLE */
+    .table-wrap { overflow-x: auto; margin: 24px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th {
+      text-align: left; padding: 9px 16px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-dim); border-bottom: 1px solid var(--border);
+    }
+    td { padding: 11px 16px; border-bottom: 1px solid rgba(42,45,58,0.5); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { color: var(--gold); font-family: var(--font-mono); font-size: 0.82rem; font-weight: 500; white-space: nowrap; }
+    td:nth-child(2) { color: var(--text-muted); font-size: 0.88rem; }
+    td:nth-child(3) { color: var(--text-dim); font-size: 0.85rem; }
+
+    /* CLOSING QUOTE */
+    .closing-line {
+      margin: 48px 0 0; padding: 24px 0 0;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-serif); font-size: 1.1rem;
+      color: var(--text-muted); font-style: italic; text-align: center;
+    }
+
+    /* FOOTER */
+    .post-footer { padding: 48px 0 64px; border-top: 1px solid var(--border); text-align: center; }
+    .back-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 40px; padding: 10px 22px;
+      font-size: 0.85rem; color: var(--text-muted); transition: all var(--transition);
+    }
+    .back-pill:hover { border-color: var(--gold); color: var(--gold); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .post-hero { padding: 96px 0 48px; }
+      .post-body { padding: 40px 0 64px; }
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="../index.html" class="nav-logo">JOE</a>
+    <div class="nav-links">
+      <a href="../index.html#about">About</a>
+      <a href="../case-studies.html">Case Studies</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <a href="../blog.html" class="nav-back">&#8592; Blog</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="post-hero">
+    <div class="container">
+      <div class="post-meta-row">
+        <span class="post-tag">Article</span>
+        <span class="post-date">2025</span>
+        <span class="meta-dot">·</span>
+        <span class="post-read">12 min read</span>
+      </div>
+      <h1 class="post-title">The System Design Masterclass: Turning Raw Data into Decision Intelligence</h1>
+      <p class="post-lede">Most systems collect data. Very few turn it into something people can act on.</p>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <article class="post-body">
+    <div class="container">
+
+      <!-- TOC -->
+      <div class="toc" role="navigation" aria-label="Table of contents" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;margin:40px 0 48px;">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;">In this article</div>
+        <ol style="margin:0 0 0 18px;">
+          <li style="margin-bottom:6px;"><a href="#gap" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">The gap most teams never close</a></li>
+          <li style="margin-bottom:6px;"><a href="#what-is-di" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">What decision intelligence actually means</a></li>
+          <li style="margin-bottom:6px;"><a href="#layer1" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">Layer 1: Data collection with intent</a></li>
+          <li style="margin-bottom:6px;"><a href="#layer2" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">Layer 2: Storage aligned to query patterns</a></li>
+          <li style="margin-bottom:6px;"><a href="#layer3" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">Layer 3: The transformation pipeline</a></li>
+          <li style="margin-bottom:6px;"><a href="#layer4" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">Layer 4: The signal layer</a></li>
+          <li style="margin-bottom:6px;"><a href="#layer5" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">Layer 5: The decision interface</a></li>
+          <li style="margin-bottom:6px;"><a href="#layer6" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">Layer 6: Feedback loops</a></li>
+          <li style="margin-bottom:6px;"><a href="#mental-model" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">The stack mental model</a></li>
+          <li style="margin-bottom:0;"><a href="#hard-part" style="color:var(--text-muted);font-size:0.875rem;text-decoration:none;">The hardest part nobody talks about</a></li>
+        </ol>
+      </div>
+
+      <!-- OPENING -->
+      <p id="gap">
+        There is a moment every engineer eventually hits. The database is humming, the pipelines are running, the dashboards are green. Data is flowing in from every surface of the product. And yet, someone in a meeting asks a simple question: "Why did retention drop last month?" and the room goes quiet.
+      </p>
+      <p>
+        Not because the data does not exist. It absolutely does. Somewhere in a Redshift cluster or a Snowflake warehouse, the answer is buried under seventeen tables and three joins. The problem is that nobody designed the system to surface answers. They designed it to store facts.
+      </p>
+
+      <div class="pull-quote">
+        <p>That is the gap most teams never close. Turning raw data into decision intelligence is one of the hardest, most underappreciated problems in modern software design.</p>
+      </div>
+
+      <!-- DIAGRAM: the gap -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">The Gap Between Data and Decisions</div>
+        <svg viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;display:block;">
+          <defs>
+            <marker id="arr1" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+            </marker>
+            <marker id="arr2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#C9A96E"/>
+            </marker>
+          </defs>
+          <!-- Data side -->
+          <rect x="8" y="24" width="130" height="72" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.2"/>
+          <text x="73" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#6B6560">DATABASE</text>
+          <text x="73" y="64" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">17 tables</text>
+          <text x="73" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">3 joins</text>
+          <text x="73" y="92" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">buried answers</text>
+
+          <!-- Gap zone -->
+          <rect x="158" y="36" width="284" height="48" rx="6" fill="rgba(139,74,82,0.07)" stroke="rgba(139,74,82,0.25)" stroke-dasharray="5 3"/>
+          <text x="300" y="56" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#8B4A52">THE GAP</text>
+          <text x="300" y="72" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">no routing · no context · no signal</text>
+
+          <!-- Decision side -->
+          <rect x="462" y="24" width="130" height="72" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="527" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#6B6560">DECISION MAKER</text>
+          <text x="527" y="64" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">needs an answer</text>
+          <text x="527" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">now</text>
+
+          <line x1="139" y1="60" x2="156" y2="60" stroke="#8B4A52" stroke-width="1.5" stroke-dasharray="3 2"/>
+          <line x1="443" y1="60" x2="460" y2="60" stroke="#8B4A52" stroke-width="1.5" stroke-dasharray="3 2"/>
+        </svg>
+      </div>
+
+      <!-- WHAT IS DI -->
+      <h2 id="what-is-di">What "Decision Intelligence" Actually Means</h2>
+      <p>
+        Decision intelligence is not a buzzword for analytics. Analytics tells you what happened. Decision intelligence tells you what to do next, or at minimum, narrows the decision space significantly so a human can act fast with confidence.
+      </p>
+      <p>The difference is structural.</p>
+
+      <div class="compare-grid">
+        <div class="compare-card bad">
+          <div class="compare-card-label">Analytics system</div>
+          <ul>
+            <li>Generates reports</li>
+            <li>Stores facts</li>
+            <li>Passive: someone has to go look</li>
+            <li>Like a library</li>
+          </ul>
+        </div>
+        <div class="compare-card good">
+          <div class="compare-card-label">Decision intelligence system</div>
+          <ul>
+            <li>Produces signals</li>
+            <li>Routes to the right person</li>
+            <li>Active: comes to you with context</li>
+            <li>Like a briefing</li>
+          </ul>
+        </div>
+      </div>
+
+
+      <!-- LAYER 1 -->
+      <div class="section-divider" id="layer1">
+        <span class="section-num">LAYER 01</span>
+        <span class="section-title">Data Collection with Intent</span>
+      </div>
+
+      <p>Here is where most systems go wrong from the start. Engineers instrument everything they can measure, not everything they need to know.</p>
+      <p>The right question to ask before placing any tracking call, before designing any schema:</p>
+
+      <div class="pull-quote">
+        <p>What decision will this data support?</p>
+      </div>
+
+      <p>If you cannot name a specific decision, do not collect it. Data without a decision owner is technical debt disguised as infrastructure investment.</p>
+
+      <!-- DIAGRAM: decision matrix -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Backward Trace: From Decision to Instrumentation</div>
+        <svg viewBox="0 0 580 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;display:block;">
+          <defs>
+            <marker id="arr3" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#C9A96E"/>
+            </marker>
+          </defs>
+
+          <!-- Top: decisions -->
+          <rect x="8"   y="8" width="110" height="38" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="63"  y="25" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Retention</text>
+          <text x="63"  y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Decision</text>
+
+          <rect x="130" y="8" width="110" height="38" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="185" y="25" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Pricing</text>
+          <text x="185" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Decision</text>
+
+          <rect x="252" y="8" width="110" height="38" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="307" y="25" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Growth</text>
+          <text x="307" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Decision</text>
+
+          <rect x="374" y="8" width="110" height="38" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="429" y="25" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Support</text>
+          <text x="429" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Prioritisation</text>
+
+          <!-- Arrow down: backward trace -->
+          <text x="290" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">backward trace: "what data would make this easier?"</text>
+          <line x1="63"  y1="47" x2="63"  y2="110" stroke="#C9A96E" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr3)"/>
+          <line x1="185" y1="47" x2="185" y2="110" stroke="#C9A96E" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr3)"/>
+          <line x1="307" y1="47" x2="307" y2="110" stroke="#C9A96E" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr3)"/>
+          <line x1="429" y1="47" x2="429" y2="110" stroke="#C9A96E" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr3)"/>
+
+          <!-- Bottom: events -->
+          <rect x="8"   y="112" width="110" height="38" rx="7" fill="#162018" stroke="#2A4020"/>
+          <text x="63"  y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">session_end</text>
+          <text x="63"  y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">feature_drop</text>
+
+          <rect x="130" y="112" width="110" height="38" rx="7" fill="#162018" stroke="#2A4020"/>
+          <text x="185" y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">plan_viewed</text>
+          <text x="185" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">upgrade_intent</text>
+
+          <rect x="252" y="112" width="110" height="38" rx="7" fill="#162018" stroke="#2A4020"/>
+          <text x="307" y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">referral_click</text>
+          <text x="307" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">invite_sent</text>
+
+          <rect x="374" y="112" width="110" height="38" rx="7" fill="#162018" stroke="#2A4020"/>
+          <text x="429" y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">error_rate</text>
+          <text x="429" y="142" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">ticket_volume</text>
+        </svg>
+      </div>
+
+      <div class="callout callout--tip">
+        <div class="callout-label">Practical Pattern</div>
+        <p>Build a data contract layer between instrumentation and storage. Every event schema must have an owner, a use case, and a retention policy. Without all three, the event does not ship.</p>
+      </div>
+
+
+      <!-- LAYER 2 -->
+      <div class="section-divider" id="layer2">
+        <span class="section-num">LAYER 02</span>
+        <span class="section-title">Storage Architecture Aligned to Query Patterns</span>
+      </div>
+
+      <p>The mistake teams make is treating storage as a "put it all in one place and figure it out later" problem. Later always costs more.</p>
+      <p>How you store data should reflect how you will read it, not how it was written. Your operational database is optimised for writes and point lookups. Your analytical store should be optimised for scans, aggregations, and joins across time. These are fundamentally different workloads.</p>
+
+      <!-- DIAGRAM: storage layers -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Standard Data Stack Layers</div>
+        <svg viewBox="0 0 580 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:580px;display:block;">
+          <defs>
+            <marker id="arr4" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+            </marker>
+          </defs>
+
+          <!-- OLTP -->
+          <rect x="8" y="8" width="180" height="52" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="20" y="28" font-family="DM Mono,monospace" font-size="9" fill="#C9A96E">OLTP</text>
+          <text x="20" y="42" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Postgres / MySQL</text>
+          <text x="20" y="55" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">writes · point lookups · transactions</text>
+
+          <!-- Event Stream -->
+          <rect x="8" y="78" width="180" height="52" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="20" y="98" font-family="DM Mono,monospace" font-size="9" fill="#C9A96E">EVENT STREAM</text>
+          <text x="20" y="112" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Kafka / Kinesis</text>
+          <text x="20" y="125" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">CDC · real-time subscriptions</text>
+
+          <!-- OLAP -->
+          <rect x="8" y="148" width="180" height="52" rx="8" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+          <text x="20" y="168" font-family="DM Mono,monospace" font-size="9" fill="#4A9EBF">OLAP</text>
+          <text x="20" y="182" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Snowflake / BigQuery / ClickHouse</text>
+          <text x="20" y="196" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">analytical queries · dashboards · ML</text>
+
+          <!-- Feature Store -->
+          <rect x="8" y="218" width="180" height="14" rx="4" fill="#1A1D27" stroke="#8B4A52" stroke-width="1"/>
+          <text x="98" y="228" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#8B4A52">Feature Store (Feast / Tecton)</text>
+
+          <!-- Arrows left side -->
+          <line x1="98" y1="61"  x2="98" y2="76"  stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <line x1="98" y1="131" x2="98" y2="146" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <line x1="98" y1="201" x2="98" y2="216" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr4)"/>
+
+          <!-- Right side: consumers -->
+          <rect x="260" y="8"   width="140" height="36" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="330" y="24"  text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Transactional App</text>
+          <text x="330" y="37"  text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">reads from OLTP</text>
+
+          <rect x="260" y="64"  width="140" height="36" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="330" y="80"  text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Real-time Decisions</text>
+          <text x="330" y="93"  text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">subscribes from stream</text>
+
+          <rect x="260" y="120" width="140" height="36" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="330" y="136" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">BI / Dashboards</text>
+          <text x="330" y="149" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">reads from OLAP</text>
+
+          <rect x="260" y="176" width="140" height="36" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="330" y="192" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">ML Models</text>
+          <text x="330" y="205" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">training + serving features</text>
+
+          <!-- Horizontal connectors -->
+          <line x1="189" y1="26"  x2="258" y2="26"  stroke="#4A9EBF" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr4)"/>
+          <line x1="189" y1="82"  x2="258" y2="82"  stroke="#4A9EBF" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr4)"/>
+          <line x1="189" y1="138" x2="258" y2="138" stroke="#4A9EBF" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr4)"/>
+          <line x1="189" y1="194" x2="258" y2="194" stroke="#4A9EBF" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr4)"/>
+        </svg>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout-label">Common Mistake</div>
+        <p>Skipping the feature store is one of the most painful sources of model degradation in production. Teams spend months debugging discrepancies between offline performance and online behaviour, not realising their training data and serving data were computed differently.</p>
+      </div>
+
+
+      <!-- LAYER 3 -->
+      <div class="section-divider" id="layer3">
+        <span class="section-num">LAYER 03</span>
+        <span class="section-title">The Transformation Pipeline</span>
+      </div>
+
+      <p>Raw data is almost never decision-ready. Between collection and consumption sits transformation, and this is where the architecture either creates leverage or creates fragility.</p>
+      <p>Transformations should be versioned, tested, documented, and owned like software. Not buried in a Jupyter notebook someone wrote eighteen months ago that nobody can find.</p>
+
+      <!-- DIAGRAM: transformation layers -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Layered Transformation Model (dbt-style)</div>
+        <svg viewBox="0 0 540 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:540px;display:block;">
+          <defs>
+            <marker id="arr5" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+            </marker>
+          </defs>
+          <rect x="4"   y="18" width="100" height="44" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="54"  y="36" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#6B6560">RAW</text>
+          <text x="54"  y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">ingest only</text>
+
+          <rect x="120" y="18" width="100" height="44" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="170" y="36" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#C9A96E">STAGING</text>
+          <text x="170" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">clean · rename</text>
+
+          <rect x="236" y="18" width="100" height="44" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="286" y="36" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#C9A96E">INTERMEDIATE</text>
+          <text x="286" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">business logic</text>
+
+          <rect x="352" y="18" width="100" height="44" rx="7" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+          <text x="402" y="36" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4A9EBF">MART</text>
+          <text x="402" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">decision-ready</text>
+
+          <rect x="468" y="18" width="68" height="44" rx="7" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+          <text x="502" y="36" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">Consumer</text>
+          <text x="502" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">BI / ML</text>
+
+          <line x1="105" y1="40" x2="118" y2="40" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr5)"/>
+          <line x1="221" y1="40" x2="234" y2="40" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr5)"/>
+          <line x1="337" y1="40" x2="350" y2="40" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr5)"/>
+          <line x1="453" y1="40" x2="466" y2="40" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr5)"/>
+        </svg>
+      </div>
+
+      <p>A few principles that hold across every mature data stack:</p>
+      <ul>
+        <li><strong>Idempotency is non-negotiable.</strong> Every transformation must produce the same output if run twice on the same input. If your pipelines are not idempotent, you will debug midnight data corruption issues and blame the source system when the pipeline itself is the problem.</li>
+        <li><strong>Test your data, not just your code.</strong> Schema tests catch broken contracts early. Freshness tests catch silent pipeline failures. Uniqueness tests catch duplicate fan-out bugs that inflate every metric and take weeks to diagnose in production.</li>
+      </ul>
+
+
+      <!-- LAYER 4 -->
+      <div class="section-divider" id="layer4">
+        <span class="section-num">LAYER 04</span>
+        <span class="section-title">The Signal Layer</span>
+      </div>
+
+      <p>This is the part of the architecture most teams skip entirely, and the reason their systems produce data but not intelligence.</p>
+      <p>A signal is a piece of processed information that has crossed a meaningful threshold and been routed to someone with the authority to act on it.</p>
+
+      <div class="compare-grid">
+        <div class="compare-card bad">
+          <div class="compare-card-label">Report (not a signal)</div>
+          <ul>
+            <li>Dashboard shows churn scores updated daily at 6 AM</li>
+            <li>Passive: someone has to remember to check</li>
+            <li>No context attached</li>
+            <li>No action path</li>
+          </ul>
+        </div>
+        <div class="compare-card good">
+          <div class="compare-card-label">Signal (actionable)</div>
+          <ul>
+            <li>When churn risk &gt; 0.7, Slack fires to account manager</li>
+            <li>Includes: last 5 actions, contract value, renewal playbook link</li>
+            <li>Context built in</li>
+            <li>One click to act</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- DIAGRAM: signal routing -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Signal Design: Four Questions</div>
+        <svg viewBox="0 0 560 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;display:block;">
+          <defs>
+            <marker id="arr6" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#C9A96E"/>
+            </marker>
+          </defs>
+
+          <!-- Centre: insight -->
+          <rect x="210" y="56" width="140" height="48" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.5"/>
+          <text x="280" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Processed</text>
+          <text x="280" y="90" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Insight</text>
+          <text x="280" y="103" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#6B6560">threshold crossed</text>
+
+          <!-- Four satellite boxes -->
+          <rect x="4"   y="12"  width="120" height="40" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="64"  y="28"  text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Who needs</text>
+          <text x="64"  y="42"  text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">to know?</text>
+
+          <rect x="436" y="12"  width="120" height="40" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="496" y="28"  text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">When do they</text>
+          <text x="496" y="42"  text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">need to know?</text>
+
+          <rect x="4"   y="108" width="120" height="40" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="64"  y="124" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">What context</text>
+          <text x="64"  y="138" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">to act?</text>
+
+          <rect x="436" y="108" width="120" height="40" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="496" y="124" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">What action</text>
+          <text x="496" y="138" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">should follow?</text>
+
+          <!-- Lines to centre -->
+          <line x1="125" y1="32"  x2="208" y2="68"  stroke="#C9A96E" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr6)"/>
+          <line x1="437" y1="32"  x2="352" y2="68"  stroke="#C9A96E" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr6)"/>
+          <line x1="125" y1="128" x2="208" y2="92"  stroke="#C9A96E" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr6)"/>
+          <line x1="437" y1="128" x2="352" y2="92"  stroke="#C9A96E" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#arr6)"/>
+        </svg>
+      </div>
+
+      <div class="callout callout--tip">
+        <div class="callout-label">Signal Routing Patterns</div>
+        <ul>
+          <li><strong>Threshold alerts</strong> go to whoever owns the metric</li>
+          <li><strong>Composite signals</strong> (multiple conditions simultaneously) should escalate</li>
+          <li><strong>Time-decay signals</strong> (metric declining N consecutive periods) need different routing than point-in-time crosses: the urgency and the appropriate response differ</li>
+        </ul>
+      </div>
+
+
+      <!-- LAYER 5 -->
+      <div class="section-divider" id="layer5">
+        <span class="section-num">LAYER 05</span>
+        <span class="section-title">The Decision Interface</span>
+      </div>
+
+      <p>Data reaches people through interfaces. The quality of the interface determines whether the data actually changes behaviour.</p>
+      <p>Most dashboards are designed by engineers to show data. The best decision interfaces are designed around the decision itself.</p>
+
+      <!-- DIAGRAM: good vs bad interface -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Decision Interface Design</div>
+        <svg viewBox="0 0 560 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;display:block;">
+
+          <!-- Bad dashboard -->
+          <rect x="8" y="8" width="250" height="174" rx="8" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.2"/>
+          <text x="133" y="26" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#8B4A52">BAD: Shows Everything</text>
+
+          <!-- 17 equal-size metric blocks -->
+          <rect x="18"  y="34" width="52" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="76"  y="34" width="52" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="134" y="34" width="52" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="192" y="34" width="58" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="18"  y="68" width="52" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="76"  y="68" width="52" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="134" y="68" width="52" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="192" y="68" width="58" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="18"  y="102" width="52" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="76"  y="102" width="52" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="134" y="102" width="52" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="192" y="102" width="58" height="28" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <text x="133" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">17 metrics, equal size</text>
+          <text x="133" y="167" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">no action path, no context</text>
+          <text x="133" y="179" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#8B4A52">unchanged behaviour</text>
+
+          <!-- Good dashboard -->
+          <rect x="302" y="8" width="250" height="174" rx="8" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+          <text x="427" y="26" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#4A9EBF">GOOD: Built Around the Decision</text>
+
+          <!-- Hero metric -->
+          <rect x="314" y="34" width="226" height="44" rx="6" fill="#162018" stroke="#2A4020"/>
+          <text x="427" y="52" text-anchor="middle" font-family="DM Mono,monospace" font-size="14" fill="#C9A96E">-12%</text>
+          <text x="427" y="68" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">Monthly retention  (key metric, prominent)</text>
+
+          <!-- Trend bar -->
+          <rect x="314" y="84"  width="226" height="16" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <rect x="314" y="84"  width="150" height="16" rx="4" fill="#8B4A52" opacity="0.5"/>
+          <text x="427" y="111" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">trend: 3 consecutive declines</text>
+
+          <!-- Context line -->
+          <rect x="314" y="118" width="226" height="22" rx="4" fill="#131620" stroke="#2A2D3A"/>
+          <text x="427" y="132" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Context: onboarding drop-off up 18% this period</text>
+
+          <!-- Action button -->
+          <rect x="356" y="148" width="142" height="24" rx="12" fill="#C9A96E" opacity="0.15" stroke="#C9A96E" stroke-width="1"/>
+          <text x="427" y="163" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">View onboarding funnel &#8594;</text>
+
+          <text x="427" y="185" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#4A9EBF">one click to action</text>
+        </svg>
+      </div>
+
+      <p>For any decision surface, the design must answer: what does the person already believe when they arrive here, what data challenges or confirms that belief, and what action does this screen make possible?</p>
+
+      <div class="callout callout--warn">
+        <div class="callout-label">The Hardest Design Constraint</div>
+        <p>Resist the urge to show everything. Data teams have everything. Decision-makers need the right thing. Curation is a design skill, and it matters as much as engineering correctness.</p>
+      </div>
+
+
+      <!-- LAYER 6 -->
+      <div class="section-divider" id="layer6">
+        <span class="section-num">LAYER 06</span>
+        <span class="section-title">Feedback Loops Back into the System</span>
+      </div>
+
+      <p>A system that outputs decisions without capturing the results of those decisions will never improve. This is where most architectures stop short of true intelligence.</p>
+      <p>Every decision your system helps make should generate a feedback event. Did the account manager reach out? Did the customer renew? Was the churn score actually predictive?</p>
+
+      <!-- DIAGRAM: feedback loop -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Closed-Loop Learning System</div>
+        <svg viewBox="0 0 520 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;">
+          <defs>
+            <marker id="arr7" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+            </marker>
+            <marker id="arr8" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#C9A96E"/>
+            </marker>
+          </defs>
+
+          <!-- Forward flow boxes -->
+          <rect x="8"   y="56" width="90"  height="48" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="53"  y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Prediction</text>
+          <text x="53"  y="90" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">/ Signal</text>
+
+          <rect x="122" y="56" width="90"  height="48" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="167" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Human</text>
+          <text x="167" y="90" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Decision</text>
+
+          <rect x="236" y="56" width="90"  height="48" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="281" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Action</text>
+          <text x="281" y="90" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#C9A96E">Taken</text>
+
+          <rect x="350" y="56" width="90"  height="48" rx="8" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+          <text x="395" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#4A9EBF">Outcome</text>
+          <text x="395" y="90" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#4A9EBF">Observed</text>
+
+          <rect x="464" y="56" width="50"  height="48" rx="8" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+          <text x="489" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">Feed</text>
+          <text x="489" y="90" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">back</text>
+
+          <!-- Forward arrows -->
+          <line x1="99"  y1="80" x2="120" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr7)"/>
+          <line x1="213" y1="80" x2="234" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr7)"/>
+          <line x1="327" y1="80" x2="348" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr7)"/>
+          <line x1="441" y1="80" x2="462" y2="80" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#arr7)"/>
+
+          <!-- Feedback arc -->
+          <path d="M 489 105 Q 489 140 248 140 Q 8 140 8 105" fill="none" stroke="#C9A96E" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr8)"/>
+          <text x="248" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#C9A96E" opacity="0.8">retrain · recalibrate · improve</text>
+        </svg>
+      </div>
+
+      <div class="callout callout--warn">
+        <div class="callout-label">The Most Common Mistake</div>
+        <p>Feedback architecture is typically an afterthought. Teams ship the prediction, celebrate the launch, and move on. Six months later the model is stale and nobody knows it because there is no mechanism to measure model drift against real outcomes. Build the feedback loop before you ship the model.</p>
+      </div>
+
+
+      <!-- MENTAL MODEL -->
+      <h2 id="mental-model">The Stack Mental Model</h2>
+      <p>When designing a system meant to produce decision intelligence, think in six layers. Skipping any one does not just weaken that layer: it prevents the layers above from working as intended.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>What it does</th>
+              <th>Failure if skipped</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>01 Collect</td>
+              <td>Instrument decisions, not just events</td>
+              <td>Data without owners, noise without signal</td>
+            </tr>
+            <tr>
+              <td>02 Store</td>
+              <td>Separate OLTP, stream, OLAP, feature store</td>
+              <td>Degraded performance on every workload</td>
+            </tr>
+            <tr>
+              <td>03 Transform</td>
+              <td>Versioned, tested, layered pipelines</td>
+              <td>Silent failures and undetectable drift</td>
+            </tr>
+            <tr>
+              <td>04 Signal</td>
+              <td>Route thresholds to people with context</td>
+              <td>Reports nobody checks, actions nobody takes</td>
+            </tr>
+            <tr>
+              <td>05 Surface</td>
+              <td>Interfaces designed around the decision</td>
+              <td>Data that informs but does not change behaviour</td>
+            </tr>
+            <tr>
+              <td>06 Learn</td>
+              <td>Capture outcomes, close the accuracy loop</td>
+              <td>Models that decay silently after launch</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <!-- HARD PART -->
+      <h2 id="hard-part">The Hardest Part Nobody Talks About</h2>
+      <p>None of this is primarily a technical problem.</p>
+      <p>The hardest part of building decision intelligence systems is getting agreement on what decisions matter, who owns them, and what a good decision looks like. The organisational clarity has to precede the technical architecture.</p>
+      <p>Teams that skip that work build technically sophisticated systems that route the wrong signals to the wrong people at the wrong time. They end up with beautiful infrastructure and unchanged behaviour.</p>
+
+      <div class="pull-quote">
+        <p>The architecture reflects the decisions. Before designing any layer, get the people who make decisions in a room, map those decisions explicitly, and let that map drive every technical choice downstream.</p>
+      </div>
+
+      <p>That is the masterclass. Not the tooling, not the stack, not the framework. The discipline to design a system around what needs to happen, not around what is easy to measure.</p>
+
+      <p class="closing-line">The gap between data and decisions is a design problem. Start there.</p>
+
+    </div>
+  </article>
+
+  <!-- FOOTER -->
+  <footer class="post-footer">
+    <div class="container">
+      <a href="../blog.html" class="back-pill">&#8592; Back to Blog</a>
+    </div>
+  </footer>
+
+</body>
+</html>
