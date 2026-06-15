@@ -67,6 +67,7 @@ var DATA = {
       stack: ["Next.js", "FastAPI", "Python", "Vercel"],
       liveUrl: "https://cpna-eval-one.vercel.app/",
       caseStudyId: null,
+      blogUrl: "blog/cpna-eval.html",
       featured: true,
       personal: true
     },
@@ -310,6 +311,19 @@ var DATA = {
   // For local HTML: set filePath, leave url null
   // For videos: set videoFile (filename in resources/videos/) OR videoUrl for external
   blogPosts: [
+    {
+      id: "cpna-eval",
+      type: "article",
+      title: "I Built a Full-Stack AI Evaluation Platform for a Clinical Pediatric Nutrition Assistant",
+      excerpt: "AI builders celebrate the demo. I built the system that catches what the demo hides: five evaluator modules, 10 canonical E2E scenarios, 12 dashboard surfaces, and one live run that revealed six things automated checks missed entirely.",
+      date: "2026",
+      readTime: "18 min read",
+      tags: ["AI Evaluation", "Clinical AI", "RAG", "Product Management", "Agentic Systems"],
+      url: null,
+      filePath: "blog/cpna-eval.html",
+      videoFile: null,
+      videoUrl: null
+    },
     {
       id: "decision-intelligence",
       type: "article",

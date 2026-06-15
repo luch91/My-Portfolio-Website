@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="How I built a full-stack AI evaluation platform for CPNA, a clinical pediatric nutrition assistant — by Judith Oluchi Ekeleme." />
+  <title>I Built a Full-Stack AI Evaluation Platform for a Clinical Pediatric Nutrition Assistant — Judith Oluchi Ekeleme</title>
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="shortcut icon" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0F1117;
+      --bg-alt:     #131620;
+      --surface:    #1A1D27;
+      --border:     #2A2D3A;
+      --gold:       #C9A96E;
+      --gold-light: #E2C48A;
+      --gold-dim:   rgba(201,169,110,0.12);
+      --mauve:      #8B4A52;
+      --mauve-dim:  rgba(139,74,82,0.12);
+      --teal:       #4A9EBF;
+      --teal-dim:   rgba(74,158,191,0.12);
+      --green:      #4A9E6E;
+      --green-dim:  rgba(74,158,110,0.12);
+      --text:       #F5F0E8;
+      --text-muted: #9A9585;
+      --text-dim:   #6B6560;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-mono:  'DM Mono', 'Fira Code', monospace;
+      --radius:     12px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.75; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--gold-dim); color: var(--gold-light); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-back { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color var(--transition); }
+    .nav-back:hover { color: var(--gold); }
+
+    /* HERO */
+    .post-hero {
+      padding: 120px 0 64px;
+      background: linear-gradient(180deg, #131620 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .container { max-width: 740px; margin: 0 auto; padding: 0 32px; }
+
+    .post-meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .post-tag {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); background: var(--gold-dim); border: 1px solid rgba(201,169,110,0.2);
+      padding: 4px 10px; border-radius: 4px;
+    }
+    .post-date, .post-read { font-size: 0.8rem; color: var(--text-dim); }
+    .meta-dot { color: var(--border); }
+
+    .post-title {
+      font-family: var(--font-serif); font-size: clamp(1.8rem, 4.5vw, 2.7rem);
+      font-weight: 700; line-height: 1.2; color: var(--text); margin-bottom: 20px;
+    }
+    .post-lede {
+      font-size: 1.08rem; color: var(--text-muted); line-height: 1.75;
+      border-left: 3px solid var(--gold); padding-left: 20px;
+    }
+
+    /* BODY */
+    .post-body { padding: 64px 0 96px; }
+    .post-body h2 {
+      font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700;
+      color: var(--gold-light); margin: 56px 0 18px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .post-body h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin: 32px 0 10px; }
+    .post-body p { margin-bottom: 16px; color: var(--text); font-size: 1rem; line-height: 1.8; }
+    .post-body ul, .post-body ol { margin: 0 0 16px 22px; color: var(--text); }
+    .post-body li { margin-bottom: 7px; line-height: 1.7; }
+    .post-body strong { color: var(--gold-light); font-weight: 600; }
+
+    /* TOC */
+    .toc {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px 28px; margin: 40px 0 48px;
+    }
+    .toc-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
+    .toc ol { margin: 0 0 0 18px; }
+    .toc li { margin-bottom: 6px; }
+    .toc a { color: var(--text-muted); font-size: 0.875rem; transition: color var(--transition); }
+    .toc a:hover { color: var(--gold); }
+
+    /* PULL QUOTE */
+    .pull-quote {
+      margin: 36px 0; padding: 24px 28px;
+      border-left: 4px solid var(--gold);
+      background: var(--gold-dim); border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .pull-quote p { font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.65; color: var(--gold-light); margin: 0; font-style: italic; }
+
+    /* VIDEO */
+    .video-wrap {
+      margin: 36px 0; border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border); background: #000;
+    }
+    .video-wrap video { width: 100%; display: block; max-height: 480px; }
+    .video-caption { padding: 10px 16px; background: var(--surface); font-size: 0.78rem; color: var(--text-dim); border-top: 1px solid var(--border); }
+
+    /* DIAGRAM */
+    .diagram-wrap {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      background: var(--bg-alt); padding: 24px 20px 16px;
+      overflow-x: auto; margin: 28px 0;
+    }
+    .diagram-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 18px; }
+
+    /* SECTION DIVIDER */
+    .section-divider { display: flex; align-items: baseline; gap: 14px; margin: 52px 0 18px; padding-top: 28px; border-top: 1px solid var(--border); }
+    .section-num {
+      font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500;
+      color: var(--teal); letter-spacing: 0.12em; flex-shrink: 0;
+      background: var(--teal-dim); border: 1px solid rgba(74,158,191,0.2);
+      padding: 3px 9px; border-radius: 4px;
+    }
+    .section-title { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 700; color: var(--text); }
+
+    /* CALLOUTS */
+    .callout { border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 20px; margin: 20px 0; }
+    .callout-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 7px; }
+    .callout p { margin: 0; font-size: 0.93rem; }
+    .callout ul { margin: 0 0 0 18px; }
+    .callout li { margin-bottom: 4px; font-size: 0.93rem; }
+    .callout--tip { background: var(--teal-dim); border: 1px solid rgba(74,158,191,0.2); border-left: 3px solid var(--teal); }
+    .callout--tip .callout-label { color: var(--teal); }
+    .callout--warn { background: var(--mauve-dim); border: 1px solid rgba(139,74,82,0.2); border-left: 3px solid var(--mauve); }
+    .callout--warn .callout-label { color: var(--mauve); }
+    .callout--pass { background: var(--green-dim); border: 1px solid rgba(74,158,110,0.2); border-left: 3px solid var(--green); }
+    .callout--pass .callout-label { color: var(--green); }
+
+    /* SCENARIO CARD */
+    .scenario-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px 24px; margin: 20px 0;
+    }
+    .scenario-id {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--teal);
+      letter-spacing: 0.1em; margin-bottom: 4px;
+    }
+    .scenario-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .scenario-input {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px; font-family: var(--font-mono); font-size: 0.82rem;
+      color: var(--gold); margin-bottom: 14px;
+    }
+    .scenario-section-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin: 12px 0 6px; }
+
+    /* SCORE GRID */
+    .score-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 24px 0; }
+    .score-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px 12px; text-align: center;
+    }
+    .score-value { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--green); line-height: 1; margin-bottom: 6px; }
+    .score-label { font-size: 0.72rem; color: var(--text-dim); line-height: 1.3; }
+
+    /* FINDINGS */
+    .finding {
+      background: var(--bg-alt); border-left: 3px solid var(--mauve);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 18px 22px; margin: 20px 0;
+    }
+    .finding-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--mauve); letter-spacing: 0.1em; margin-bottom: 6px; }
+    .finding-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .finding p { margin-bottom: 8px; font-size: 0.93rem; }
+    .finding p:last-child { margin-bottom: 0; }
+
+    /* TABLE */
+    .table-wrap { overflow-x: auto; margin: 24px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th { text-align: left; padding: 9px 14px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+    td { padding: 10px 14px; border-bottom: 1px solid rgba(42,45,58,0.5); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    td:first-child { font-family: var(--font-mono); color: var(--teal); font-size: 0.82rem; white-space: nowrap; }
+
+    /* SURFACE LIST */
+    .surface-list { list-style: none; margin: 0 0 16px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .surface-list li {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 14px; font-size: 0.85rem; color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* LESSON BLOCKS */
+    .lesson { margin: 28px 0; }
+    .lesson-heading { font-size: 0.9rem; font-weight: 700; color: var(--gold-light); margin-bottom: 8px; }
+
+    /* FOOTER */
+    .post-footer { padding: 48px 0 64px; border-top: 1px solid var(--border); text-align: center; }
+    .back-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 40px; padding: 10px 22px;
+      font-size: 0.85rem; color: var(--text-muted); transition: all var(--transition);
+    }
+    .back-pill:hover { border-color: var(--gold); color: var(--gold); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .post-hero { padding: 96px 0 48px; }
+      .post-body { padding: 40px 0 64px; }
+      .score-grid { grid-template-columns: repeat(3, 1fr); }
+      .surface-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">JOE</a>
+    <div class="nav-links">
+      <a href="../index.html#about">About</a>
+      <a href="../case-studies.html">Case Studies</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <a href="../blog.html" class="nav-back">&#8592; Blog</a>
+  </nav>
+
+  <section class="post-hero">
+    <div class="container">
+      <div class="post-meta-row">
+        <span class="post-tag">Case Study</span>
+        <span class="post-date">2026</span>
+        <span class="meta-dot">·</span>
+        <span class="post-read">18 min read</span>
+        <span class="meta-dot">·</span>
+        <span class="post-date">Powerhouse9ja</span>
+      </div>
+      <h1 class="post-title">I Built a Full-Stack AI Evaluation Platform for a Clinical Pediatric Nutrition Assistant</h1>
+      <p class="post-lede">
+        AI builders celebrate the demo. The retrieval looks good. The response sounds right. The stakeholders nod. Then a user asks an edge case question and the system confidently returns wrong clinical information. Nobody catches it because nobody built a system to catch it. I built that system.
+      </p>
+    </div>
+  </section>
+
+  <article class="post-body">
+    <div class="container">
+
+      <!-- TOC -->
+      <div class="toc">
+        <div class="toc-label">In this article</div>
+        <ol>
+          <li><a href="#what-cpna-does">What CPNA does</a></li>
+          <li><a href="#why-eval">Why this needed a dedicated eval platform</a></li>
+          <li><a href="#architecture">The architecture</a></li>
+          <li><a href="#scenarios">The 10 E2E scenarios</a></li>
+          <li><a href="#how-built">How I built it: the prompt pack approach</a></li>
+          <li><a href="#live-demo">Live platform demo</a></li>
+          <li><a href="#findings">What the live platform revealed</a></li>
+          <li><a href="#surfaces">The eval surfaces worth building</a></li>
+          <li><a href="#lessons">What this taught me</a></li>
+          <li><a href="#next">What is next</a></li>
+        </ol>
+      </div>
+
+      <!-- WHAT CPNA DOES -->
+      <h2 id="what-cpna-does">What CPNA Does</h2>
+      <p>CPNA is a chat-first clinical nutrition assistant for pediatric use cases. It handles four distinct query types.</p>
+
+      <!-- DIAGRAM: 4 query types -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">CPNA Query Type System</div>
+        <svg viewBox="0 0 620 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px;display:block;">
+          <defs>
+            <marker id="a1" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+            </marker>
+          </defs>
+          <!-- Centre: user query -->
+          <rect x="240" y="60" width="140" height="40" rx="8" fill="#1A1D27" stroke="#2A2D3A" stroke-width="1.5"/>
+          <text x="310" y="75" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">User Query</text>
+          <text x="310" y="90" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#6B6560">DistilBERT intent</text>
+
+          <!-- Four types -->
+          <rect x="8"   y="20" width="120" height="52" rx="8" fill="#1A1D27" stroke="#8B4A52" stroke-width="1.2"/>
+          <text x="68"  y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#8B4A52">Therapy</text>
+          <text x="68"  y="54" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">all 8 slots required</text>
+          <text x="68"  y="65" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">gatekeeper guarded</text>
+
+          <rect x="8"   y="88" width="120" height="52" rx="8" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="68"  y="108" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#C9A96E">Recommendation</text>
+          <text x="68"  y="122" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">age + diagnosis enough</text>
+          <text x="68"  y="133" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">partial info OK</text>
+
+          <rect x="492" y="20" width="120" height="52" rx="8" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+          <text x="552" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#4A9EBF">Comparison</text>
+          <text x="552" y="54" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">food vs food</text>
+          <text x="552" y="65" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">clinical strategy vs</text>
+
+          <rect x="492" y="88" width="120" height="52" rx="8" fill="#1A1D27" stroke="#9A9585" stroke-width="1.2"/>
+          <text x="552" y="108" text-anchor="middle" font-family="Inter,sans-serif" font-size="9.5" fill="#9A9585">General</text>
+          <text x="552" y="122" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">educational only</text>
+          <text x="552" y="133" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560" text-anchor="middle">no therapy logic</text>
+
+          <!-- Arrows -->
+          <line x1="239" y1="75" x2="130" y2="50"  stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#a1)"/>
+          <line x1="239" y1="85" x2="130" y2="112" stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#a1)"/>
+          <line x1="381" y1="75" x2="490" y2="50"  stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#a1)"/>
+          <line x1="381" y1="85" x2="490" y2="112" stroke="#4A9EBF" stroke-width="1.2" marker-end="url(#a1)"/>
+        </svg>
+      </div>
+
+      <p>The system runs on an agentic RAG architecture: intent classification via DistilBERT, slot extraction, a therapy gatekeeper, hybrid retrieval combining vector search and BM25, passage reranking, deterministic nutrient computation, and response synthesis. 11 supported therapy conditions: Type 1 diabetes, cystic fibrosis, food allergy, preterm nutrition, chronic kidney disease, PKU, MSUD, galactosemia, epilepsy and ketogenic therapy, IBD, and GERD. The pipeline connects to the live CPNA API.</p>
+
+      <!-- WHY EVAL -->
+      <h2 id="why-eval">Why This Needed a Dedicated Eval Platform</h2>
+      <p>CPNA outputs therapy-grade nutrition targets for sick children. A hallucinated nutrient target, a missed drug-nutrient interaction, or a wrong downgrade reason are patient safety problems. You cannot eyeball clinical AI safety.</p>
+      <p>Agentic systems fail at different layers in different ways. A response can pass a surface-level quality check while leaking internal schema objects into the UI. A retrieval pipeline can appear to work while returning evidence from the wrong condition. A context inheritance check can pass while stale patient data bleeds into a new query. You need instrumented, automated checks at every layer running simultaneously.</p>
+
+      <div class="pull-quote">
+        <p>As a solo founder serving as PM, designer, architect, and evaluator, I needed to move fast without breaking clinical correctness. Without automated evaluation, every code change required manual end-to-end testing of every scenario.</p>
+      </div>
+
+      <!-- ARCHITECTURE -->
+      <div class="section-divider" id="architecture">
+        <span class="section-num">LAYER</span>
+        <span class="section-title">The Architecture</span>
+      </div>
+      <p>The platform has five layers.</p>
+
+      <!-- DIAGRAM: eval platform architecture -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">CPNA Eval Platform — Five-Layer Architecture</div>
+        <svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:640px;display:block;">
+          <defs>
+            <marker id="a2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+            </marker>
+          </defs>
+
+          <!-- Layer 1: Dashboard -->
+          <rect x="8" y="8" width="620" height="36" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="20" y="22" font-family="DM Mono,monospace" font-size="8.5" fill="#C9A96E">LAYER 5: Next.js Dashboard</text>
+          <text x="20" y="36" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">12 surfaces: Overview · Eval Runs · Scenarios · Intent · Gatekeeper · Retrieval · Context Safety · Therapy · Recommendation · Comparison · General · Logs</text>
+
+          <!-- Layer 2: Eval runner -->
+          <rect x="8" y="60" width="300" height="46" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.2"/>
+          <text x="20" y="76" font-family="DM Mono,monospace" font-size="8.5" fill="#C9A96E">LAYER 1: Python Eval Runner</text>
+          <text x="20" y="90" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">FastAPI · pytest · writes results to Supabase</text>
+          <text x="20" y="102" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">receives run request → calls CPNA API → scores</text>
+
+          <!-- Layer 3: Evaluator modules -->
+          <rect x="326" y="60" width="302" height="46" rx="7" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.2"/>
+          <text x="338" y="76" font-family="DM Mono,monospace" font-size="8.5" fill="#4A9EBF">LAYER 2: Five Evaluator Modules</text>
+          <text x="338" y="90" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Intent · Gatekeeper · Contract Validator</text>
+          <text x="338" y="102" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Context Safety · Retrieval</text>
+
+          <!-- Layer 4: Scenario suite -->
+          <rect x="8" y="122" width="300" height="36" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="20" y="138" font-family="DM Mono,monospace" font-size="8.5" fill="#9A9585">LAYER 3: Golden Scenario Suite</text>
+          <text x="20" y="150" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">10 canonical E2E scenarios · must-pass + must-not-contain</text>
+
+          <!-- Layer 5: Observability -->
+          <rect x="326" y="122" width="302" height="36" rx="7" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="338" y="138" font-family="DM Mono,monospace" font-size="8.5" fill="#9A9585">LAYER 4: Observability (Supabase)</text>
+          <text x="338" y="150" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">intent · context · downgrade · retrieval logs · 228 entries</text>
+
+          <!-- Live CPNA API -->
+          <rect x="160" y="178" width="300" height="36" rx="7" fill="#162018" stroke="#2A4020" stroke-width="1.2"/>
+          <text x="310" y="194" text-anchor="middle" font-family="DM Mono,monospace" font-size="8.5" fill="#4A9E6E">Live CPNA API</text>
+          <text x="310" y="206" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">nutriintel-frontend.vercel.app</text>
+
+          <!-- Arrows -->
+          <line x1="314" y1="44" x2="314" y2="58"  stroke="#4A9EBF" stroke-width="1.3" marker-end="url(#a2)"/>
+          <line x1="158" y1="107" x2="158" y2="120" stroke="#4A9EBF" stroke-width="1.3" marker-end="url(#a2)"/>
+          <line x1="477" y1="107" x2="477" y2="120" stroke="#4A9EBF" stroke-width="1.3" marker-end="url(#a2)"/>
+          <line x1="158" y1="158" x2="246" y2="176" stroke="#4A9EBF" stroke-width="1.3" marker-end="url(#a2)"/>
+          <line x1="477" y1="158" x2="374" y2="176" stroke="#4A9EBF" stroke-width="1.3" marker-end="url(#a2)"/>
+
+          <!-- Gatekeeper callout -->
+          <rect x="8" y="228" width="620" height="24" rx="5" fill="rgba(139,74,82,0.08)" stroke="rgba(139,74,82,0.2)"/>
+          <text x="314" y="244" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#8B4A52">Gatekeeper module: most clinically critical — verifies all 8 required slots confirmed before any therapy output is generated</text>
+        </svg>
+      </div>
+
+      <h3>The Five Evaluator Modules</h3>
+      <ul>
+        <li><strong>Intent evaluator:</strong> route accuracy, confidence threshold compliance, fallback on low-confidence inputs, misroute prevention.</li>
+        <li><strong>Gatekeeper evaluator:</strong> verifies all 8 required slots before therapy output. Verifies correct downgrade. Verifies no nutrient targets without a gatekeeper pass. Checks unsupported diagnoses trigger graceful downgrade, not hard errors.</li>
+        <li><strong>Contract validator:</strong> every API response must match its typed display contract. Scans for raw object leaks, machine field names, placeholder strings like "Food A / Food B," empty sections, missing required fields.</li>
+        <li><strong>Context safety evaluator:</strong> checks for silent context contamination. Verifies loose reply resolution. Verifies state resets on new tasks.</li>
+        <li><strong>Retrieval evaluator:</strong> hybrid pipeline ran, top-k within limit of 7, evidence matches only what was retrieved that turn, no duplicate reference IDs.</li>
+      </ul>
+
+      <p>The Next.js dashboard has 12 specialized eval surfaces:</p>
+      <ul class="surface-list">
+        <li>Overview</li>
+        <li>Eval Runs</li>
+        <li>Scenarios</li>
+        <li>Intent Classifier</li>
+        <li>Gatekeeper</li>
+        <li>Retrieval</li>
+        <li>Context Safety</li>
+        <li>Therapy Eval</li>
+        <li>Recommendation Eval</li>
+        <li>Comparison Eval</li>
+        <li>General Eval</li>
+        <li>Logs</li>
+      </ul>
+
+      <!-- SCENARIOS -->
+      <h2 id="scenarios">The 10 E2E Scenarios</h2>
+      <p>These are not happy-path tests. Each one probes a specific behavior that has a specific way of failing in a clinical agentic system.</p>
+
+      <!-- DIAGRAM: scenario map -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">E2E Scenario Coverage Map</div>
+        <svg viewBox="0 0 620 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px;display:block;">
+          <!-- Column headers -->
+          <text x="78"  y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#4A9EBF">THERAPY</text>
+          <text x="218" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#C9A96E">RECOMMENDATION</text>
+          <text x="358" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#9A9585">COMPARISON</text>
+          <text x="478" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#6B6560">GENERAL</text>
+          <text x="572" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#8B4A52">SAFETY</text>
+
+          <!-- Therapy scenarios -->
+          <rect x="8"   y="24" width="140" height="28" rx="6" fill="#1A1D27" stroke="#8B4A52" stroke-width="1"/>
+          <text x="78"  y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#8B4A52">E2E-2: Therapy Gated</text>
+          <text x="78"  y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">missing slots → downgrade</text>
+
+          <rect x="8"   y="58" width="140" height="28" rx="6" fill="#1A1D27" stroke="#4A9E6E" stroke-width="1"/>
+          <text x="78"  y="71" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9E6E">E2E-3: Therapy Full Pass</text>
+          <text x="78"  y="81" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">PKU, all 8 slots, targets</text>
+
+          <!-- Recommendation scenarios -->
+          <rect x="148" y="24" width="140" height="28" rx="6" fill="#1A1D27" stroke="#C9A96E" stroke-width="1"/>
+          <text x="218" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#C9A96E">E2E-1: Rec Basic</text>
+          <text x="218" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">T1D child, no full profile</text>
+
+          <rect x="148" y="58" width="140" height="28" rx="6" fill="#1A1D27" stroke="#C9A96E" stroke-width="1"/>
+          <text x="218" y="71" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#C9A96E">E2E-8: No Object Leak</text>
+          <text x="218" y="81" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">IBD query, contract check</text>
+
+          <!-- Comparison scenarios -->
+          <rect x="288" y="24" width="140" height="28" rx="6" fill="#1A1D27" stroke="#9A9585" stroke-width="1"/>
+          <text x="358" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#9A9585">E2E-4: Food vs Food</text>
+          <text x="358" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">bambara nut vs groundnut</text>
+
+          <rect x="288" y="58" width="140" height="28" rx="6" fill="#1A1D27" stroke="#9A9585" stroke-width="1"/>
+          <text x="358" y="71" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#9A9585">E2E-10: Evidence Relevance</text>
+          <text x="358" y="81" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">GERD, no cross-condition</text>
+
+          <!-- General -->
+          <rect x="428" y="24" width="100" height="28" rx="6" fill="#1A1D27" stroke="#6B6560" stroke-width="1"/>
+          <text x="478" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#9A9585">E2E-6: General</text>
+          <text x="478" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">Vitamin D education</text>
+
+          <rect x="428" y="58" width="100" height="28" rx="6" fill="#1A1D27" stroke="#6B6560" stroke-width="1"/>
+          <text x="478" y="71" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#9A9585">E2E-9: No Button Dep.</text>
+          <text x="478" y="81" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">3-turn typed flow</text>
+
+          <!-- Safety -->
+          <rect x="534" y="24" width="82" height="28" rx="6" fill="#1A1D27" stroke="#8B4A52" stroke-width="1"/>
+          <text x="575" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#8B4A52">E2E-5: Context</text>
+          <text x="575" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">inherit confirm</text>
+
+          <rect x="534" y="58" width="82" height="28" rx="6" fill="#1A1D27" stroke="#8B4A52" stroke-width="1"/>
+          <text x="575" y="71" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#8B4A52">E2E-7: Loose Reply</text>
+          <text x="575" y="81" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">"10" → age = 10</text>
+
+          <!-- Legend -->
+          <rect x="8"   y="114" width="10" height="10" rx="2" fill="none" stroke="#4A9E6E"/>
+          <text x="22"  y="124" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Full pass expected</text>
+          <rect x="120" y="114" width="10" height="10" rx="2" fill="none" stroke="#8B4A52"/>
+          <text x="134" y="124" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Safety / gating scenario</text>
+          <rect x="260" y="114" width="10" height="10" rx="2" fill="none" stroke="#C9A96E"/>
+          <text x="274" y="124" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Content quality scenario</text>
+          <rect x="400" y="114" width="10" height="10" rx="2" fill="none" stroke="#9A9585"/>
+          <text x="414" y="124" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Structural / contract scenario</text>
+
+          <text x="314" y="160" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#6B6560">10 scenarios · every query type · critical edge cases · not happy-path tests</text>
+        </svg>
+      </div>
+
+      <!-- Key scenarios in detail -->
+      <div class="scenario-card">
+        <div class="scenario-id">E2E-2</div>
+        <div class="scenario-title">Therapy Gated: Missing Medications and Biomarkers</div>
+        <div class="scenario-input">"Therapy plan for 8-year-old girl with cystic fibrosis. Age, sex, weight, height, diagnosis, country provided. Medications and lab values absent."</div>
+        <div class="scenario-section-label">Why it matters</div>
+        <p style="font-size:0.92rem;margin-bottom:10px;">Cystic fibrosis nutrition management involves enzyme replacement therapy, fat-soluble vitamin status, and pulmonary function. Generating a plan without knowing the child's medications and lab values could produce targets that conflict with active treatment.</p>
+        <div class="callout--pass callout">
+          <div class="callout-label">Pass Criteria</div>
+          <ul>
+            <li>Downgrade triggered with reason "missing_required_slots"</li>
+            <li>Missing slots identified as medications and biomarkers only</li>
+            <li>User-facing explanation names exactly what is needed</li>
+            <li>No nutrient targets in response</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-id">E2E-3</div>
+        <div class="scenario-title">Therapy Full Pass: PKU, All 8 Slots</div>
+        <div class="scenario-input">"7-year-old girl, PKU, weight 22kg, height 118cm, phenylalanine 8mg/dL, no medications, Nigeria."</div>
+        <div class="scenario-section-label">Why it matters</div>
+        <p style="font-size:0.92rem;margin-bottom:10px;">PKU requires precision nutrition from infancy. The phenylalanine tolerance window is narrow and age-weight dependent. A wrong calculation can cause neurological damage. This scenario verifies that the deterministic nutrient engine, not the LLM, is generating the targets.</p>
+        <div class="callout--pass callout">
+          <div class="callout-label">Pass Criteria</div>
+          <ul>
+            <li>Therapy route confirmed, all 8 slots validated</li>
+            <li>nutrient_targets present with phenylalanine restriction and tyrosine supplementation</li>
+            <li>patient_summary present, evidence_summary non-empty</li>
+            <li>No raw schema objects in response</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-id">E2E-7</div>
+        <div class="scenario-title">Loose Reply Resolution</div>
+        <div class="scenario-input">Assistant asks for the child's age. User replies: "10."</div>
+        <div class="scenario-section-label">Why it matters</div>
+        <p style="font-size:0.92rem;margin-bottom:10px;">Real clinical conversations do not come in perfectly structured JSON. If loose replies fail to resolve, the system gets stuck in infinite slot loops or misroutes the conversation entirely.</p>
+        <div class="callout--pass callout">
+          <div class="callout-label">Pass Criteria</div>
+          <ul>
+            <li>Resolved slot = age, resolved value = 10</li>
+            <li>Workflow continues correctly</li>
+            <li>last_user_reply_resolution in state_update reflects correct resolution</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- HOW BUILT -->
+      <h2 id="how-built">How I Built It: The Prompt Pack Approach</h2>
+      <p>I built this with Claude Code using a structured prompt pack: 16 prompts across 6 phases, each prompt a self-contained Claude Code session with a clear deliverable and a verification command.</p>
+
+      <!-- DIAGRAM: build phases -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">16-Prompt Build Structure: 6 Phases</div>
+        <svg viewBox="0 0 600 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;display:block;">
+          <defs>
+            <marker id="a3" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#4A9EBF"/>
+            </marker>
+          </defs>
+          <rect x="4"   y="20" width="84" height="50" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="46"  y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#C9A96E">Phase 1</text>
+          <text x="46"  y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Scaffold +</text>
+          <text x="46"  y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">DB Schema</text>
+
+          <rect x="102" y="20" width="84" height="50" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="144" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#C9A96E">Phase 2</text>
+          <text x="144" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Scenarios +</text>
+          <text x="144" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Contracts</text>
+
+          <rect x="200" y="20" width="84" height="50" rx="7" fill="#1A1D27" stroke="#C9A96E" stroke-width="1.1"/>
+          <text x="242" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#C9A96E">Phase 3</text>
+          <text x="242" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">API</text>
+          <text x="242" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Layer</text>
+
+          <rect x="298" y="20" width="84" height="50" rx="7" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.1"/>
+          <text x="340" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">Phase 4</text>
+          <text x="340" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Python Eval</text>
+          <text x="340" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Runner</text>
+
+          <rect x="396" y="20" width="84" height="50" rx="7" fill="#1A1D27" stroke="#4A9EBF" stroke-width="1.1"/>
+          <text x="438" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9EBF">Phase 5</text>
+          <text x="438" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Dashboard</text>
+          <text x="438" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">12 surfaces</text>
+
+          <rect x="494" y="20" width="100" height="50" rx="7" fill="#1A1D27" stroke="#4A9E6E" stroke-width="1.1"/>
+          <text x="544" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#4A9E6E">Phase 6</text>
+          <text x="544" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">Integration +</text>
+          <text x="544" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#9A9585">E2E Verify</text>
+
+          <line x1="89"  y1="45" x2="100" y2="45" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#a3)"/>
+          <line x1="187" y1="45" x2="198" y2="45" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#a3)"/>
+          <line x1="285" y1="45" x2="296" y2="45" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#a3)"/>
+          <line x1="383" y1="45" x2="394" y2="45" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#a3)"/>
+          <line x1="481" y1="45" x2="492" y2="45" stroke="#4A9EBF" stroke-width="1.5" marker-end="url(#a3)"/>
+        </svg>
+      </div>
+
+      <p>The foundation is a CLAUDE.md file committed to the repo root. This is the most important document in the project. It encodes the domain rules every Claude Code session must respect: therapy outputs must never be generated without a confirmed gatekeeper pass; raw backend objects must never reach the UI; context inheritance must be explicit and traceable; evidence used must match only what was retrieved that turn; comparison output must show actual entity names.</p>
+
+      <div class="callout callout--tip">
+        <div class="callout-label">Key Insight</div>
+        <p>Every Claude Code session reads CLAUDE.md before touching code. This is what keeps a 16-prompt build coherent across sessions. Each prompt is scoped, verified, and committed before the next begins.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <h2 id="live-demo">Live Platform Demo</h2>
+      <p>Two confirmed full-pass runs against the live CPNA API: "test-eval" at 44 seconds and "test-eval1" at 26 seconds. 10/10 E2E scenarios passing at 100% overall score.</p>
+
+      <div class="video-wrap">
+        <video controls preload="metadata" poster="">
+          <source src="../resources/blog/CPNA Eval Demo.mp4" type="video/mp4" />
+          Your browser does not support the video element.
+        </video>
+        <div class="video-caption">CPNA Eval Platform — live run against the CPNA API. 5-minute session recorded June 2026.</div>
+      </div>
+
+      <!-- SCORES -->
+      <div class="score-grid">
+        <div class="score-card">
+          <div class="score-value">100%</div>
+          <div class="score-label">Intent Accuracy</div>
+        </div>
+        <div class="score-card">
+          <div class="score-value">100%</div>
+          <div class="score-label">Gatekeeper Pass</div>
+        </div>
+        <div class="score-card">
+          <div class="score-value">100%</div>
+          <div class="score-label">Contract Conformance</div>
+        </div>
+        <div class="score-card">
+          <div class="score-value">100%</div>
+          <div class="score-label">Context Safety</div>
+        </div>
+        <div class="score-card">
+          <div class="score-value">10/10</div>
+          <div class="score-label">E2E Scenarios</div>
+        </div>
+      </div>
+
+      <!-- FINDINGS -->
+      <h2 id="findings">What the Live Platform Revealed</h2>
+      <p>Frame-by-frame analysis of 60 frames at 5-second intervals across the 5-minute recording found six things automated checks missed entirely.</p>
+
+      <div class="finding">
+        <div class="finding-num">FINDING 01</div>
+        <div class="finding-title">A clinical accuracy failure invisible to automated checks</div>
+        <p>The Gatekeeper Downgrade Event Log showed E2E-7 triggering a downgrade with reason "unsupported_condition" and a user-facing explanation telling the user their condition was not supported. The diagnosis in E2E-7 is epilepsy/ketogenic. Epilepsy/ketogenic is a supported condition listed in the platform's own settings page.</p>
+        <p>The automated test passed. The check was: did the downgrade fire? Yes. Pass. The check was not: is the downgrade reason correct? A clinician reading that explanation would believe the platform cannot help with epilepsy nutrition management. That is false.</p>
+      </div>
+
+      <div class="finding">
+        <div class="finding-num">FINDING 02</div>
+        <div class="finding-title">A scenario not testing its own specification</div>
+        <p>E2E-2 is designed to test "Therapy Gated: Missing Medications and Biomarkers." The slot heatmap showed all 7 non-diagnosis slots as red, not just the 2 that should be absent. The scenario input was a vague natural language message that did not explicitly provide age, sex, weight, height, or country. The test was structured to fail at the wrong layer. Root cause: scenario definition, not the CPNA system.</p>
+      </div>
+
+      <div class="finding">
+        <div class="finding-num">FINDING 03</div>
+        <div class="finding-title">Fixed confidence values</div>
+        <p>71 classifications with every general, recommendation, and comparison intent at exactly 85% confidence. Therapy at 87%. Zero variance across 71 diverse clinical queries from a live DistilBERT classifier is statistically impossible. The confidence values were not being passed through from the CPNA API. The threshold check was passing on every run because it was checking a constant against a threshold.</p>
+      </div>
+
+      <div class="finding">
+        <div class="finding-num">FINDING 04</div>
+        <div class="finding-title">Fixed retrieval relevance</div>
+        <p>Every scenario showed exactly 0.850 mean relevance. Same root cause: relevance scores were not flowing through from the retrieval layer. The retrieval quality signal had zero information content.</p>
+      </div>
+
+      <div class="finding">
+        <div class="finding-num">FINDING 05</div>
+        <div class="finding-title">An inverted date filter</div>
+        <p>The Logs page FROM date filter was showing results before the selected date rather than after it. One character in the Supabase query: <code style="font-family:var(--font-mono);color:var(--mauve);font-size:0.85rem;">.lte</code> instead of <code style="font-family:var(--font-mono);color:var(--green);font-size:0.85rem;">.gte</code>. Invisible in development, undetectable by unit tests, immediately visible when you look at the output.</p>
+      </div>
+
+      <div class="finding">
+        <div class="finding-num">FINDING 06</div>
+        <div class="finding-title">Two pages with blank loading states</div>
+        <p>The Logs page and Context Safety page showed completely blank content areas during data fetch. Section headers rendered. Table headers rendered. The data area was blank white space. No skeleton loaders.</p>
+      </div>
+
+      <div class="pull-quote">
+        <p>These findings came from watching 300 seconds of screen recording at 5-second resolution and reading what the platform actually produced.</p>
+      </div>
+
+      <!-- SURFACES -->
+      <h2 id="surfaces">The Eval Surfaces Worth Building</h2>
+
+      <!-- DIAGRAM: gatekeeper heatmap concept -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Gatekeeper Slot Heatmap (Concept)</div>
+        <svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;display:block;">
+          <!-- Header row -->
+          <text x="110" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#6B6560">age</text>
+          <text x="158" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#6B6560">sex</text>
+          <text x="206" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#6B6560">weight</text>
+          <text x="254" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#6B6560">height</text>
+          <text x="302" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#6B6560">dx</text>
+          <text x="350" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#6B6560">meds</text>
+          <text x="398" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#6B6560">labs</text>
+          <text x="446" y="16" text-anchor="middle" font-family="DM Mono,monospace" font-size="7.5" fill="#6B6560">country</text>
+
+          <!-- E2E-3 row: all green -->
+          <text x="90" y="46" font-family="Inter,sans-serif" font-size="8" fill="#4A9E6E">E2E-3 PKU</text>
+          <rect x="88"  y="28" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="110" y="43" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="136" y="28" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="158" y="43" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="184" y="28" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="206" y="43" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="232" y="28" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="254" y="43" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="280" y="28" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="302" y="43" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="328" y="28" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="350" y="43" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="376" y="28" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="398" y="43" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="424" y="28" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="446" y="43" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+
+          <!-- E2E-2 row: 6 green, 2 red -->
+          <text x="90" y="90" font-family="Inter,sans-serif" font-size="8" fill="#C9A96E">E2E-2 CF</text>
+          <rect x="88"  y="72" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="110" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="136" y="72" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="158" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="184" y="72" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="206" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="232" y="72" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="254" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="280" y="72" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="302" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+          <rect x="328" y="72" width="44" height="22" rx="4" fill="rgba(139,74,82,0.15)" stroke="#8B4A52"/>
+          <text x="350" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8B4A52">✗</text>
+          <rect x="376" y="72" width="44" height="22" rx="4" fill="rgba(139,74,82,0.15)" stroke="#8B4A52"/>
+          <text x="398" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#8B4A52">✗</text>
+          <rect x="424" y="72" width="44" height="22" rx="4" fill="rgba(74,158,110,0.15)" stroke="#4A9E6E"/>
+          <text x="446" y="87" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" fill="#4A9E6E">✓</text>
+
+          <text x="494" y="43" font-family="Inter,sans-serif" font-size="8" fill="#4A9E6E">8/8 — full pass</text>
+          <text x="494" y="87" font-family="Inter,sans-serif" font-size="8" fill="#8B4A52">6/8 — gated</text>
+          <text x="280" y="122" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Any deviation from expected pattern is a bug — visible at a glance</text>
+        </svg>
+      </div>
+
+      <ul>
+        <li><strong>The Downgrade Event Log.</strong> Every downgrade with missing slots, reason code, and user-facing explanation. The reason code tells you if the logic is correct. The user-facing explanation tells you if a clinician would misunderstand. These are different things.</li>
+        <li><strong>The Retrieval Stage Inspector.</strong> Vector count, BM25 count, post-merge count, top-k, and mean relevance per scenario. Comparison scenarios pull more evidence (14 vector, 14 BM25) than single-condition queries (7, 7). The deduplication step is visible.</li>
+        <li><strong>The Context Safety Inheritance Flow.</strong> Prior context type, current query type, safe or contaminated. Silent context contamination is one of the most dangerous failure modes in a multi-turn agentic system.</li>
+        <li><strong>The Logs Explorer.</strong> 228 entries across four types: intent, context, retrieval, downgrade. Filterable by run, date, and query type. After a failed scenario, you filter to that run and understand exactly what the system did and why.</li>
+      </ul>
+
+      <!-- LESSONS -->
+      <h2 id="lessons">What This Taught Me</h2>
+
+      <div class="lesson">
+        <div class="lesson-heading">Build eval as a layer, not a phase</div>
+        <p>Evaluation is infrastructure, not a testing stage before launch. Every new CPNA feature generates new eval scenarios and new checks. The eval platform grows with the product because they are built in parallel.</p>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson-heading">Automated checks confirm that a behavior occurred. Human review confirms that the behavior was correct.</div>
+        <p>The epilepsy downgrade case makes this concrete. The check asked: did the downgrade fire? It did. Pass. The human review asked: is the downgrade reason accurate? Is the user-facing explanation safe for a clinician to read? Those questions cannot be answered by a boolean check.</p>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson-heading">Prompt packs produce structured output. Ad-hoc prompting produces ad-hoc output.</div>
+        <p>16 prompts across 6 phases, each with a verification command, each reading CLAUDE.md first. The CLAUDE.md file is what keeps each session oriented. It encodes the domain rules, naming conventions, architectural constraints, and the things Claude Code must never do. Every session inherits that context automatically.</p>
+      </div>
+
+      <div class="lesson">
+        <div class="lesson-heading">Sit down and watch your product.</div>
+        <p>Build the automation. Run the automation. Then watch 5 minutes of your product at 5-second resolution and read everything it displays. The automation tells you which checks passed. The watching tells you what your users actually see.</p>
+      </div>
+
+      <!-- NEXT -->
+      <h2 id="next">What Is Next</h2>
+      <ul>
+        <li>E2E-7 downgrade reason correction: epilepsy/ketogenic must match the supported conditions registry, and the user-facing explanation for a missing-slots downgrade must not tell users their condition is unsupported.</li>
+        <li>E2E-2 input payload restructure: explicitly provide the 6 non-medication slots as structured data so the slot heatmap reflects the scenario's actual intent.</li>
+        <li>8 of 11 supported therapy conditions have zero eval scenarios. MSUD, galactosemia, food allergy, preterm nutrition, CKD, IBD, and GERD need dedicated scenarios before clinical coverage is complete.</li>
+        <li>Debug confidence and relevance pipeline connections so real values from the live CPNA API flow through correctly.</li>
+      </ul>
+
+      <!-- CLOSING -->
+      <div class="pull-quote" style="margin-top:48px;">
+        <p>You cannot responsibly deploy clinical AI without eval infrastructure. The question is whether you build it before shipping or after an incident forces you to build it.</p>
+      </div>
+
+      <p>Every hour spent on this infrastructure protects the accuracy of every response CPNA will ever generate. For a clinical system serving pediatric patients, that protection is the product.</p>
+
+      <div class="callout callout--tip" style="margin-top:32px;">
+        <div class="callout-label">Links</div>
+        <ul>
+          <li>Eval platform: <a href="https://cpna-eval-one.vercel.app" target="_blank" rel="noopener" style="color:var(--teal);">cpna-eval-one.vercel.app</a></li>
+          <li>CPNA assistant: <a href="https://nutriintel-frontend.vercel.app" target="_blank" rel="noopener" style="color:var(--teal);">nutriintel-frontend.vercel.app</a></li>
+          <li>CPNA case study: <a href="../case-studies/cpna.html" style="color:var(--gold);">Read the full case study &#8594;</a></li>
+        </ul>
+      </div>
+
+      <p style="margin-top:32px;font-size:0.88rem;color:var(--text-dim);">
+        Judith Oluchi Ekeleme (Luchi) is a Technical AI Product Manager and solo founder at Powerhouse9ja, building AI-native platforms at the intersection of clinical systems, evaluation infrastructure, and agentic architecture.
+        <a href="https://linkedin.com/in/ekeleme-judith" target="_blank" rel="noopener" style="color:var(--gold);">LinkedIn</a> ·
+        <a href="https://github.com/luch91" target="_blank" rel="noopener" style="color:var(--gold);">GitHub</a>
+      </p>
+
+    </div>
+  </article>
+
+  <footer class="post-footer">
+    <div class="container">
+      <a href="../blog.html" class="back-pill">&#8592; Back to Blog</a>
+    </div>
+  </footer>
+
+</body>
+</html>

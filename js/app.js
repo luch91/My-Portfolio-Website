@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
           ${p.prototypeUrl ? `<a href="${p.prototypeUrl}" target="_blank" rel="noopener" class="project-link project-link--secondary">Platform Prototype ↗</a>` : ''}
           ${p.adminPrototypeUrl ? `<a href="${p.adminPrototypeUrl}" target="_blank" rel="noopener" class="project-link project-link--secondary">Admin Prototype ↗</a>` : ''}
           ${p.caseStudyId ? `<a href="case-studies.html#${p.caseStudyId}" class="project-link project-link--secondary">Case Study →</a>` : ''}
+          ${p.blogUrl ? `<a href="${p.blogUrl}" class="project-link project-link--secondary">Read Post →</a>` : ''}
         </div>
       </article>`).join('');
   }
