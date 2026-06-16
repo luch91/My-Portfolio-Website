@@ -312,6 +312,19 @@ var DATA = {
   // For videos: set videoFile (filename in resources/videos/) OR videoUrl for external
   blogPosts: [
     {
+      id: "ai-unit-economics",
+      type: "article",
+      title: "Why Your AI Product Looks Profitable at Month 3 and Breaks at Month 9",
+      excerpt: "The unit economics of AI products shift as you scale. What looks like a margin story in early months becomes an infrastructure cost story by month 9. Here is what changes and why.",
+      date: "2026",
+      readTime: null,
+      tags: ["AI Product", "Unit Economics", "Product Management", "LLMOps"],
+      url: "https://www.linkedin.com/pulse/why-your-ai-product-looks-profitable-month-3-breaks-9-oluchi-ekeleme-f1d6f",
+      filePath: null,
+      videoFile: null,
+      videoUrl: null
+    },
+    {
       id: "cpna-eval",
       type: "article",
       title: "I Built a Full-Stack AI Evaluation Platform for a Clinical Pediatric Nutrition Assistant",
