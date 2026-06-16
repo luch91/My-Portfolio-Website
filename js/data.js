@@ -315,7 +315,7 @@ var DATA = {
       id: "ai-unit-economics",
       type: "article",
       title: "Why Your AI Product Looks Profitable at Month 3 and Breaks at Month 9",
-      excerpt: "The unit economics of AI products shift as you scale. What looks like a margin story in early months becomes an infrastructure cost story by month 9. Here is what changes and why.",
+      excerpt: "You didn't change your pricing. Your users changed their behaviour. The bill came anyway. A specific kind of meeting happens inside AI product companies around month 8 or 9 — margins are compressing, and nobody touched the pricing page.",
       date: "2026",
       readTime: null,
       tags: ["AI Product", "Unit Economics", "Product Management", "LLMOps"],
