@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Truvyx — The Evaluation and Diagnostic Intelligence Platform for Multi-Agent AI Systems. Full case study by Judith Oluchi Ekeleme." />
+  <title>Truvyx Case Study — Judith Oluchi Ekeleme</title>
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="shortcut icon" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0F1117;
+      --bg-alt:     #131620;
+      --surface:    #1A1D27;
+      --border:     #2A2D3A;
+      --gold:       #C9A96E;
+      --gold-light: #E2C48A;
+      --gold-dim:   rgba(201,169,110,0.12);
+      --accent:     #2BA8A0;
+      --accent-dim: rgba(43,168,160,0.12);
+      --amber:      #C4862A;
+      --amber-dim:  rgba(196,134,42,0.12);
+      --mauve:      #8B4A52;
+      --text:       #F5F0E8;
+      --text-muted: #9A9585;
+      --text-dim:   #6B6560;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-mono:  'DM Mono', 'Fira Code', monospace;
+      --radius:     12px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.75; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    ::selection { background: var(--gold-dim); color: var(--gold-light); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color var(--transition); }
+    .nav-back:hover { color: var(--gold); }
+
+    .cs-hero {
+      padding: 140px 0 80px;
+      background: linear-gradient(180deg, #001A18 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .cs-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(43,168,160,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 0 32px; }
+    .container-wide { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+    .cs-label { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .cs-title { font-family: var(--font-serif); font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 16px; }
+    .cs-subtitle { font-family: var(--font-serif); font-size: clamp(1rem, 2vw, 1.3rem); font-style: italic; color: var(--accent); margin-bottom: 12px; }
+    .cs-tagline { font-size: 0.9rem; color: var(--text-muted); letter-spacing: 0.06em; margin-bottom: 48px; }
+
+    .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 48px; }
+    .stat-cell { background: var(--surface); padding: 24px 20px; text-align: center; }
+    .stat-value { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .meta-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .meta-table tr { border-bottom: 1px solid var(--border); }
+    .meta-table tr:last-child { border-bottom: none; }
+    .meta-table td { padding: 14px 0; vertical-align: top; }
+    .meta-table td:first-child { font-weight: 600; color: var(--text-muted); width: 160px; padding-right: 24px; }
+    .meta-table td:last-child { color: var(--text); }
+
+    .toc-section { padding: 56px 0; border-bottom: 1px solid var(--border); background: var(--bg-alt); }
+    .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-top: 28px; }
+    .toc-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; font-size: 0.85rem; color: var(--text-muted); border: 1px solid transparent; transition: all var(--transition); }
+    .toc-item:hover { background: var(--gold-dim); border-color: rgba(201,169,110,0.2); color: var(--gold); }
+    .toc-num { font-size: 0.7rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; min-width: 24px; }
+
+    .cs-section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+    .cs-section:nth-child(even) { background: var(--bg-alt); }
+
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .section-title { font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: var(--text); margin-bottom: 32px; line-height: 1.2; }
+
+    .prose p { font-size: 1rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.8; }
+    .prose p:last-child { margin-bottom: 0; }
+
+    .callout { background: var(--accent-dim); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 24px 28px; margin: 32px 0; }
+    .callout-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .callout p { font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: var(--text); line-height: 1.7; margin: 0; }
+    .callout-gold { background: var(--gold-dim); border-left-color: var(--gold); }
+    .callout-gold .callout-label { color: var(--gold); }
+    .callout-warn { background: rgba(139,74,82,0.1); border-left-color: var(--mauve); }
+    .callout-warn .callout-label { color: var(--mauve); }
+
+    .sub-heading { font-size: 1.05rem; font-weight: 600; color: var(--accent); margin: 36px 0 14px; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin: 28px 0; }
+    .data-table thead tr { background: var(--surface); }
+    .data-table thead th { padding: 14px 16px; text-align: left; font-weight: 600; color: var(--text-muted); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 2px solid var(--border); }
+    .data-table tbody tr { border-bottom: 1px solid var(--border); }
+    .data-table td { padding: 14px 16px; vertical-align: top; color: var(--text-muted); line-height: 1.6; }
+    .data-table td:first-child { font-weight: 600; color: var(--text); }
+    .table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+
+    /* Module cards numbered */
+    .module-card {
+      display: flex; gap: 20px; padding: 24px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); margin-bottom: 12px;
+      transition: border-color var(--transition);
+    }
+    .module-card:hover { border-color: var(--accent); }
+    .module-num-badge {
+      width: 48px; height: 48px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 1rem; font-weight: 700;
+      color: #fff; background: var(--accent);
+    }
+    .module-body { flex: 1; }
+    .module-name { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+    .module-role { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+    .module-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Implementation stages */
+    .stage { display: grid; grid-template-columns: 48px 1fr auto; gap: 20px; align-items: start; padding: 20px 0; border-bottom: 1px solid var(--border); }
+    .stage:last-child { border-bottom: none; }
+    .stage-num { width: 48px; height: 48px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 1rem; color: #fff; flex-shrink: 0; }
+    .stage-body { }
+    .stage-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .stage-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+    .stage-time { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); white-space: nowrap; padding-top: 14px; }
+
+    /* Case study results */
+    .result-stat { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin: 24px 0; }
+    .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; text-align: center; }
+    .result-value { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+    .result-label { font-size: 0.72rem; color: var(--text-dim); letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* Comparison table */
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin: 28px 0; }
+    .compare-table th { padding: 12px 16px; text-align: left; background: var(--surface); color: var(--text-muted); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 2px solid var(--border); }
+    .compare-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; line-height: 1.6; }
+    .compare-table td:first-child { color: var(--text); font-weight: 600; }
+    .compare-table .truvyx-row td { color: var(--accent); }
+
+    /* Insights */
+    .insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+    .insight-card { background: var(--bg-alt); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 24px; }
+    .insight-text { font-family: var(--font-serif); font-style: italic; font-size: 0.95rem; color: var(--text); line-height: 1.65; }
+
+    /* CTA footer */
+    .cs-footer { padding: 80px 0; text-align: center; background: var(--bg-alt); border-top: 1px solid var(--border); }
+    .cs-footer-title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .cs-footer-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 40px; }
+    .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; transition: all var(--transition); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #36c0b7; }
+    .btn-secondary { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    .diagram-wrap { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); padding: 28px 24px 20px; overflow-x: auto; margin: 28px 0; }
+    .diagram-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 18px; }
+
+    @media (max-width: 680px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .cs-hero { padding: 100px 0 60px; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .insights-grid { grid-template-columns: 1fr; }
+      .result-stat { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">JOE</a>
+    <div class="nav-links">
+      <a href="../index.html#about">About</a>
+      <a href="../case-studies.html">Case Studies</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <a href="../case-studies.html" class="nav-back">&#8592; Case Studies</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="cs-hero">
+    <div class="container">
+      <div class="cs-label">Full Product Case Study &middot; Multi-Industry Edition &middot; 2024</div>
+      <h1 class="cs-title">Truvyx</h1>
+      <p class="cs-subtitle">The Evaluation and Diagnostic Intelligence Platform for Multi-Agent AI Systems</p>
+      <p class="cs-tagline">Healthcare &middot; IT Operations &middot; Supply Chain &middot; Financial Services &middot; Government &middot; Project Management &middot; Insurance</p>
+
+      <div class="stats-bar">
+        <div class="stat-cell"><div class="stat-value">7</div><div class="stat-label">Industry Case Studies</div></div>
+        <div class="stat-cell"><div class="stat-value">6</div><div class="stat-label">Core Modules</div></div>
+        <div class="stat-cell"><div class="stat-value">10+</div><div class="stat-label">Buyer Segments</div></div>
+        <div class="stat-cell"><div class="stat-value">50</div><div class="stat-label">Free Monthly Runs</div></div>
+      </div>
+
+      <table class="meta-table">
+        <tr><td>What it is</td><td>Multi-agent AI evaluation and diagnostics platform</td></tr>
+        <tr><td>For</td><td>Decision-makers, operations leaders, compliance teams, and technology executives</td></tr>
+        <tr><td>Stack</td><td>Python Eval SDK, Scenario Studio (web UI), API endpoints for CI/CD pipeline integration, RS256-signed audit records</td></tr>
+        <tr><td>Deployment</td><td>Cloud SaaS, On-Premise, Hybrid, or White-Label</td></tr>
+        <tr><td>Live</td><td><a href="https://truvyx.vercel.app" target="_blank" rel="noopener" style="color:var(--accent);">truvyx.vercel.app</a></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- TOC -->
+  <section class="toc-section">
+    <div class="container">
+      <div class="cs-label">Contents</div>
+      <div class="toc-grid">
+        <a href="#problem" class="toc-item"><span class="toc-num">01</span> The Problem</a>
+        <a href="#what" class="toc-item"><span class="toc-num">02</span> What Truvyx Does</a>
+        <a href="#modules" class="toc-item"><span class="toc-num">03</span> Six Modules</a>
+        <a href="#implementation" class="toc-item"><span class="toc-num">04</span> Implementation Path</a>
+        <a href="#case-study" class="toc-item"><span class="toc-num">05</span> Healthcare Case Study</a>
+        <a href="#insights" class="toc-item"><span class="toc-num">06</span> Key Insights</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 PROBLEM -->
+  <section class="cs-section" id="problem">
+    <div class="container">
+      <div class="section-label">01 / The Problem</div>
+      <h2 class="section-title">When Multi-Agent Systems Fail, Nobody Knows Why</h2>
+      <div class="prose">
+        <p>Every week, organisations around the world are deploying AI systems designed to make complex decisions: approve a loan, schedule a clinical procedure, route a delivery, respond to a cybersecurity incident, process an insurance claim. These AI systems are not single tools. They are multi-agent systems: networks of AI sub-agents that each handle a piece of the decision and pass information to one another.</p>
+        <p>When these systems make mistakes, nobody knows why. An AI system approves a loan application that should have been declined. A clinical scheduling agent books a surgeon into two operating theatres simultaneously. A logistics agent routes a shipment through a port it does not have clearance to enter. In every case, the organisation gets a wrong answer. What they do not get is an explanation.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Truvyx in One Sentence</div>
+        <p>Truvyx is the platform that tells you, before and after you deploy a multi-agent AI system, whether it is reasoning correctly, and when it is not, exactly where the failure came from and how to fix it.</p>
+      </div>
+
+      <div class="prose">
+        <p>Before Truvyx, organisations had three options. Run the system and hope for the best. Hire a team of specialists to manually design test scenarios and write evaluation scripts by hand, at a cost of 4 to 6 hours per scenario. Or avoid deploying the system at all until someone figured out how to test it properly. None of these options were good.</p>
+      </div>
+
+      <!-- Diagram: the gap -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">The Evaluation Gap: What Exists vs. What Truvyx Does</div>
+        <svg viewBox="0 0 620 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px;display:block;">
+          <!-- Headers -->
+          <rect x="4"   y="4" width="290" height="24" rx="5" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="149" y="20" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#9A9585">STANDARD MONITORING TOOLS</text>
+          <rect x="302" y="4" width="314" height="24" rx="5" fill="#1A1D27" stroke="#2BA8A0" stroke-width="1.3"/>
+          <text x="459" y="20" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="#2BA8A0">TRUVYX</text>
+
+          <!-- Row 1 -->
+          <text x="149" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Tells you a request failed, how long it took, what it cost</text>
+          <text x="149" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Watches the infrastructure around your AI system</text>
+          <text x="459" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#2BA8A0">Tells you whether your AI system reasoned correctly</text>
+          <text x="459" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Watches the intelligence inside your AI system</text>
+
+          <!-- Row 2 -->
+          <text x="149" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#9A9585">Vendor benchmarks show strengths the vendor chose to test</text>
+          <text x="149" y="96" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">Rarely covers the hardest 20% of real operational environment</text>
+          <text x="459" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#2BA8A0">Scenarios built from your actual operational constraints</text>
+          <text x="459" y="96" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#6B6560">No vendor incentive distorts the benchmark</text>
+
+          <line x1="4"   y1="30" x2="616" y2="30" stroke="#2A2D3A" stroke-width="1"/>
+          <line x1="4"   y1="68" x2="616" y2="68" stroke="#2A2D3A" stroke-width="0.5"/>
+          <line x1="300" y1="28" x2="300" y2="108" stroke="#2A2D3A" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 WHAT TRUVYX DOES -->
+  <section class="cs-section" id="what">
+    <div class="container">
+      <div class="section-label">02 / What Truvyx Does</div>
+      <h2 class="section-title">Evaluation Infrastructure That Runs Continuously</h2>
+      <div class="prose">
+        <p>Truvyx is built for two types of people in every organisation. The first is the decision-maker: the Chief Risk Officer who needs to know whether the AI system their team is about to deploy will create regulatory exposure. The Chief Operating Officer who needs to know whether the AI system will actually handle the operational complexity of their environment. The procurement lead who needs an objective basis for choosing between competing AI vendors.</p>
+        <p>The second is the implementer: the engineering team responsible for deploying and maintaining the AI system, who needs evaluation infrastructure that runs continuously, catches problems before they reach customers, and tells them specifically what to fix when something breaks.</p>
+      </div>
+
+      <div class="callout callout-gold">
+        <div class="callout-label">The Key Insight for Managers</div>
+        <p>You do not need to understand how any of these modules work technically. What matters is what they produce: verified test scenarios built from your real operational rules, automatic scoring on every deployment, and plain-language failure reports that tell your team exactly what to fix. Truvyx translates AI system behaviour into language that operations, risk, and compliance teams can act on.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 MODULES -->
+  <section class="cs-section" id="modules">
+    <div class="container">
+      <div class="section-label">03 / Six Modules</div>
+      <h2 class="section-title">Every Stage of Evaluation, End to End</h2>
+      <div class="prose">
+        <p>Truvyx is built around six modules that cover every stage of AI system evaluation: from designing the tests, through running them, to diagnosing failures and improving the system. You do not need to use all six from day one.</p>
+      </div>
+
+      <div class="module-card">
+        <div class="module-num-badge">01</div>
+        <div class="module-body">
+          <div class="module-name">Scenario Studio</div>
+          <div class="module-role">The Test Designer</div>
+          <div class="module-desc">This is where test scenarios are created. A structured form guides you through describing your operational environment: what resources you have, what rules govern your decisions, what constraints apply, and how many AI agents are involved. The Studio turns those inputs into fully specified test problems: complete operational scenarios that your AI system is asked to solve. An expert can produce 50 high-quality test scenarios in a day, compared to 2 or 3 using manual methods.</div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-num-badge" style="background:var(--amber);">02</div>
+        <div class="module-body">
+          <div class="module-name">Constraint Engine</div>
+          <div class="module-role">The Rules Validator</div>
+          <div class="module-desc">Every operational environment is governed by rules: regulations, resource limits, deadlines, approval sequences, compliance requirements. The Constraint Engine is where those rules are formally defined. Once defined, the engine automatically checks whether your test scenarios are solvable, whether any of your rules contradict each other, and generates the correct answer that a well-functioning AI system should produce. This correct answer becomes the benchmark against which your AI system is scored.</div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-num-badge" style="background:#6B5FCF;">03</div>
+        <div class="module-body">
+          <div class="module-name">Verifier Factory</div>
+          <div class="module-role">The Scoring Engine</div>
+          <div class="module-desc">Generates scoring scripts automatically from test scenarios and correct answers: one script per scenario. Each script checks three things: did the AI system follow all the rules (feasibility), did it address everything required (completeness), and how close was its answer to the best possible answer (optimality). These scripts run in your deployment pipeline, scoring every model update before it goes live.</div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-num-badge" style="background:#4A7A9B;">04</div>
+        <div class="module-body">
+          <div class="module-name">Decomposition Designer</div>
+          <div class="module-role">The Architecture Planner</div>
+          <div class="module-desc">A visual planning tool that lets you design and document how a multi-agent division of labour should work: which agent handles which part of the problem, what information each agent needs, and how the agents communicate with each other. It also lets you compare what your AI system actually did against what it should have done, revealing whether the system's internal structure matched the intended design.</div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-num-badge" style="background:#7A6B2A;">05</div>
+        <div class="module-body">
+          <div class="module-name">Benchmark Registry</div>
+          <div class="module-role">The Test Library</div>
+          <div class="module-desc">A version-controlled library of all test scenarios, organised by industry, difficulty, and constraint type. Public scenarios are freely available and used by AI researchers worldwide. Your organisation's private scenarios are stored in an encrypted, access-controlled namespace. The Registry also hosts performance leaderboards showing how different AI systems score against the same scenarios, giving you an objective basis for vendor comparison.</div>
+        </div>
+      </div>
+
+      <div class="module-card">
+        <div class="module-num-badge" style="background:var(--mauve);">06</div>
+        <div class="module-body">
+          <div class="module-name">Agentic RCA Engine</div>
+          <div class="module-role">The Diagnostic Layer</div>
+          <div class="module-desc">RCA stands for Root Cause Analysis. When your AI system fails a test or produces a wrong decision in production, the RCA Engine traces the failure back to its origin. It identifies which agent made the wrong decision, classifies what type of failure it was, and generates a precise counterfactual: the smallest change that would have produced the right answer. It also monitors patterns across many failures to surface systemic weaknesses before they become systemic problems.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 IMPLEMENTATION -->
+  <section class="cs-section" id="implementation">
+    <div class="container">
+      <div class="section-label">04 / Implementation Path</div>
+      <h2 class="section-title">Start Where the Pain Is Highest</h2>
+      <div class="prose">
+        <p>The most common mistake organisations make when adopting evaluation infrastructure is trying to implement everything at once. Truvyx is designed to be adopted incrementally. You can start with a single module, demonstrate value to your leadership team, and expand the implementation as your confidence and needs grow.</p>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:28px 0;">
+        <div class="stage">
+          <div class="stage-num">1</div>
+          <div class="stage-body">
+            <div class="stage-title">Define Your Operational Constraints</div>
+            <div class="stage-desc">Work with your risk, compliance, and operations teams to document the rules that govern decisions in your target domain. These become the input to the Constraint Engine. This step alone typically surfaces rule conflicts and undocumented constraints that no team was aware of. Budget 2 to 3 workshops with subject matter experts.</div>
+          </div>
+          <div class="stage-time">2-3 weeks</div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">2</div>
+          <div class="stage-body">
+            <div class="stage-title">Build and Validate Your Benchmark Suite</div>
+            <div class="stage-desc">Use the Scenario Studio to convert your constraint documentation into test scenarios. The Constraint Engine validates every scenario for feasibility and generates the correct reference answers. At the end of this step, you have a private benchmark suite that reflects your actual operational environment.</div>
+          </div>
+          <div class="stage-time">2-4 weeks</div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">3</div>
+          <div class="stage-body">
+            <div class="stage-title">Run Your First Evaluation</div>
+            <div class="stage-desc">Deploy the Verifier Factory scripts against your AI system. You receive structured scores on feasibility, completeness, and optimality, plus a full constraint violation report. This is typically the step that produces the first major decision-relevant finding.</div>
+          </div>
+          <div class="stage-time">1-2 weeks</div>
+        </div>
+        <div class="stage">
+          <div class="stage-num">4</div>
+          <div class="stage-body">
+            <div class="stage-title">Integrate Into Your Deployment Pipeline</div>
+            <div class="stage-desc">Use the Eval SDK to embed the scoring and RCA analysis into your deployment pipeline. From this point, every model update is automatically evaluated before going live. Failures trigger an RCA report routed to the appropriate team. This stage converts Truvyx from a one-time evaluation tool into permanent operational infrastructure.</div>
+          </div>
+          <div class="stage-time">1 week</div>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-label">For Regulated Environments</div>
+        <p>If your organisation operates in banking, healthcare, insurance, or government, activate compliance mode and the audit trail format before your first evaluation run. Compliance mode produces cryptographically signed, examiner-ready audit records for every evaluation. This costs nothing additional and ensures that every evaluation run produces documentation that satisfies regulatory examination requirements from day one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 CASE STUDY -->
+  <section class="cs-section" id="case-study">
+    <div class="container">
+      <div class="section-label">05 / Industry Case Study: Healthcare</div>
+      <h2 class="section-title">Kingsbridge Medical Centre: Catching a Patient Safety Failure Before It Harmed Anyone</h2>
+      <div class="prose">
+        <p>Kingsbridge Medical Centre is a 620-bed tertiary referral hospital managing over 2,400 clinical procedures per month across 14 speciality departments. They had invested in a multi-agent AI scheduling system designed to automate the allocation of surgical cases, coordinate theatre and ICU resources, and reduce the administrative burden on clinical coordinators.</p>
+        <p>Before go-live, the clinical governance team required a formal evaluation. They had seen a neighbouring hospital experience three near-miss incidents during the first month of a similar system's deployment, incidents that the vendor had attributed to configuration errors but that the clinical team suspected were architectural failures in the AI system itself.</p>
+      </div>
+
+      <div class="result-stat">
+        <div class="result-card"><div class="result-value">34%</div><div class="result-label">Reduction in Scheduling Conflicts Post-Remediation</div></div>
+        <div class="result-card"><div class="result-value">0</div><div class="result-label">Patient Safety Violations in 4-Month Post-Deploy Period</div></div>
+        <div class="result-card"><div class="result-value">8 wks</div><div class="result-label">Evaluation to Deployment Decision</div></div>
+        <div class="result-card"><div class="result-value">$1.8M</div><div class="result-label">Estimated Annual Cost Avoidance</div></div>
+      </div>
+
+      <h3 class="sub-heading">What the Evaluation Found</h3>
+      <div class="prose">
+        <p>Truvyx modelled Kingsbridge's scheduling environment across 39 benchmark scenarios. The Constraint Engine validated all 39 for clinical feasibility; two initial scenarios were found to contain logically impossible constraint combinations, surfacing an internal policy conflict between the ICU capacity management protocol and the post-operative monitoring standard for cardiac procedures.</p>
+        <p>The vendor's AI system was evaluated against all 39 scenarios. The overall feasibility score was 88.4%. The RCA Engine identified 7 safety-relevant failures concentrated in scenarios involving high-acuity patients with multiple concurrent procedures.</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Fault Type</th><th>Events</th><th>What Went Wrong</th><th>How It Was Fixed</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Constraint Blindness</td>
+              <td>5</td>
+              <td>The theatre allocation agent selected theatres based on availability and procedure type, without considering the infection-risk isolation requirement. In two of the five cases, this would have placed an infection-risk patient in a standard theatre immediately before an immunocompromised patient's procedure.</td>
+              <td>Theatre allocation agent's input schema extended to include infection_risk_flag and isolation_class from the patient record agent before theatre assignment runs.</td>
+            </tr>
+            <tr>
+              <td>Temporal Misalignment</td>
+              <td>2</td>
+              <td>The anaesthetist assignment agent scheduled two senior anaesthetists into consecutive high-acuity cases without checking the mandatory rest interval between cases. The orchestrator ran the assignment in parallel with the theatre booking rather than after it.</td>
+              <td>Orchestration sequence redesigned so anaesthetist assignment runs after theatre booking is confirmed, with the confirmed theatre timeline passed as a mandatory input to the rest interval constraint check.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-label">The Finding That Mattered Most</div>
+        <p>The infection-risk theatre allocation failure would have placed a patient with an active multi-drug-resistant organism into a standard theatre immediately before a post-transplant patient's scheduled procedure: a scenario with a documented risk of serious nosocomial infection. The vendor's own benchmark had not included infection-risk patients in its scheduling scenarios.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 INSIGHTS -->
+  <section class="cs-section" id="insights">
+    <div class="container">
+      <div class="section-label">06 / Key Product Insights</div>
+      <h2 class="section-title">What This Product Teaches the Market</h2>
+      <div class="insights-grid">
+        <div class="insight-card">
+          <div class="insight-text">Vendor benchmarks are not neutral. They are designed to show what the vendor chose to test, which is rarely the hardest 20 percent of a real operational environment. The only benchmark that matters is one built from your own constraints.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-text">A feasibility score of 88.4 percent sounds acceptable until you learn which 11.6 percent failed. In healthcare, those scenarios were the ones involving the most vulnerable patients. Average scores hide the distribution that determines safety.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-text">Constraint conflicts surface during the constraint definition step, before a single test runs. The ICU capacity and post-operative monitoring conflict at Kingsbridge had existed as an undocumented inconsistency in policy for three years. Evaluation forced the conversation.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-text">Incremental adoption is the correct deployment model. Starting with a single module in the domain of highest risk, demonstrating value, and expanding is faster than comprehensive implementation and produces better stakeholder buy-in at each stage.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER CTA -->
+  <div class="cs-footer">
+    <div class="container">
+      <div class="cs-footer-title">Explore Truvyx</div>
+      <p class="cs-footer-sub">Evaluation and diagnostic intelligence for multi-agent AI systems, across 7 industries.</p>
+      <div class="btn-group">
+        <a href="https://truvyx.vercel.app" target="_blank" rel="noopener" class="btn btn-primary">Live Platform &#8599;</a>
+        <a href="../case-studies.html" class="btn btn-secondary">&#8592; All Case Studies</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

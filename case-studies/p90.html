@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="P90 — A Full-Stack Agentic Platform for AI Product Unit Economics. Full case study by Judith Oluchi Ekeleme." />
+  <title>P90 Case Study — Judith Oluchi Ekeleme</title>
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="shortcut icon" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0F1117;
+      --bg-alt:     #131620;
+      --surface:    #1A1D27;
+      --border:     #2A2D3A;
+      --gold:       #C9A96E;
+      --gold-light: #E2C48A;
+      --gold-dim:   rgba(201,169,110,0.12);
+      --accent:     #D4851A;
+      --accent-dim: rgba(212,133,26,0.12);
+      --teal:       #4A9EBF;
+      --teal-dim:   rgba(74,158,191,0.12);
+      --mauve:      #8B4A52;
+      --mauve-dim:  rgba(139,74,82,0.12);
+      --green:      #4A9E6E;
+      --text:       #F5F0E8;
+      --text-muted: #9A9585;
+      --text-dim:   #6B6560;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-mono:  'DM Mono', 'Fira Code', monospace;
+      --radius:     12px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.75; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    ::selection { background: var(--gold-dim); color: var(--gold-light); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 64px;
+      background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: 0.08em; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-back { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color var(--transition); }
+    .nav-back:hover { color: var(--gold); }
+
+    .cs-hero {
+      padding: 140px 0 80px;
+      background: linear-gradient(180deg, #1A0E00 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .cs-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(212,133,26,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 0 32px; }
+    .container-wide { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+    .cs-label { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .cs-title { font-family: var(--font-serif); font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: 16px; }
+    .cs-subtitle { font-family: var(--font-serif); font-size: clamp(1rem, 2vw, 1.3rem); font-style: italic; color: var(--accent); margin-bottom: 12px; }
+    .cs-tagline { font-size: 0.9rem; color: var(--text-muted); letter-spacing: 0.06em; margin-bottom: 48px; }
+
+    .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 48px; }
+    .stat-cell { background: var(--surface); padding: 24px 20px; text-align: center; }
+    .stat-value { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .meta-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .meta-table tr { border-bottom: 1px solid var(--border); }
+    .meta-table tr:last-child { border-bottom: none; }
+    .meta-table td { padding: 14px 0; vertical-align: top; }
+    .meta-table td:first-child { font-weight: 600; color: var(--text-muted); width: 160px; padding-right: 24px; }
+    .meta-table td:last-child { color: var(--text); }
+
+    .toc-section { padding: 56px 0; border-bottom: 1px solid var(--border); background: var(--bg-alt); }
+    .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-top: 28px; }
+    .toc-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; font-size: 0.85rem; color: var(--text-muted); border: 1px solid transparent; transition: all var(--transition); }
+    .toc-item:hover { background: var(--gold-dim); border-color: rgba(201,169,110,0.2); color: var(--gold); }
+    .toc-num { font-size: 0.7rem; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; min-width: 24px; }
+
+    .cs-section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+    .cs-section:nth-child(even) { background: var(--bg-alt); }
+
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .section-title { font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 700; color: var(--text); margin-bottom: 32px; line-height: 1.2; }
+
+    .prose p { font-size: 1rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.8; }
+    .prose p:last-child { margin-bottom: 0; }
+
+    .callout { background: var(--accent-dim); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 24px 28px; margin: 32px 0; }
+    .callout-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .callout p { font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: var(--text); line-height: 1.7; margin: 0; }
+    .callout-gold { background: var(--gold-dim); border-left-color: var(--gold); }
+    .callout-gold .callout-label { color: var(--gold); }
+
+    .sub-heading { font-size: 1.05rem; font-weight: 600; color: var(--accent); margin: 36px 0 14px; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin: 28px 0; }
+    .data-table thead tr { background: var(--surface); }
+    .data-table thead th { padding: 14px 16px; text-align: left; font-weight: 600; color: var(--text-muted); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 2px solid var(--border); }
+    .data-table tbody tr { border-bottom: 1px solid var(--border); transition: background var(--transition); }
+    .data-table tbody tr:hover { background: rgba(212,133,26,0.04); }
+    .data-table td { padding: 14px 16px; vertical-align: top; color: var(--text-muted); line-height: 1.6; }
+    .data-table td:first-child { font-weight: 600; color: var(--text); }
+    .table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+
+    .kv-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 20px 0; }
+    .kv-table tr { border-bottom: 1px solid var(--border); }
+    .kv-table tr:last-child { border-bottom: none; }
+    .kv-table td { padding: 16px; vertical-align: top; line-height: 1.6; }
+    .kv-table td:first-child { font-weight: 600; color: var(--text); width: 220px; background: var(--surface); border-right: 1px solid var(--border); }
+    .kv-table td:last-child { color: var(--text-muted); }
+
+    /* Module cards */
+    .modules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+    .module-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: border-color var(--transition); }
+    .module-card:hover { border-color: var(--accent); }
+    .module-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.12em; margin-bottom: 8px; }
+    .module-name { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .module-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Agent node table */
+    .agent-node { display: flex; gap: 16px; margin-bottom: 16px; padding: 18px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+    .agent-node-label { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); font-weight: 500; min-width: 72px; padding-top: 2px; }
+    .agent-node-body { flex: 1; }
+    .agent-node-title { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .agent-node-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* Signal table */
+    .signal-row { display: grid; grid-template-columns: 1fr auto auto 2fr; gap: 16px; align-items: start; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 0.875rem; }
+    .signal-row:last-child { border-bottom: none; }
+    .signal-name { color: var(--text); font-weight: 600; }
+    .signal-thresh { font-family: var(--font-mono); color: var(--accent); font-size: 0.8rem; }
+    .signal-baseline { font-family: var(--font-mono); color: var(--text-dim); font-size: 0.8rem; }
+    .signal-detects { color: var(--text-muted); }
+
+    /* Insight cards */
+    .insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+    .insight-card { background: var(--bg-alt); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 24px; }
+    .insight-text { font-family: var(--font-serif); font-style: italic; font-size: 0.95rem; color: var(--text); line-height: 1.65; }
+
+    /* Persona table */
+    .persona-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin: 28px 0; }
+    .persona-table th { padding: 12px 16px; text-align: left; background: var(--surface); color: var(--text-muted); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 2px solid var(--border); }
+    .persona-table td { padding: 14px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: top; line-height: 1.5; }
+    .persona-table td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
+
+    /* CTA footer */
+    .cs-footer { padding: 80px 0; text-align: center; background: var(--bg-alt); border-top: 1px solid var(--border); }
+    .cs-footer-title { font-family: var(--font-serif); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: var(--text); margin-bottom: 12px; }
+    .cs-footer-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 40px; }
+    .btn-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; transition: all var(--transition); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #e8941f; }
+    .btn-secondary { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* SVG diagrams */
+    .diagram-wrap { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); padding: 28px 24px 20px; overflow-x: auto; margin: 28px 0; }
+    .diagram-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 18px; }
+
+    @media (max-width: 680px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .cs-hero { padding: 100px 0 60px; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+      .modules-grid { grid-template-columns: 1fr; }
+      .insights-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">JOE</a>
+    <div class="nav-links">
+      <a href="../index.html#about">About</a>
+      <a href="../case-studies.html">Case Studies</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../index.html#contact">Contact</a>
+    </div>
+    <a href="../case-studies.html" class="nav-back">&#8592; Case Studies</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="cs-hero">
+    <div class="container">
+      <div class="cs-label">Full Product Case Study &middot; May 2026</div>
+      <h1 class="cs-title">P90</h1>
+      <p class="cs-subtitle">A Full-Stack Agentic Platform for AI Product Unit Economics</p>
+      <p class="cs-tagline">AI Infrastructure / Pricing Intelligence &middot; Author Role: AI Product Manager</p>
+
+      <div class="stats-bar">
+        <div class="stat-cell"><div class="stat-value">7</div><div class="stat-label">Feature Modules</div></div>
+        <div class="stat-cell"><div class="stat-value">4</div><div class="stat-label">Agent Nodes</div></div>
+        <div class="stat-cell"><div class="stat-value">$40</div><div class="stat-label">Est. Monthly Cost</div></div>
+        <div class="stat-cell"><div class="stat-value">p90</div><div class="stat-label">Pricing Principle</div></div>
+      </div>
+
+      <table class="meta-table">
+        <tr><td>Role</td><td>AI Product Manager</td></tr>
+        <tr><td>Domain</td><td>AI Infrastructure / Pricing Intelligence</td></tr>
+        <tr><td>Primary Model</td><td>Groq gpt-oss-20b with LangGraph orchestration</td></tr>
+        <tr><td>Observability</td><td>Langfuse</td></tr>
+        <tr><td>Stack</td><td>LangGraph, FastAPI, Python, Vercel, Supabase, Langfuse</td></tr>
+        <tr><td>Live</td><td><a href="https://p90app.vercel.app" target="_blank" rel="noopener" style="color:var(--accent);">p90app.vercel.app</a></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- TOC -->
+  <section class="toc-section">
+    <div class="container">
+      <div class="cs-label">Contents</div>
+      <div class="toc-grid">
+        <a href="#problem" class="toc-item"><span class="toc-num">01</span> Problem Definition</a>
+        <a href="#vision" class="toc-item"><span class="toc-num">02</span> Product Vision</a>
+        <a href="#modules" class="toc-item"><span class="toc-num">03</span> Feature Modules</a>
+        <a href="#agentic" class="toc-item"><span class="toc-num">04</span> The Agentic Core</a>
+        <a href="#integration" class="toc-item"><span class="toc-num">05</span> Integration Architecture</a>
+        <a href="#gtm" class="toc-item"><span class="toc-num">06</span> GTM and Positioning</a>
+        <a href="#insights" class="toc-item"><span class="toc-num">07</span> Key Insights</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 PROBLEM -->
+  <section class="cs-section" id="problem">
+    <div class="container">
+      <div class="section-label">01 / Problem Definition</div>
+      <h2 class="section-title">The Core Economic Failure in AI Products</h2>
+      <div class="prose">
+        <p>SaaS pricing rests on a durable assumption: marginal cost trends toward zero at scale. Infrastructure scales sub-linearly with users. Gross margins improve with growth. AI products invalidate each of these. Every inference call carries a real, variable cost. That cost compounds through orchestration layers, retry logic, context inflation, and concurrency pressure in ways that do not diminish with scale and can worsen with adoption.</p>
+        <p>The more precise problem is variance, not aggregate cost. A team can manage a predictable cost even when it is high. What breaks pricing models is the gap between median user behavior and tail behavior. Power users submitting complex, iterative, long-context queries pay the same price as light users. As those power users grow as a share of the base, blended margins deteriorate without a visible trigger.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">The Structural Insight</div>
+        <p>P90 models tail risk rather than average cost. Traditional analytics tools show you averages. P90 models what happens at the 90th percentile of usage, which is where pricing models break.</p>
+      </div>
+
+      <!-- diagram: SaaS vs AI cost structure -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">SaaS Assumptions vs. AI Product Reality</div>
+        <svg viewBox="0 0 620 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px;display:block;">
+          <!-- Headers -->
+          <rect x="4" y="4" width="198" height="28" rx="5" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="103" y="22" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#9A9585">ASSUMPTION</text>
+          <rect x="210" y="4" width="198" height="28" rx="5" fill="#1A1D27" stroke="#2A2D3A"/>
+          <text x="309" y="22" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#C9A96E">SaaS REALITY</text>
+          <rect x="416" y="4" width="200" height="28" rx="5" fill="#1A1D27" stroke="#D4851A" stroke-width="1.3"/>
+          <text x="516" y="22" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#D4851A">AI PRODUCT REALITY</text>
+
+          <!-- Row 1 -->
+          <text x="103" y="56" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">Marginal unit cost</text>
+          <text x="309" y="56" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Near zero at scale</text>
+          <text x="516" y="56" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#D4851A">Real, variable, compounding per request</text>
+
+          <!-- Row 2 -->
+          <text x="103" y="80" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">What drives cost</text>
+          <text x="309" y="80" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Infrastructure, sub-linear</text>
+          <text x="516" y="80" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#D4851A">User behavior, power user concentration</text>
+
+          <!-- Row 3 -->
+          <text x="103" y="104" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">Scale effect on margin</text>
+          <text x="309" y="104" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Improves predictably</text>
+          <text x="516" y="104" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#D4851A">Can deteriorate with adoption</text>
+
+          <!-- Row 4 -->
+          <text x="103" y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#9A9585">Pricing model risk</text>
+          <text x="309" y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#C9A96E">Primarily commercial</text>
+          <text x="516" y="128" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#D4851A">Both commercial and unit-economic</text>
+
+          <!-- Dividers -->
+          <line x1="4" y1="40" x2="616" y2="40" stroke="#2A2D3A" stroke-width="1"/>
+          <line x1="4" y1="64" x2="616" y2="64" stroke="#2A2D3A" stroke-width="0.5"/>
+          <line x1="4" y1="88" x2="616" y2="88" stroke="#2A2D3A" stroke-width="0.5"/>
+          <line x1="4" y1="112" x2="616" y2="112" stroke="#2A2D3A" stroke-width="0.5"/>
+          <line x1="208" y1="32" x2="208" y2="138" stroke="#2A2D3A" stroke-width="1"/>
+          <line x1="414" y1="32" x2="414" y2="138" stroke="#2A2D3A" stroke-width="1"/>
+        </svg>
+      </div>
+
+      <h3 class="sub-heading">The Three Structural Gaps</h3>
+      <div class="prose">
+        <p><strong style="color:var(--text)">Measurement gap.</strong> Standard monitoring tracks average cost per request. Averages hide the variance that damages margins. A team seeing a stable average may have a deteriorating p90 and no mechanism to detect it.</p>
+        <p><strong style="color:var(--text)">Architecture gap.</strong> Pricing decisions are made after architecture decisions. By the time a team models unit economics, the system is in production with established behaviors. Cost architecture and pricing architecture are treated as separate concerns when they are the same concern.</p>
+        <p><strong style="color:var(--text)">Simulation gap.</strong> No standard tooling exists for stress-testing AI product economics. Teams have no way to project what happens to margins under adversarial conditions: a retry cascade, a concurrency spike, a shift in user behavior toward expensive patterns.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 VISION -->
+  <section class="cs-section" id="vision">
+    <div class="container">
+      <div class="section-label">02 / Product Vision and Positioning</div>
+      <h2 class="section-title">The Economics Operating Layer</h2>
+      <div class="prose">
+        <p>P90 is an economics operating layer for AI products. It is not a general analytics platform, a billing tool, or a revenue optimization system. Its specific function: make the variance problem visible, simulatable, and actionable before it becomes a margin event.</p>
+        <p>The platform operates on a principle drawn from the source framework: pricing is system design, not a commercial decision layered on top of a technical product. The cost architecture mapper makes system design legible as economics. The stress tester makes architecture decisions testable as financial risk.</p>
+      </div>
+
+      <div class="callout callout-gold">
+        <div class="callout-label">Positioning Statement</div>
+        <p>P90 is the only platform purpose-built for AI product unit economics. Where traditional analytics tools show you averages, P90 models tails. Where dashboards wait for humans to notice, the agent acts autonomously. Where spreadsheets go stale, the platform updates as behavior evolves.</p>
+      </div>
+
+      <h3 class="sub-heading">Six Primary Personas</h3>
+      <div class="table-wrapper">
+        <table class="persona-table">
+          <thead><tr><th>Persona</th><th>Primary Pain</th><th>Platform Value</th></tr></thead>
+          <tbody>
+            <tr><td>AI Product Manager</td><td>Shipping features without understanding cost profile</td><td>Layer-by-layer cost attribution; roadmap impact previewer</td></tr>
+            <tr><td>Founder / CEO</td><td>Setting pricing before real usage data exists</td><td>Simulation-first pricing with scenario stress tests</td></tr>
+            <tr><td>Finance / RevOps</td><td>Token invoices that do not reflect true COGS</td><td>Full seven-layer unit economics model with P&amp;L export</td></tr>
+            <tr><td>Engineering Lead</td><td>No visibility into economic cost of architecture choices</td><td>Feature economic tagging; architecture decision log</td></tr>
+            <tr><td>GTM / Pricing Lead</td><td>No principled framework for model selection</td><td>Decision tree grounded in system behavior data</td></tr>
+            <tr><td>Enterprise Customer Success</td><td>SLA commitments with unclear cost implications</td><td>Capacity-based pricing design; enterprise deal structuring</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 MODULES -->
+  <section class="cs-section" id="modules">
+    <div class="container">
+      <div class="section-label">03 / Feature Modules</div>
+      <h2 class="section-title">Seven Modules, Three Structural Gaps</h2>
+      <div class="prose">
+        <p>Each module addresses one of the three structural gaps identified in the problem definition. Modules 1 through 3 address the measurement gap. Module 4 addresses the simulation gap. Module 5 addresses the architecture gap. Modules 6 and 7 are platform-wide intelligence and output layers.</p>
+      </div>
+
+      <div class="modules-grid">
+        <div class="module-card">
+          <div class="module-num">MODULE 01</div>
+          <div class="module-name">Cost Architecture Mapper</div>
+          <div class="module-desc">Builds an honest COGS model across all seven cost layers. Retrieval overhead, orchestration calls, retry cascades, and concurrency provisioning routinely account for 30 to 60 percent of true cost but are absent from most financial models. Surfaces hidden cost layers with industry benchmarks.</div>
+        </div>
+        <div class="module-card">
+          <div class="module-num">MODULE 02</div>
+          <div class="module-name">Behavior Simulation Engine</div>
+          <div class="module-desc">Models how different user archetypes hit the cost structure. Five pre-built archetypes: Casual Explorer, Power User, Enterprise Workflow User, Batch Processor, and Edge Case Stress Tester. Outputs tail-risk thinking across p50, p90, p95, and p99 cost distributions.</div>
+        </div>
+        <div class="module-card">
+          <div class="module-num">MODULE 03</div>
+          <div class="module-name">Pricing Model Selector</div>
+          <div class="module-desc">Replaces intuition-based pricing model selection with a structured decision process matched to system behavior. Interactive decision tree across five forks. Outputs a ranked recommendation with confidence score and maturity roadmap showing evolution conditions.</div>
+        </div>
+        <div class="module-card">
+          <div class="module-num">MODULE 04</div>
+          <div class="module-name">Margin Stress Tester</div>
+          <div class="module-desc">Runs adversarial scenarios against the pricing model before users do. Six canonical scenarios: Retry Cascade, Heavy User Cluster, Context Bloat, Peak Load, Model Routing Failure, and Enterprise Onboarding Spike. Outputs margin survival reports and break-even floor.</div>
+        </div>
+        <div class="module-card">
+          <div class="module-num">MODULE 05</div>
+          <div class="module-name">Pricing-Architecture Alignment Checker</div>
+          <div class="module-desc">Flags economic mismatches between pricing model and system design before they compound. Feature economic tagging, roadmap impact previewer, and architecture decision log. Prevents the most common form of institutional amnesia in AI product organizations.</div>
+        </div>
+        <div class="module-card">
+          <div class="module-num">MODULE 06</div>
+          <div class="module-name">Living P&amp;L Dashboard</div>
+          <div class="module-desc">Real-time unit economics visibility: revenue per user, COGS per user across all seven layers, gross margin per user, contribution margin by segment. Behavioral drift alerts trigger when average context length, retry rate, or power user concentration crosses threshold.</div>
+        </div>
+      </div>
+      <div class="module-card" style="margin-top:0">
+        <div class="module-num">MODULE 07</div>
+        <div class="module-name">Pricing Playbook Generator</div>
+        <div class="module-desc">Converts platform outputs into a living pricing strategy document. Auto-generates pricing rationale, tier design recommendations, and pricing review triggers. Includes stakeholder presentation builder with board-ready summaries: model rationale, unit economics snapshot, stress test results, and forward-looking scenarios. Exports as PDF or PPTX.</div>
+      </div>
+
+      <!-- diagram: 7-layer cost model -->
+      <div class="diagram-wrap" style="margin-top:32px;">
+        <div class="diagram-label">Seven-Layer AI Product Cost Model</div>
+        <svg viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:600px;display:block;">
+          <defs>
+            <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0.5 L0,5.5 L5,3 z" fill="#D4851A"/>
+            </marker>
+          </defs>
+          <rect x="4"   y="16" width="70" height="48" rx="6" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="39"  y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#D4851A">Tokens</text>
+          <text x="39"  y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#6B6560">inference</text>
+
+          <rect x="88"  y="16" width="70" height="48" rx="6" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="123" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#D4851A">Retrieval</text>
+          <text x="123" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#6B6560">vector + BM25</text>
+
+          <rect x="172" y="16" width="70" height="48" rx="6" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="207" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#D4851A">Orchestration</text>
+          <text x="207" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#6B6560">LangGraph calls</text>
+
+          <rect x="256" y="16" width="70" height="48" rx="6" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="291" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#D4851A">Retries</text>
+          <text x="291" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#6B6560">failure cost</text>
+
+          <rect x="340" y="16" width="70" height="48" rx="6" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="375" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#D4851A">Concurrency</text>
+          <text x="375" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#6B6560">provisioning</text>
+
+          <rect x="424" y="16" width="70" height="48" rx="6" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="459" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#D4851A">Egress</text>
+          <text x="459" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#6B6560">data transfer</text>
+
+          <rect x="508" y="16" width="88" height="48" rx="6" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="552" y="37" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#D4851A">Fixed Overhead</text>
+          <text x="552" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#6B6560">eval + guardrails</text>
+
+          <line x1="75"  y1="40" x2="86"  y2="40" stroke="#D4851A" stroke-width="1.3" marker-end="url(#arr)"/>
+          <line x1="159" y1="40" x2="170" y2="40" stroke="#D4851A" stroke-width="1.3" marker-end="url(#arr)"/>
+          <line x1="243" y1="40" x2="254" y2="40" stroke="#D4851A" stroke-width="1.3" marker-end="url(#arr)"/>
+          <line x1="327" y1="40" x2="338" y2="40" stroke="#D4851A" stroke-width="1.3" marker-end="url(#arr)"/>
+          <line x1="411" y1="40" x2="422" y2="40" stroke="#D4851A" stroke-width="1.3" marker-end="url(#arr)"/>
+          <line x1="495" y1="40" x2="506" y2="40" stroke="#D4851A" stroke-width="1.3" marker-end="url(#arr)"/>
+
+          <text x="300" y="10" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">Eval + guardrails absent from 70%+ of cost models; represent 8-15% of true COGS</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 AGENTIC CORE -->
+  <section class="cs-section" id="agentic">
+    <div class="container">
+      <div class="section-label">04 / The Agentic Core</div>
+      <h2 class="section-title">Four-Node LangGraph Agent with Human Approval Gate</h2>
+      <div class="prose">
+        <p>The agentic core is a LangGraph StateGraph with four nodes executing in a conditional sequence. It runs on a configurable interval as a background asyncio task. No human input triggers it. The agent monitors, detects, simulates, and reasons autonomously, surfacing output only when the results warrant a decision.</p>
+      </div>
+
+      <!-- Agent nodes -->
+      <div style="margin:28px 0;">
+        <div class="agent-node">
+          <div class="agent-node-label">MONITOR</div>
+          <div class="agent-node-body">
+            <div class="agent-node-title">Rule-based threshold evaluation</div>
+            <div class="agent-node-desc">Reads the last 5 MetricSnapshots from the database. Evaluates six signals against configured thresholds. Outputs a triggered flag with a list of crossed thresholds, or a healthy status that terminates the run.</div>
+          </div>
+        </div>
+        <div class="agent-node">
+          <div class="agent-node-label">DETECT</div>
+          <div class="agent-node-body">
+            <div class="agent-node-title">Rule-based layer attribution</div>
+            <div class="agent-node-desc">Takes triggered metrics and the latest snapshot. Produces an AnomalyEvent record with anomaly type, affected cost layer, and severity classification. Attribution is deterministic.</div>
+          </div>
+        </div>
+        <div class="agent-node">
+          <div class="agent-node-label">SIMULATE</div>
+          <div class="agent-node-body">
+            <div class="agent-node-title">Deterministic calculation</div>
+            <div class="agent-node-desc">Takes the AnomalyEvent and current metrics. Outputs a 30-day margin projection and a cost increase estimate. Creates a SimulationResult record. No LLM in this node: simulation results must be reproducible and auditable.</div>
+          </div>
+        </div>
+        <div class="agent-node">
+          <div class="agent-node-label">REASON</div>
+          <div class="agent-node-body">
+            <div class="agent-node-title">LLM: Groq gpt-oss-20b</div>
+            <div class="agent-node-desc">Takes the AnomalyEvent, SimulationResult, and seven article principles as system context. Produces three ranked PricingOptions with risk levels, article principle citations, and margin impact estimates. Output validated on parse; failure triggers one retry with the fallback model before logging an error state.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">The Human Approval Gate</div>
+        <p>The agent terminates at the Reason node with a pending recommendation. The frontend surfaces an approval panel with three sections: anomaly summary with affected layer and severity, simulation output with projected 30-day margin impact, and three pricing options each labeled by risk level with article principle citation. The decision is logged with timestamp, selected option, approver identity, and the full LLM reasoning chain.</p>
+      </div>
+
+      <h3 class="sub-heading">Six Monitoring Signals</h3>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:20px 0;">
+        <div class="signal-row" style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);">
+          <span>Signal</span><span>Threshold</span><span>Baseline</span><span>What It Detects</span>
+        </div>
+        <div class="signal-row"><span class="signal-name">Retry rate</span><span class="signal-thresh">&gt;12%</span><span class="signal-baseline">4%</span><span class="signal-detects">Quality degradation compounding cost through orchestration layer</span></div>
+        <div class="signal-row"><span class="signal-name">Power user cost concentration</span><span class="signal-thresh">&gt;52%</span><span class="signal-baseline">31%</span><span class="signal-detects">Flat-pricing structural risk from behavior-driven cost asymmetry</span></div>
+        <div class="signal-row"><span class="signal-name">Average context tokens</span><span class="signal-thresh">&gt;3,200</span><span class="signal-baseline">1,800</span><span class="signal-detects">Silent context inflation increasing inference and retry costs</span></div>
+        <div class="signal-row"><span class="signal-name">Concurrency peak</span><span class="signal-thresh">&gt;120</span><span class="signal-baseline">45</span><span class="signal-detects">Provisioning pressure triggering rate-limit retries</span></div>
+        <div class="signal-row"><span class="signal-name">Gross margin</span><span class="signal-thresh">&lt;52%</span><span class="signal-baseline">68%</span><span class="signal-detects">Lagging catch-all trigger regardless of source layer</span></div>
+        <div class="signal-row"><span class="signal-name">P90 to average ratio</span><span class="signal-thresh">&gt;2.2x</span><span class="signal-baseline">~1.3x</span><span class="signal-detects">Tail behavior diverging from average; pricing model stress indicator</span></div>
+      </div>
+
+      <!-- Diagram: agent flow -->
+      <div class="diagram-wrap">
+        <div class="diagram-label">Four-Node Agent Flow with Human Gate</div>
+        <svg viewBox="0 0 620 80" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:620px;display:block;">
+          <defs>
+            <marker id="arr2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+              <path d="M0,0.5 L0,6.5 L6,3.5 z" fill="#D4851A"/>
+            </marker>
+          </defs>
+          <rect x="4"   y="20" width="110" height="40" rx="7" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="59"  y="38" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#D4851A">MONITOR</text>
+          <text x="59"  y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">threshold check</text>
+
+          <rect x="138" y="20" width="110" height="40" rx="7" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="193" y="38" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#D4851A">DETECT</text>
+          <text x="193" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">layer attribution</text>
+
+          <rect x="272" y="20" width="110" height="40" rx="7" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="327" y="38" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#D4851A">SIMULATE</text>
+          <text x="327" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">30-day projection</text>
+
+          <rect x="406" y="20" width="110" height="40" rx="7" fill="#1A1D27" stroke="#D4851A" stroke-width="1.2"/>
+          <text x="461" y="38" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="#D4851A">REASON</text>
+          <text x="461" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">LLM: 3 options</text>
+
+          <rect x="540" y="20" width="76" height="40" rx="7" fill="#1A0E00" stroke="#C9A96E" stroke-width="1.5"/>
+          <text x="578" y="38" text-anchor="middle" font-family="DM Mono,monospace" font-size="8.5" fill="#C9A96E">HUMAN</text>
+          <text x="578" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#6B6560">approve/dismiss</text>
+
+          <line x1="115" y1="40" x2="136" y2="40" stroke="#D4851A" stroke-width="1.4" marker-end="url(#arr2)"/>
+          <line x1="249" y1="40" x2="270" y2="40" stroke="#D4851A" stroke-width="1.4" marker-end="url(#arr2)"/>
+          <line x1="383" y1="40" x2="404" y2="40" stroke="#D4851A" stroke-width="1.4" marker-end="url(#arr2)"/>
+          <line x1="517" y1="40" x2="538" y2="40" stroke="#C9A96E" stroke-width="1.4" marker-end="url(#arr2)"/>
+
+          <!-- healthy exit -->
+          <line x1="59" y1="60" x2="59" y2="74" stroke="#4A9E6E" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="59" y="12" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#4A9E6E">healthy: terminate</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 INTEGRATION -->
+  <section class="cs-section" id="integration">
+    <div class="container">
+      <div class="section-label">05 / Integration Architecture</div>
+      <h2 class="section-title">Four Integration Categories</h2>
+      <div class="prose">
+        <p>The production platform replaces the scenario simulator with live data from the team's actual infrastructure. Integrations operate in four categories: cost data, usage data, revenue data, and observability. The design principle: pull from authoritative sources rather than requiring manual data entry.</p>
+      </div>
+
+      <h3 class="sub-heading">LLM Provider Cost Integrations</h3>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Provider</th><th>Integration Method</th><th>Data Retrieved</th><th>Layer Populated</th></tr></thead>
+          <tbody>
+            <tr><td>Anthropic</td><td>Usage API v1/usage</td><td>Token counts by model, cost by request type</td><td>Layer 4: Model Execution</td></tr>
+            <tr><td>OpenAI</td><td>Usage API /v1/usage</td><td>Prompt and completion tokens, cost per model</td><td>Layer 4: Model Execution</td></tr>
+            <tr><td>Google Vertex AI</td><td>Cloud Billing API</td><td>Per-model usage, character and token counts</td><td>Layer 4: Model Execution</td></tr>
+            <tr><td>Groq</td><td>Usage endpoint via console API</td><td>Request counts, token throughput</td><td>Layer 4: Model Execution</td></tr>
+            <tr><td>AWS Bedrock</td><td>Cost Explorer API</td><td>Service-level spend, usage by model ID</td><td>Layer 4: Model Execution</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Why Automated Execution Is Not V1 Scope</div>
+        <p>Pricing decisions affect customer trust, contractual commitments, and competitive positioning. Automating them without an approval gate would be architecturally unsound regardless of model quality. V1 establishes the monitoring, reasoning, and logging infrastructure that makes V2 auto-execution safe: a team can observe agent recommendations for several months, measure approval rate and recommendation quality, and then selectively enable auto-execution on low-risk pricing levers with appropriate guardrails.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 GTM -->
+  <section class="cs-section" id="gtm">
+    <div class="container">
+      <div class="section-label">06 / GTM and Competitive Landscape</div>
+      <h2 class="section-title">A White Space With No Direct Competitor</h2>
+      <div class="prose">
+        <p>No direct competitor exists for AI product unit economics as a dedicated platform. Adjacent tools solve parts of the problem but not the same problem.</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Tool Category</th><th>Representative Products</th><th>Gap vs. P90</th></tr></thead>
+          <tbody>
+            <tr><td>LLM cost monitoring</td><td>Helicone, OpenMeter, LangSmith</td><td>Tracks token spend; does not model variance, simulate scenarios, or generate pricing recommendations</td></tr>
+            <tr><td>General BI / analytics</td><td>Mixpanel, Amplitude, Tableau</td><td>Requires manual setup; no AI-specific cost layer model; no autonomous monitoring</td></tr>
+            <tr><td>Usage-based billing infra</td><td>Stripe Billing, Orb, Metronome</td><td>Executes pricing; does not design or stress-test it</td></tr>
+            <tr><td>AI observability</td><td>Langfuse, Arize, Weights and Biases</td><td>Evaluates model quality and traces; does not address pricing or unit economics</td></tr>
+            <tr><td>SaaS pricing tools</td><td>Paddle, Chargebee, ProfitWell</td><td>Built for zero-marginal-cost assumptions; misaligned for AI cost structures</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="prose">
+        <p>The competitive white space is specific: continuous, autonomous, AI-native unit economics intelligence with an LLM reasoning layer and human approval gate. No existing tool combines all four of those properties.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 INSIGHTS -->
+  <section class="cs-section" id="insights">
+    <div class="container">
+      <div class="section-label">07 / Key Product Insights</div>
+      <h2 class="section-title">What This Product Taught Me</h2>
+      <div class="insights-grid">
+        <div class="insight-card">
+          <div class="insight-text">Pricing is system design, not a commercial decision. Every architecture choice is a pricing decision made before the pricing conversation. P90 makes that connection visible.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-text">Average cost is a dangerous metric for AI products. The tail is where pricing models fail. Building for median behavior when power users drive margin compression is structurally incorrect.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-text">The human approval gate is not a limitation of V1. It is the correct architectural decision. An agent that can change pricing autonomously without accountability infrastructure creates more risk than it removes.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-text">The seven-layer cost model forces honesty. Eval and guardrails are absent from over 70 percent of self-reported cost models but represent 8 to 15 percent of true COGS in production systems. The model surfaces what teams prefer not to see.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER CTA -->
+  <div class="cs-footer">
+    <div class="container">
+      <div class="cs-footer-title">Explore P90</div>
+      <p class="cs-footer-sub">Full-stack agentic platform for AI product unit economics, live on Vercel.</p>
+      <div class="btn-group">
+        <a href="https://p90app.vercel.app" target="_blank" rel="noopener" class="btn btn-primary">Live Platform &#8599;</a>
+        <a href="../case-studies.html" class="btn btn-secondary">&#8592; All Case Studies</a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -67,6 +67,27 @@ document.addEventListener('DOMContentLoaded', function () {
       </article>`).join('');
   }
 
+  // ── PROTOTYPES ───────────────────────────────────────────
+  const prototypesGrid = document.getElementById('prototypes-grid');
+  if (prototypesGrid && D.prototypes) {
+    prototypesGrid.innerHTML = D.prototypes.map(p => `
+      <article class="project-card" aria-label="${esc(p.title)}">
+        <div class="project-card-header">
+          <span class="project-type-tag">${esc(p.type)}</span>
+          <span class="project-year">${esc(p.year)}</span>
+        </div>
+        <h3 class="project-title">${esc(p.title)}</h3>
+        ${p.note ? `<span class="project-personal-tag">${esc(p.note)}</span>` : ''}
+        <p class="project-desc">${esc(p.description)}</p>
+        <div class="project-stack">
+          ${p.stack.map(s => `<span class="stack-pill">${esc(s)}</span>`).join('')}
+        </div>
+        <div class="project-links">
+          ${p.liveUrl ? `<a href="${p.liveUrl}" target="_blank" rel="noopener" class="project-link">View ↗</a>` : ''}
+        </div>
+      </article>`).join('');
+  }
+
   // ── CASE STUDIES TEASER GRID ─────────────────────────────
   const csGrid = document.getElementById('case-studies-grid');
   if (csGrid) {

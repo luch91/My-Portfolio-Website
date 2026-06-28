@@ -1,5 +1,5 @@
-// ============================================================
-//  data.js — Single source of truth for all portfolio content
+﻿// ============================================================
+//  data.js: Single source of truth for all portfolio content
 //  To add anything new: edit only this file.
 // ============================================================
 
@@ -86,6 +86,30 @@ var DATA = {
       personal: true
     },
     {
+      id: "p90",
+      title: "P90",
+      type: "Agentic AI Platform",
+      year: "2026",
+      description: "Full-stack agentic platform that solves a structural problem in AI product economics: teams apply SaaS pricing assumptions to systems where cost is variable, behavior-driven, and compounding. P90 monitors the p90 cost tail autonomously and surfaces ranked pricing recommendations for human approval.",
+      stack: ["LangGraph", "FastAPI", "Python", "Groq", "Langfuse", "Vercel", "Supabase"],
+      liveUrl: "https://p90app.vercel.app/",
+      caseStudyId: "p90",
+      featured: true,
+      personal: true
+    },
+    {
+      id: "truvyx",
+      title: "Truvyx",
+      type: "AI Eval Platform",
+      year: "2024",
+      description: "Evaluation and diagnostic intelligence platform for multi-agent AI systems. Generates test scenarios from natural language, validates constraints, auto-scores deployments on feasibility, completeness, and optimality, and traces failures to root cause with the Agentic RCA Engine.",
+      stack: ["Python SDK", "Scenario Studio", "Constraint Engine", "RS256 Audit Trail"],
+      liveUrl: "https://truvyx.vercel.app/",
+      caseStudyId: "truvyx",
+      featured: true,
+      personal: true
+    },
+    {
       id: "powerhouse9ja",
       title: "Powerhouse9ja",
       type: "Consumer FinTech",
@@ -110,9 +134,103 @@ var DATA = {
     }
   ],
 
+  // ── PROTOTYPES ──────────────────────────────────────────
+  prototypes: [
+    {
+      id: "kyvo-loan-admin",
+      title: "Kyvo Loan Admin Dashboard",
+      type: "FinTech",
+      year: "2026",
+      description: "Admin and analytics dashboard serving as single source of truth for a three-platform Nigerian loan management system. Covers borrower portfolio, collector activity, repayment tracking, and compliance reporting.",
+      stack: ["React", "Dashboard", "Analytics", "CBN Compliance"],
+      liveUrl: "https://kyvoloan.netlify.app/",
+      note: "Live prototype"
+    },
+    {
+      id: "trisonet",
+      title: "TrisoNet Trading Zone",
+      type: "African Marketplace",
+      year: "2024",
+      description: "Trusted African marketplace connecting buyers, citizen sellers, and verified business partners. Features real-time price negotiation, quality-verified products, GKWTH cryptocurrency exchange, and buyer protection guarantees.",
+      stack: ["Marketplace", "Live Chat", "Crypto Exchange", "Escrow"],
+      liveUrl: "https://trisonet-prototype.netlify.app/",
+      note: "Live prototype"
+    },
+    {
+      id: "user-loan-app",
+      title: "User Loan App",
+      type: "FinTech Mobile",
+      year: "2026",
+      description: "High-fidelity Figma prototype for the borrower-facing mobile app in the loan management system. Covers loan application, KYC, NIBSS repayment rails, and real-time loan status tracking.",
+      stack: ["Figma", "Mobile Design", "NIBSS", "KYC"],
+      liveUrl: "https://www.figma.com/design/oJ4jfjZ6Fxmuzmmk76mM1b/User-Loan-App?t=WbCmDVVk0F8h2Llh-0",
+      note: "Figma prototype"
+    },
+    {
+      id: "loan-collector-app",
+      title: "Loan Collector App",
+      type: "FinTech Mobile",
+      year: "2026",
+      description: "High-fidelity Figma prototype for the field collector mobile and web app. Covers daily collections, route management, payment confirmation, and FCCPC-compliant recovery workflows.",
+      stack: ["Figma", "Mobile Design", "Field Ops", "Collections"],
+      liveUrl: "https://www.figma.com/design/v2dkCDVjpqvn8SKJiLw0N0/Loan-Collector-App?t=WbCmDVVk0F8h2Llh-0",
+      note: "Figma prototype"
+    }
+  ],
+
   // ── CASE STUDIES ────────────────────────────────────────
   // To add a case study: add an entry here and drop the PDF in resources/case_studies/
   caseStudies: [
+    {
+      id: "p90",
+      title: "P90",
+      subtitle: "A Full-Stack Agentic Platform for AI Product Unit Economics",
+      coverColor: "#1A0E00",
+      accentColor: "#D4851A",
+      stats: [
+        { value: "7",    label: "Feature Modules" },
+        { value: "4",    label: "Agent Nodes"     },
+        { value: "p90",  label: "Pricing Principle"},
+        { value: "$40",  label: "Est. Monthly Cost"}
+      ],
+      role: "AI Product Manager",
+      productType: "Agentic AI Platform",
+      scope: "Full product specification: seven modules, agentic core, integration architecture, GTM",
+      keyInsights: [
+        "Pricing is system design. Every architecture decision is a pricing decision made before the pricing conversation happens. P90 makes that connection visible in real time.",
+        "Average cost is a dangerous metric for AI products. The tail is where pricing models fail. Building for median behavior when power users drive margin compression is structurally incorrect.",
+        "The human approval gate is not a limitation of V1. It is the correct architectural decision. An agent that can change pricing autonomously without accountability infrastructure creates more risk than it removes.",
+        "Eval and guardrails are absent from over 70 percent of self-reported cost models but represent 8 to 15 percent of true COGS in production. The seven-layer model forces honesty."
+      ],
+      pageUrl: "case-studies/p90.html",
+      pdfPath: "resources/case_studies/P90%20Case%20Study.pdf",
+      liveUrl: "https://p90app.vercel.app/"
+    },
+    {
+      id: "truvyx",
+      title: "Truvyx",
+      subtitle: "The Evaluation and Diagnostic Intelligence Platform for Multi-Agent AI Systems",
+      coverColor: "#001A18",
+      accentColor: "#2BA8A0",
+      stats: [
+        { value: "7",   label: "Industries Covered" },
+        { value: "6",   label: "Core Modules"       },
+        { value: "10+", label: "Buyer Segments"     },
+        { value: "50",  label: "Free Monthly Runs"  }
+      ],
+      role: "AI Product Manager",
+      productType: "Multi-Agent AI Evaluation Platform",
+      scope: "Full product specification: six modules, implementation path, multi-industry case studies",
+      keyInsights: [
+        "Vendor benchmarks are not neutral. They are designed to show what the vendor chose to test, which is rarely the hardest 20 percent of a real operational environment.",
+        "A feasibility score of 88.4 percent sounds acceptable until you learn which 11.6 percent failed. In healthcare, those scenarios involved the most vulnerable patients. Averages hide the distribution that determines safety.",
+        "Constraint conflicts surface during the constraint definition step, before a single test runs. The ICU capacity and post-operative monitoring conflict at Kingsbridge had existed as an undocumented inconsistency in policy for three years.",
+        "Incremental adoption produces better outcomes than comprehensive implementation. Starting with the domain of highest risk, demonstrating value, and expanding is faster and builds better stakeholder buy-in."
+      ],
+      pageUrl: "case-studies/truvyx.html",
+      pdfPath: "resources/case_studies/Truvyx%20Case%20Study.pdf",
+      liveUrl: "https://truvyx.vercel.app/"
+    },
     {
       id: "cognarc",
       title: "CognArc",
@@ -315,7 +433,7 @@ var DATA = {
       id: "ai-unit-economics",
       type: "article",
       title: "Why Your AI Product Looks Profitable at Month 3 and Breaks at Month 9",
-      excerpt: "You didn't change your pricing. Your users changed their behaviour. The bill came anyway. A specific kind of meeting happens inside AI product companies around month 8 or 9 — margins are compressing, and nobody touched the pricing page.",
+      excerpt: "You didn't change your pricing. Your users changed their behaviour. The bill came anyway. A specific kind of meeting happens inside AI product companies around month 8 or 9: margins are compressing, and nobody touched the pricing page.",
       date: "2026",
       readTime: null,
       tags: ["AI Product", "Unit Economics", "Product Management", "LLMOps"],

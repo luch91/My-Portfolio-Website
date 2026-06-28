@@ -3,7 +3,7 @@
   "site": "https://judith-oluchi.netlify.app",
   "owner": "Judith Oluchi Ekeleme",
   "contact": "judithluchi@gmail.com",
-  "last_updated": "2026-06-03",
+  "last_updated": "2026-06-28",
 
   "crawling": {
     "allowed": true,
@@ -26,7 +26,7 @@
 
   "canonical_identity": {
     "full_name": "Judith Oluchi Ekeleme",
-    "aliases": ["Judith Ekeleme", "Oluchi Ekeleme", "JOE"],
+    "aliases": ["Judith Ekeleme", "Oluchi Ekeleme", "JOE", "Luchi"],
     "role": "Zero-to-One Product Lead, Technical AI PM, AI Systems Builder",
     "location": "Nigeria",
     "linkedin": "https://linkedin.com/in/ekeleme-judith",
@@ -41,10 +41,23 @@
       "MLOps",
       "Agentic system design",
       "Multi-agent RAG systems",
+      "AI evaluation infrastructure",
+      "AI product unit economics",
       "Zero-to-one product development",
-      "African tech and fintech"
+      "African tech and fintech",
+      "Clinical AI systems"
     ],
     "case_studies": [
+      {
+        "title": "P90",
+        "url": "https://judith-oluchi.netlify.app/case-studies/p90.html",
+        "topic": "Full-stack agentic platform for AI product unit economics"
+      },
+      {
+        "title": "Truvyx",
+        "url": "https://judith-oluchi.netlify.app/case-studies/truvyx.html",
+        "topic": "Evaluation and diagnostic intelligence platform for multi-agent AI systems"
+      },
       {
         "title": "CognArc",
         "url": "https://judith-oluchi.netlify.app/case-studies/cognarc.html",
@@ -59,6 +72,24 @@
         "title": "Fashville",
         "url": "https://judith-oluchi.netlify.app/case-studies/fashville.html",
         "topic": "AI-powered African fashion social commerce platform"
+      }
+    ],
+    "blog_posts": [
+      {
+        "title": "I Built a Full-Stack AI Evaluation Platform for a Clinical Pediatric Nutrition Assistant",
+        "url": "https://judith-oluchi.netlify.app/blog/cpna-eval.html"
+      },
+      {
+        "title": "Why Your AI Product Looks Profitable at Month 3 and Breaks at Month 9",
+        "url": "https://www.linkedin.com/pulse/why-your-ai-product-looks-profitable-month-3-breaks-9-oluchi-ekeleme-f1d6f"
+      },
+      {
+        "title": "The System Design Masterclass: Turning Raw Data into Decision Intelligence",
+        "url": "https://judith-oluchi.netlify.app/blog/decision-intelligence.html"
+      },
+      {
+        "title": "A PM's Deep Dive into RAG Systems",
+        "url": "https://judith-oluchi.netlify.app/blog/rag-deep-dive.html"
       }
     ]
   }

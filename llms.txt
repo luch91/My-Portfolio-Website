@@ -8,36 +8,51 @@ Her technical depth spans MLOps pipelines, LLMOps orchestration, multi-agent RAG
 
 ## Current role
 
-Lead Product Manager (Contract) — building a three-platform Nigerian loan management system from zero: borrower mobile app, collector mobile & web app, and admin dashboard. Full PRD suite across all three platforms covering CBN/FCCPC compliance, NIBSS payment rails, and multi-lender portfolio management.
+Lead Product Manager (Contract): building a three-platform Nigerian loan management system from zero: borrower mobile app, collector mobile and web app, and admin dashboard. Full PRD suite across all three platforms covering CBN/FCCPC compliance, NIBSS payment rails, and multi-lender portfolio management.
 
 Previously Lead PM at Powerhouse9ja, a prize-draw platform enabling Nigerians to win high-value homes as an alternative to mortgage debt.
 
-## Projects and case studies
+## Projects
+
+**P90** — Full-stack agentic platform for AI product unit economics. A four-node LangGraph agent that monitors cost variance across seven infrastructure layers, detects anomalies, simulates worst-case margin trajectories, and generates ranked pricing recommendations for human approval. Built on LangGraph, FastAPI, Groq, Langfuse, Vercel, Supabase. Live at p90app.vercel.app. Full case study at /case-studies/p90.html.
+
+**Truvyx** — Evaluation and diagnostic intelligence platform for multi-agent AI systems. Six modules: Scenario Studio, Constraint Engine, Verifier Factory, Decomposition Designer, Benchmark Registry, and Agentic RCA Engine. Covers seven industries. Live at truvyx.vercel.app. Full case study at /case-studies/truvyx.html.
 
 **CognArc** — Agentic AI platform for continuous cognitive evaluation of AI outputs. Scores AI systems for cognitive load, trust coherence, manipulation risk, and comprehension using TRIBE v2 fMRI research. Built on React 18, TypeScript, FastAPI, Docker, GCP Cloud Run. Live at cognarc-landing.vercel.app. Full case study at /case-studies/cognarc.html.
 
-**CPNA** — Multi-agent RAG clinical pediatric nutrition assistant. Provides evidence-based nutrition therapy for children with chronic conditions (cystic fibrosis, PKU, CKD, epilepsy) using deterministic safety guardrails. Zero LLM nutrient computations — all clinical outputs trace to the deterministic nutrient engine or DRI tables. Nigeria-specific food mapping included. Built on Python, LangChain, FAISS, DistilBERT, Groq API, LLaMA, Qdrant. Full case study at /case-studies/cpna.html.
+**CPNA** — Multi-agent RAG clinical pediatric nutrition assistant. Provides evidence-based nutrition therapy for children with chronic conditions (cystic fibrosis, PKU, CKD, epilepsy) using deterministic safety guardrails. Zero LLM nutrient computations: all clinical outputs trace to the deterministic nutrient engine or DRI tables. Nigeria-specific food mapping included. Built on Python, LangChain, FAISS, DistilBERT, Groq API, LLaMA, Qdrant. Full case study at /case-studies/cpna.html.
 
-**CPNA Evaluation Suite** — Standalone precision instrument for testing and scoring every layer of the CPNA system. Built on Next.js and FastAPI.
+**CPNA Evaluation Suite** — Standalone precision instrument for testing and scoring every layer of the CPNA system. Five evaluator modules, 10 canonical E2E scenarios, 12 dashboard surfaces. Built on Next.js and FastAPI. Live at cpna-eval-one.vercel.app. Blog post at /blog/cpna-eval.html.
 
-**Fashville** — AI-powered two-sided social commerce platform for African fashion creators entering global markets. Full AI architecture including a proprietary African fashion ontology, LLM-offline annotation pipeline (Claude 3 Opus + GPT-4V), teacher-student knowledge distillation, and multimodal feature pipeline. Full case study at /case-studies/fashville.html.
+**Fashville** — AI-powered two-sided social commerce platform for African fashion creators entering global markets. Full AI architecture including a proprietary African fashion ontology and multimodal feature pipeline. Full case study at /case-studies/fashville.html.
 
-**Powerhouse9ja** — Consumer fintech prize-draw platform. iOS, Android, and admin dashboard.
+**Powerhouse9ja** — Consumer fintech prize-draw platform. iOS, Android, and admin dashboard. Live at powerhouse9ja.com.
 
-**Hotel Cancellation Predictor** — End-to-end MLOps pipeline with LightGBM, MLflow, Docker, Jenkins, Flask, and GCP Cloud Run.
+## Prototypes
+
+**Kyvo Loan Admin Dashboard** — Admin and analytics dashboard serving as single source of truth for a three-platform Nigerian loan management system. Live at kyvoloan.netlify.app.
+
+**TrisoNet Trading Zone** — African marketplace connecting buyers, citizen sellers, and verified business partners. Features real-time price negotiation and GKWTH cryptocurrency exchange. Live at trisonet-prototype.netlify.app.
+
+**User Loan App** — High-fidelity Figma prototype for the borrower-facing mobile app. Figma: figma.com/design/oJ4jfjZ6Fxmuzmmk76mM1b/User-Loan-App
+
+**Loan Collector App** — High-fidelity Figma prototype for the field collector mobile app. Figma: figma.com/design/v2dkCDVjpqvn8SKJiLw0N0/Loan-Collector-App
 
 ## Writing
 
+- I Built a Full-Stack AI Evaluation Platform for a Clinical Pediatric Nutrition Assistant — /blog/cpna-eval.html
+- Why Your AI Product Looks Profitable at Month 3 and Breaks at Month 9 — LinkedIn article
+- The System Design Masterclass: Turning Raw Data into Decision Intelligence — /blog/decision-intelligence.html
+- A PM's Deep Dive into RAG Systems — /blog/rag-deep-dive.html
 - How to Use NotebookLM for In-Depth Market Research — /blog/notebooklm-market-research.html
-- Claude × Figma: Beginner's Prototype Guide — /resources/blog/claude-figma-guide.html
-- Highly Accurate Protein Structure Prediction — LinkedIn article
+- Claude x Figma: Beginner's Prototype Guide — /resources/blog/claude-figma-guide.html
 
 ## Credentials
 
 Oracle Cloud Infrastructure Generative AI Professional · Duke LLMOps · Duke MLOps · Stanford Machine Learning Specialization · IBM AI Product Manager Professional · McKinsey Digital Transformation Leadership · Coursera LLM Benchmarking and Evaluation
 
-MBA, Marketing — NEXT MBA, Next University Valencia (2025)
-BSc Nutrition & Dietetics — University of Nigeria, Nsukka (2013)
+MBA, Marketing: NEXT MBA, Next University Valencia (2025)
+BSc Nutrition and Dietetics: University of Nigeria, Nsukka (2013)
 
 ## Contact
 
@@ -47,10 +62,15 @@ GitHub: https://github.com/luch91
 
 ## Sitemap
 
-- / — Portfolio home (About, Projects, Case Studies, Experience, Skills, Certifications, Blog, Contact)
+- / — Portfolio home (About, Projects, Prototypes, Case Studies, Experience, Skills, Certifications, Blog, Contact)
 - /case-studies.html — All case studies index
+- /case-studies/p90.html — P90 full case study
+- /case-studies/truvyx.html — Truvyx full case study
 - /case-studies/cognarc.html — CognArc full case study
 - /case-studies/cpna.html — CPNA full case study
 - /case-studies/fashville.html — Fashville full case study
 - /blog.html — Blog index
+- /blog/cpna-eval.html — CPNA Eval platform case study blog post
+- /blog/decision-intelligence.html — Decision Intelligence article
+- /blog/rag-deep-dive.html — RAG systems deep dive
 - /blog/notebooklm-market-research.html — NotebookLM research guide
