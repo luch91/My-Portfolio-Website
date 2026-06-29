@@ -35,6 +35,30 @@ var DATA = {
   // To add a project: copy one block, fill in the fields, save.
   projects: [
     {
+      id: "truvyx",
+      title: "Truvyx",
+      type: "AI Eval Platform",
+      year: "2024",
+      description: "Evaluation and diagnostic intelligence platform for multi-agent AI systems. Generates test scenarios from natural language, validates constraints, auto-scores deployments on feasibility, completeness, and optimality, and traces failures to root cause with the Agentic RCA Engine.",
+      stack: ["Python SDK", "Scenario Studio", "Constraint Engine", "RS256 Audit Trail"],
+      liveUrl: "https://truvyx.vercel.app/",
+      caseStudyId: "truvyx",
+      featured: true,
+      personal: true
+    },
+    {
+      id: "p90",
+      title: "P90",
+      type: "Agentic AI Platform",
+      year: "2026",
+      description: "Full-stack agentic platform that solves a structural problem in AI product economics: teams apply SaaS pricing assumptions to systems where cost is variable, behavior-driven, and compounding. P90 monitors the p90 cost tail autonomously and surfaces ranked pricing recommendations for human approval.",
+      stack: ["LangGraph", "FastAPI", "Python", "Groq", "Langfuse", "Vercel", "Supabase"],
+      liveUrl: "https://p90app.vercel.app/",
+      caseStudyId: "p90",
+      featured: true,
+      personal: true
+    },
+    {
       id: "cognarc",
       title: "CognArc",
       type: "Agentic AI Platform",
@@ -82,30 +106,6 @@ var DATA = {
       prototypeUrl: "https://chat.qwen.ai/s/deploy/t_ac4274c9-037c-4e0b-b9da-22ef0451b787",
       adminPrototypeUrl: "https://chat.qwen.ai/s/deploy/t_fd3ebaf5-4c4b-403d-b119-22c2fe8f0906",
       caseStudyId: "fashville",
-      featured: true,
-      personal: true
-    },
-    {
-      id: "p90",
-      title: "P90",
-      type: "Agentic AI Platform",
-      year: "2026",
-      description: "Full-stack agentic platform that solves a structural problem in AI product economics: teams apply SaaS pricing assumptions to systems where cost is variable, behavior-driven, and compounding. P90 monitors the p90 cost tail autonomously and surfaces ranked pricing recommendations for human approval.",
-      stack: ["LangGraph", "FastAPI", "Python", "Groq", "Langfuse", "Vercel", "Supabase"],
-      liveUrl: "https://p90app.vercel.app/",
-      caseStudyId: "p90",
-      featured: true,
-      personal: true
-    },
-    {
-      id: "truvyx",
-      title: "Truvyx",
-      type: "AI Eval Platform",
-      year: "2024",
-      description: "Evaluation and diagnostic intelligence platform for multi-agent AI systems. Generates test scenarios from natural language, validates constraints, auto-scores deployments on feasibility, completeness, and optimality, and traces failures to root cause with the Agentic RCA Engine.",
-      stack: ["Python SDK", "Scenario Studio", "Constraint Engine", "RS256 Audit Trail"],
-      liveUrl: "https://truvyx.vercel.app/",
-      caseStudyId: "truvyx",
       featured: true,
       personal: true
     },
@@ -182,31 +182,6 @@ var DATA = {
   // To add a case study: add an entry here and drop the PDF in resources/case_studies/
   caseStudies: [
     {
-      id: "p90",
-      title: "P90",
-      subtitle: "A Full-Stack Agentic Platform for AI Product Unit Economics",
-      coverColor: "#1A0E00",
-      accentColor: "#D4851A",
-      stats: [
-        { value: "7",    label: "Feature Modules" },
-        { value: "4",    label: "Agent Nodes"     },
-        { value: "p90",  label: "Pricing Principle"},
-        { value: "$40",  label: "Est. Monthly Cost"}
-      ],
-      role: "AI Product Manager",
-      productType: "Agentic AI Platform",
-      scope: "Full product specification: seven modules, agentic core, integration architecture, GTM",
-      keyInsights: [
-        "Pricing is system design. Every architecture decision is a pricing decision made before the pricing conversation happens. P90 makes that connection visible in real time.",
-        "Average cost is a dangerous metric for AI products. The tail is where pricing models fail. Building for median behavior when power users drive margin compression is structurally incorrect.",
-        "The human approval gate is not a limitation of V1. It is the correct architectural decision. An agent that can change pricing autonomously without accountability infrastructure creates more risk than it removes.",
-        "Eval and guardrails are absent from over 70 percent of self-reported cost models but represent 8 to 15 percent of true COGS in production. The seven-layer model forces honesty."
-      ],
-      pageUrl: "case-studies/p90.html",
-      pdfPath: "resources/case_studies/P90%20Case%20Study.pdf",
-      liveUrl: "https://p90app.vercel.app/"
-    },
-    {
       id: "truvyx",
       title: "Truvyx",
       subtitle: "The Evaluation and Diagnostic Intelligence Platform for Multi-Agent AI Systems",
@@ -230,6 +205,31 @@ var DATA = {
       pageUrl: "case-studies/truvyx.html",
       pdfPath: "resources/case_studies/Truvyx%20Case%20Study.pdf",
       liveUrl: "https://truvyx.vercel.app/"
+    },
+    {
+      id: "p90",
+      title: "P90",
+      subtitle: "A Full-Stack Agentic Platform for AI Product Unit Economics",
+      coverColor: "#1A0E00",
+      accentColor: "#D4851A",
+      stats: [
+        { value: "7",    label: "Feature Modules" },
+        { value: "4",    label: "Agent Nodes"     },
+        { value: "p90",  label: "Pricing Principle"},
+        { value: "$40",  label: "Est. Monthly Cost"}
+      ],
+      role: "AI Product Manager",
+      productType: "Agentic AI Platform",
+      scope: "Full product specification: seven modules, agentic core, integration architecture, GTM",
+      keyInsights: [
+        "Pricing is system design. Every architecture decision is a pricing decision made before the pricing conversation happens. P90 makes that connection visible in real time.",
+        "Average cost is a dangerous metric for AI products. The tail is where pricing models fail. Building for median behavior when power users drive margin compression is structurally incorrect.",
+        "The human approval gate is not a limitation of V1. It is the correct architectural decision. An agent that can change pricing autonomously without accountability infrastructure creates more risk than it removes.",
+        "Eval and guardrails are absent from over 70 percent of self-reported cost models but represent 8 to 15 percent of true COGS in production. The seven-layer model forces honesty."
+      ],
+      pageUrl: "case-studies/p90.html",
+      pdfPath: "resources/case_studies/P90%20Case%20Study.pdf",
+      liveUrl: "https://p90app.vercel.app/"
     },
     {
       id: "cognarc",
