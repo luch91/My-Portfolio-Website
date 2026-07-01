@@ -233,6 +233,73 @@
     .diagram-wrap { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-alt); padding: 28px 24px 20px; overflow-x: auto; margin: 28px 0; }
     .diagram-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 18px; }
 
+    /* Before/After outcomes */
+    .before-after { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 24px 0; }
+    .ba-header { display: grid; grid-template-columns: 1fr 1fr 1fr; background: var(--surface); border-bottom: 2px solid var(--border); }
+    .ba-header-cell { padding: 10px 16px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+    .ba-header-cell.after { color: var(--accent); }
+    .ba-row { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid var(--border); }
+    .ba-row:last-child { border-bottom: none; }
+    .ba-metric { background: var(--surface); padding: 14px 16px; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); border-right: 1px solid var(--border); }
+    .ba-before { background: rgba(139,74,82,0.05); padding: 14px 16px; font-size: 0.85rem; color: var(--text-muted); border-right: 1px solid var(--border); line-height: 1.5; }
+    .ba-after { background: rgba(43,168,160,0.05); padding: 14px 16px; font-size: 0.85rem; color: var(--accent); font-weight: 500; line-height: 1.5; }
+
+    /* Quote block */
+    .quote-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 32px; margin: 28px 0; }
+    .quote-text { font-family: var(--font-serif); font-style: italic; font-size: 1rem; color: var(--text); line-height: 1.8; margin-bottom: 14px; }
+    .quote-attr { font-size: 0.82rem; font-weight: 600; color: var(--accent); }
+
+    /* Moats */
+    .moat-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 24px 28px; margin-bottom: 14px; }
+    .moat-num { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .moat-title { font-family: var(--font-serif); font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .moat-body { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 10px; }
+    .moat-benefit { font-size: 0.82rem; color: var(--gold); line-height: 1.6; }
+    .moat-benefit strong { color: var(--gold-light); }
+
+    /* Universal benefits */
+    .benefit-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 28px 0; }
+    .benefit-row { display: grid; grid-template-columns: 220px 1fr; border-bottom: 1px solid var(--border); }
+    .benefit-row:last-child { border-bottom: none; }
+    .benefit-title { background: var(--surface); padding: 20px 20px; font-size: 0.9rem; font-weight: 700; color: var(--text); border-right: 1px solid var(--border); }
+    .benefit-desc { padding: 20px 24px; font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* Compliance table */
+    .compliance-pair { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 24px 0; }
+    .cp-row { display: grid; grid-template-columns: 190px 1fr; border-bottom: 1px solid var(--border); }
+    .cp-row:last-child { border-bottom: none; }
+    .cp-label { background: var(--surface); padding: 16px 18px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); border-right: 1px solid var(--border); }
+    .cp-label.needs { color: var(--mauve); }
+    .cp-label.produces { color: var(--accent); }
+    .cp-content { padding: 16px 20px; font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+    .cp-content.produces { color: var(--text); }
+
+    /* Getting started */
+    .gs-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin: 28px 0; }
+    .gs-table td { padding: 16px 18px; vertical-align: top; border-bottom: 1px solid var(--border); line-height: 1.65; }
+    .gs-table tr:last-child td { border-bottom: none; }
+    .gs-table td:first-child { font-weight: 700; color: var(--text); width: 220px; padding-right: 20px; background: var(--surface); border-right: 1px solid var(--border); }
+    .gs-table td:last-child { color: var(--text-muted); }
+
+    /* Researchers */
+    .researcher-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 24px 0; }
+    .researcher-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+    .researcher-type { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .researcher-card ul { list-style: none; }
+    .researcher-card li { font-size: 0.82rem; color: var(--text-muted); padding: 6px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+    .researcher-card li:last-child { border-bottom: none; }
+    .researcher-card li::before { content: '→ '; color: var(--accent); }
+
+    /* Who benefits */
+    .beneficiary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0; }
+    .beneficiary-card { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+    .beneficiary-name { font-size: 0.85rem; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
+    .beneficiary-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Industry section divider */
+    .industry-section { margin-top: 56px; padding-top: 40px; border-top: 2px solid var(--border); }
+    .industry-section:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+
     @media (max-width: 680px) {
       nav { padding: 0 20px; }
       .nav-links { display: none; }
@@ -298,7 +365,12 @@
         <a href="#deployment" class="toc-item"><span class="toc-num">04</span> Deployment Options</a>
         <a href="#implementation" class="toc-item"><span class="toc-num">05</span> Implementation Path</a>
         <a href="#case-study" class="toc-item"><span class="toc-num">06</span> Industry Case Studies</a>
-        <a href="#insights" class="toc-item"><span class="toc-num">07</span> Key Insights</a>
+        <a href="#universal-benefits" class="toc-item"><span class="toc-num">07</span> Universal Benefits</a>
+        <a href="#moats" class="toc-item"><span class="toc-num">08</span> Strategic Moats</a>
+        <a href="#researchers" class="toc-item"><span class="toc-num">09</span> For Researchers</a>
+        <a href="#compliance" class="toc-item"><span class="toc-num">10</span> For Compliance Teams</a>
+        <a href="#getting-started" class="toc-item"><span class="toc-num">11</span> Getting Started</a>
+        <a href="#insights" class="toc-item"><span class="toc-num">12</span> Key Insights</a>
       </div>
     </div>
   </section>
@@ -667,13 +739,634 @@
         <div class="callout-label">Patient Safety Finding</div>
         <p>The infection-risk theatre allocation failure would have placed a patient with an active multi-drug-resistant organism into a standard theatre immediately before a post-transplant patient's scheduled procedure: a scenario with a documented risk of serious nosocomial infection. The vendor's own benchmark had not included infection-risk patients in its scheduling scenarios.</p>
       </div>
+
+      <h3 class="sub-heading">The Outcome</h3>
+      <div class="before-after">
+        <div class="ba-header">
+          <div class="ba-header-cell">Metric</div>
+          <div class="ba-header-cell">Before</div>
+          <div class="ba-header-cell after">After</div>
+        </div>
+        <div class="ba-row">
+          <div class="ba-metric">Clinical Safety Events</div>
+          <div class="ba-before">3 near-miss incidents per month (sector average for similar systems)</div>
+          <div class="ba-after">0 patient safety violations in 4-month post-deploy period</div>
+        </div>
+        <div class="ba-row">
+          <div class="ba-metric">Scheduling Conflict Rate</div>
+          <div class="ba-before">18% scheduling conflict rate</div>
+          <div class="ba-after">11.9% scheduling conflict rate</div>
+        </div>
+        <div class="ba-row">
+          <div class="ba-metric">Evaluation Cadence</div>
+          <div class="ba-before">Manual weekly audit required</div>
+          <div class="ba-after">Automated CI/CD evaluation on every update</div>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <div class="quote-text">"We nearly deployed a system that would have put vulnerable patients at risk. The vendor's benchmark showed 92% accuracy. Our benchmark showed 88%, and the 12% that failed included the scenarios where the failure had the most serious clinical consequences. Truvyx's evaluation was one of the most important clinical governance decisions we made this year."</div>
+        <div class="quote-attr">Dr. Sade Okonkwo, Clinical Governance Director, Kingsbridge Medical Centre</div>
+      </div>
+      <!-- IT Operations -->
+      <div class="industry-section" id="cs-it">
+        <div class="industry-header">
+          <div class="industry-letter" style="color:#4A9EBF;">IT</div>
+          <div class="industry-info">
+            <div class="industry-tag">IT Operations</div>
+            <div class="industry-org">Vantara Systems</div>
+            <div class="industry-desc">Validating a multi-agent incident response system before it handled a live P1 outage</div>
+          </div>
+        </div>
+        <div class="result-stat">
+          <div class="result-card"><div class="result-value">71%</div><div class="result-label">Faster Mean Time to Resolution on P1 Incidents</div></div>
+          <div class="result-card"><div class="result-value">44%</div><div class="result-label">Reduction in Escalation Errors Post-Remediation</div></div>
+          <div class="result-card"><div class="result-value">6 wks</div><div class="result-label">Evaluation to Production Go-Live End-to-End</div></div>
+          <div class="result-card"><div class="result-value">$3.1M</div><div class="result-label">Annual Savings from Faster Resolution</div></div>
+        </div>
+        <h3 class="sub-heading">The Challenge</h3>
+        <div class="prose">
+          <p>Vantara Systems is a managed services provider supporting 47 enterprise clients across financial services, retail, and public sector. Their NOC handles over 900 incidents per month, ranging from minor service disruptions to priority-one platform outages affecting tens of thousands of end users. Breach of a P1 SLA can trigger penalty payments of up to $180,000 per event.</p>
+          <p>Vantara had piloted a multi-agent AI system designed to automate the first 45 minutes of P1 incident response: classify the incident, identify the probable root cause, select the appropriate runbook, allocate on-call engineers, escalate to vendor support queues where needed, and provide continuous status updates to account managers. The system had performed well in a controlled test environment. The question was whether it would hold up under the constraint density of a real P1 event: concurrent incidents, staff shift changeovers, multiple clients affected, and competing escalation paths.</p>
+        </div>
+        <h3 class="sub-heading">Constraint Environment</h3>
+        <div class="table-wrapper">
+          <table class="constraint-table">
+            <tr><td>SLA Commitments</td><td>Per-client P1 response time (15-30 minutes), resolution time windows (2-4 hours), escalation trigger thresholds, and reporting frequency requirements</td></tr>
+            <tr><td>Staff Availability</td><td>On-call rotation schedules, tier-2/tier-3 certification requirements per incident type, maximum concurrent incident load per engineer, shift handover protocols</td></tr>
+            <tr><td>Runbook Dependencies</td><td>Sequential diagnostic steps that cannot be parallelised, vendor support queue access controls, change approval requirements before remediation actions</td></tr>
+            <tr><td>Client Priority Rules</td><td>Client tier weighting for resource allocation under concurrent incidents, dedicated account team notification sequences, regulatory reporting triggers for financial services clients</td></tr>
+            <tr><td>Escalation Protocols</td><td>Automatic escalation conditions, vendor contact SLAs, C-level notification thresholds, post-incident review scheduling</td></tr>
+          </table>
+        </div>
+        <h3 class="sub-heading">What the Evaluation Found</h3>
+        <div class="prose">
+          <p>Truvyx generated 41 benchmark scenarios covering the full spectrum of Vantara's incident types, including 9 multi-incident concurrent scenarios that tested the system under real-world load conditions. The vendor's system scored 83.7% on feasibility overall, but the score masked a critical pattern that the RCA Engine surfaced: failures were disproportionately concentrated in concurrent incident scenarios, where the system had to allocate limited engineer resources across competing priority demands.</p>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Fault Type</th><th># Events</th><th>What Went Wrong</th><th>How It Was Fixed</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Decomposition Fault</td><td>8 events</td>
+                <td>The resource allocation agent and the runbook selection agent ran in parallel. In concurrent incident scenarios, the resource allocation agent committed engineers to lower-priority incidents before the runbook selection agent had determined which incidents required specialist certification. P1 incidents requiring tier-3 engineers were sometimes left without a qualified responder while tier-3 engineers were allocated to lower-priority events.</td>
+                <td>Orchestration redesigned to run runbook selection first, outputting a <code style="font-family:var(--font-mono);font-size:0.82em;color:var(--accent);">required_certification</code> field before resource allocation begins. Resource allocation agent blocked from assigning engineers until certification requirements are confirmed.</td>
+              </tr>
+              <tr>
+                <td>Optimisation Failure</td><td>6 events</td>
+                <td>The incident prioritisation agent correctly identified priority order but selected the locally optimal resource allocation for each incident independently, rather than solving the global optimisation problem across all concurrent incidents. This left the system systematically under-allocating resources to the highest-impact events when simpler incidents could be resolved faster.</td>
+                <td>Prioritisation agent upgraded with a global capacity view input: a snapshot of all active incidents and their resource states, before running allocation decisions. Allocation sequence now follows global priority order, not local optimality.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="before-after">
+          <div class="ba-header"><div class="ba-header-cell">Metric</div><div class="ba-header-cell">Before</div><div class="ba-header-cell after">After</div></div>
+          <div class="ba-row"><div class="ba-metric">P1 Incident Mean Resolution Time</div><div class="ba-before">Mean P1 resolution: 4.2 hours</div><div class="ba-after">Mean P1 resolution: 1.2 hours</div></div>
+          <div class="ba-row"><div class="ba-metric">Incorrect Escalation Rate</div><div class="ba-before">23% escalation error rate</div><div class="ba-after">12.9% escalation error rate</div></div>
+          <div class="ba-row"><div class="ba-metric">Evaluation Cadence</div><div class="ba-before">Manual quarterly review only</div><div class="ba-after">Automated pre-deployment evaluation every release</div></div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"A system that allocates the wrong engineers to a P1 outage at 2am does not just breach SLAs. It destroys client relationships. Truvyx let us evaluate the system against exactly the kind of concurrent incident scenarios that cause those failures, before we ever went live. The ROI calculation was straightforward."</div>
+          <div class="quote-attr">Marcus Adeleke, VP of Engineering, Vantara Systems</div>
+        </div>
+      </div>
+
+      <!-- Supply Chain -->
+      <div class="industry-section" id="cs-supply-chain">
+        <div class="industry-header">
+          <div class="industry-letter" style="color:var(--amber);">SC</div>
+          <div class="industry-info">
+            <div class="industry-tag">Supply Chain &amp; Logistics</div>
+            <div class="industry-org">NovaTrans Logistics</div>
+            <div class="industry-desc">How a 14-week evaluation prevented 61% of in-production agent failures across 12 African markets</div>
+          </div>
+        </div>
+        <div class="result-stat">
+          <div class="result-card"><div class="result-value">61%</div><div class="result-label">Reduction in Agent Failures Across Live Operations</div></div>
+          <div class="result-card"><div class="result-value">14 wks</div><div class="result-label">Vendor Decision Timeline (down from 11+ months)</div></div>
+          <div class="result-card"><div class="result-value">3</div><div class="result-label">Vendors Evaluated Objectively on Identical Benchmark Suites</div></div>
+          <div class="result-card"><div class="result-value">$4.2M</div><div class="result-label">Projected Annual Savings from Failure and SLA Reduction</div></div>
+        </div>
+        <h3 class="sub-heading">The Challenge</h3>
+        <div class="prose">
+          <p>NovaTrans Logistics processes over 40,000 shipments per month across 12 African markets. Their operational environment is governed by carrier availability windows, customs clearance timelines, perishable cargo requirements, hub capacity constraints, and cross-border regulatory compliance rules across 12 jurisdictions: over 47 distinct constraint types. Three AI vendors competed for a contract to automate capacity planning, route optimisation, and incident response across NovaTrans's hub network.</p>
+          <p>After 11 months of demos and pilots, NovaTrans had reached no conclusion. Every vendor defined success differently. There was no shared benchmark. No vendor had been tested against the constraint interactions that occurred daily in NovaTrans's real environment. One pilot had produced a 23% failure rate with a disputed root cause: the vendor blamed data quality, NovaTrans suspected architecture. The procurement process had stalled.</p>
+        </div>
+        <h3 class="sub-heading">The Constraint Mapping</h3>
+        <div class="prose">
+          <p>Truvyx modelled 47 constraint types across 38 benchmark scenarios. The Constraint Engine's feasibility check caught three initial scenario drafts that contained conflicting constraint definitions, preventing them from being used as evaluation tools and exposing planning assumption errors that NovaTrans's own operations team had not identified.</p>
+        </div>
+        <h3 class="sub-heading">Vendor Evaluation Results</h3>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Vendor</th><th>Feasibility</th><th>Completeness</th><th>Optimality</th><th>Critical Violations</th></tr></thead>
+            <tbody>
+              <tr><td>Vendor A (Frontrunner)</td><td>91.2%</td><td>88.4%</td><td>74.1%</td><td>4 regulatory</td></tr>
+              <tr><td>Vendor B (Demo Leader)</td><td>76.8%</td><td>71.3%</td><td>68.9%</td><td>11 resource + temporal</td></tr>
+              <tr style="color:var(--accent);"><td>Vendor C (Selected)</td><td style="color:var(--accent);font-weight:700;">94.7%</td><td style="color:var(--accent);font-weight:700;">93.1%</td><td style="color:var(--accent);font-weight:700;">87.3%</td><td style="color:var(--accent);">2 temporal only</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prose">
+          <p>Vendor B, the demo leader and NovaTrans's frontrunner entering the evaluation, ranked last on the constraints that actually governed NovaTrans's daily operations. Vendor C, which had been deprioritised based on interface quality, ranked first. The RCA Engine traced all of Vendor C's 2 violations to a single counterfactual: the orchestrator needed to wait for a confirmed customs clearance signal before executing carrier assignment in high-volume hub scenarios. Vendor C remediated in 11 days. NovaTrans deployed with confidence.</p>
+        </div>
+        <div class="before-after">
+          <div class="ba-header"><div class="ba-header-cell">Metric</div><div class="ba-header-cell">Before</div><div class="ba-header-cell after">After</div></div>
+          <div class="ba-row"><div class="ba-metric">Time to Vendor Decision</div><div class="ba-before">11+ months (inconclusive)</div><div class="ba-after">14 weeks (decided)</div></div>
+          <div class="ba-row"><div class="ba-metric">Agent Failure Rate on Capacity Planning</div><div class="ba-before">23% pilot failure rate</div><div class="ba-after">9% post-remediation</div></div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"If we had made this decision based on demos, we would have selected the vendor that scored last on the benchmarks that actually matter to our operations. Truvyx paid for itself before we signed a vendor contract."</div>
+          <div class="quote-attr">Adaeze Okafor, VP of Operations, NovaTrans Logistics</div>
+        </div>
+      </div>
+
+      <!-- Financial Services -->
+      <div class="industry-section" id="cs-financial">
+        <div class="industry-header">
+          <div class="industry-letter" style="color:var(--gold);">FS</div>
+          <div class="industry-info">
+            <div class="industry-tag">Financial Services</div>
+            <div class="industry-org">Meridian Bank</div>
+            <div class="industry-desc">How a credit underwriting AI evaluation surfaced $220M in regulatory exposure before a single loan was approved</div>
+          </div>
+        </div>
+        <div class="result-stat">
+          <div class="result-card"><div class="result-value">$220M</div><div class="result-label">Risk Exposure Surfaced Before Deployment</div></div>
+          <div class="result-card"><div class="result-value">54%</div><div class="result-label">Reduction in Decision Errors Post-Remediation</div></div>
+          <div class="result-card"><div class="result-value">9 wks</div><div class="result-label">From Onboarding to Decision End-to-End</div></div>
+          <div class="result-card"><div class="result-value">0</div><div class="result-label">Regulatory Violations in 6-Month Post-Deploy Period</div></div>
+        </div>
+        <h3 class="sub-heading">The Challenge</h3>
+        <div class="prose">
+          <p>Meridian Bank processes 14,000 retail loan applications per month across 7 African markets. The bank was preparing to deploy a multi-agent AI system for credit underwriting: a system that would autonomously evaluate loan applications, verify applicant data, assess creditworthiness, and route decisions to human reviewers or straight-through approval. The selected vendor had published an internal benchmark showing 94.3% accuracy. Meridian's procurement team had accepted this as validation.</p>
+          <p>The vendor's benchmark had excluded three constraint types critical to Meridian's specific operational environment: dynamic bureau score recalibration for thin-file applicants, multi-jurisdiction regulatory stacking for cross-border applicants, and debt service coverage ratio recalculation under variable rate scenarios. These three constraint types governed exactly the most difficult and highest-risk 20% of Meridian's application volume.</p>
+        </div>
+        <h3 class="sub-heading">What the Evaluation Found</h3>
+        <div class="prose">
+          <p>Truvyx modelled Meridian's underwriting environment across 80+ constraint types and 44 benchmark scenarios. The vendor's selected system scored 81.4% on feasibility, and the RCA Engine identified 12 regulatory constraint violations concentrated in multi-jurisdiction applicant scenarios. In those scenarios, the AI system was systematically approving applications that violated Central Bank capital adequacy rules.</p>
+        </div>
+        <div class="callout callout-warn">
+          <div class="callout-label">The $220M Calculation</div>
+          <p>Thin-file, multi-jurisdiction applications represented 8.3% of Meridian's monthly volume: approximately 1,162 applications per month. The AI system violated regulatory constraints in 23% of the relevant scenarios. Applied to production volume, this projected to 267 non-compliant approvals per month. At Meridian's average loan size of $69,000 for this segment, portfolio exposure over 12 months was estimated at $221 million. Expected credit losses within 18 months, at the historical charge-off rate for this risk tier, were estimated at $44 million before regulatory penalties.</p>
+        </div>
+        <div class="prose">
+          <p>The root cause: the affordability calculation agent was running in parallel with the regulatory compliance check, without access to the binding regulatory floor for the applicant's secondary jurisdiction. Each agent was operating correctly within its own scope. The failure was in the orchestration design: the two agents needed to run sequentially, with the compliance check outputting a binding constraint envelope that the affordability agent consumed before running its calculation. The fix took 11 days. Meridian deployed with a cryptographically signed audit trail that passed a Central Bank examination with zero findings 6 months later.</p>
+        </div>
+        <div class="before-after">
+          <div class="ba-header"><div class="ba-header-cell">Metric</div><div class="ba-header-cell">Before</div><div class="ba-header-cell after">After</div></div>
+          <div class="ba-row"><div class="ba-metric">Underwriting Decision Error Rate</div><div class="ba-before">6.8% manual error rate</div><div class="ba-after">3.1% error rate</div></div>
+          <div class="ba-row"><div class="ba-metric">Application Decision Time</div><div class="ba-before">12-day average turnaround</div><div class="ba-after">3.4-day average turnaround</div></div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"Truvyx paid for itself before we ever deployed a single model. The $220M figure is not hypothetical. It is what our credit risk team estimated would have reached charge-off within 18 months if we had gone live on the original architecture."</div>
+          <div class="quote-attr">Dr. Amara Nwachukwu, Chief Risk Officer, Meridian Bank</div>
+        </div>
+      </div>
+
+      <!-- Government -->
+      <div class="industry-section" id="cs-government">
+        <div class="industry-header">
+          <div class="industry-letter" style="color:var(--mauve);">GV</div>
+          <div class="industry-info">
+            <div class="industry-tag">Government &amp; Public Sector</div>
+            <div class="industry-org">Harland Revenue Authority</div>
+            <div class="industry-desc">Validating an AI audit-case-selection system before it touched citizen data</div>
+          </div>
+        </div>
+        <div class="result-stat">
+          <div class="result-card"><div class="result-value">38%</div><div class="result-label">Improvement in Audit Yield (Higher-Risk Case Selection)</div></div>
+          <div class="result-card"><div class="result-value">100%</div><div class="result-label">Audit Trail Coverage: Tamper-Evident, Examiner-Ready</div></div>
+          <div class="result-card"><div class="result-value">12 wks</div><div class="result-label">Evaluation to Ministerial Sign-Off Including Security Review</div></div>
+          <div class="result-card"><div class="result-value">0</div><div class="result-label">Legal Challenges to AI-Assisted Audit Selections in First Year</div></div>
+        </div>
+        <h3 class="sub-heading">The Challenge</h3>
+        <div class="prose">
+          <p>The Harland Revenue Authority is a national tax administration body processing 4.2 million tax returns annually and selecting approximately 38,000 cases for audit each year. The Authority had been directed by its minister to pilot a multi-agent AI system for audit case selection with two hard requirements: the system must select higher-yield audit cases than the current process, and every selection decision must be fully explainable to a taxpayer who challenges their selection in a tribunal.</p>
+          <p>The explainability requirement was not optional. In the Authority's legal jurisdiction, a taxpayer selected for audit is entitled to a written statement of the reasons for their selection. If the AI system produced selections that could not be fully attributed to documented rules applied to documented facts, every selection was legally vulnerable to challenge. The Authority's legal team had estimated that a successful legal challenge to the selection methodology could expose up to 2,000 current audit cases to cancellation: a potential revenue loss of $340 million.</p>
+        </div>
+        <h3 class="sub-heading">Constraint Environment</h3>
+        <div class="table-wrapper">
+          <table class="constraint-table">
+            <tr><td>Legal / Explainability</td><td>Every audit selection must be attributable to a specific documented rule applied to a specific data point. Selection rationale must be expressible in plain language suitable for a tribunal submission.</td></tr>
+            <tr><td>Fairness / Non-Discrimination</td><td>Selection rate must not systematically vary by taxpayer demographic characteristics beyond what is explained by legitimate risk factors. Proxy discrimination rules apply.</td></tr>
+            <tr><td>Data Governance</td><td>Certain data fields are restricted from use in automated selection decisions under privacy legislation. The AI system must be constrained from accessing or acting on restricted fields.</td></tr>
+            <tr><td>Resource Allocation</td><td>Audit workforce capacity limits the number of cases that can be actively managed per quarter. Case selection must respect investigator load constraints and case complexity limits.</td></tr>
+            <tr><td>Risk Stratification</td><td>High-risk categories carry mandatory minimum selection proportions. Revenue maximisation is a secondary objective subject to risk coverage floors being met first.</td></tr>
+          </table>
+        </div>
+        <h3 class="sub-heading">What the Evaluation Found</h3>
+        <div class="prose">
+          <p>Truvyx modelled the Authority's audit selection environment across 36 benchmark scenarios, with particular emphasis on explainability and fairness constraint coverage. The AI system scored 89.3% on feasibility overall, but the RCA Engine identified a critical class of failure that would have produced legally indefensible selections.</p>
+        </div>
+        <div class="callout callout-warn">
+          <div class="callout-label">The Explainability Failure</div>
+          <p>In 6 of 36 scenarios, the case prioritisation agent used a composite risk score as its decision basis without decomposing that score into the constituent rule attributions. The final selection decision could not be traced back to specific rules applied to specific data points: it was a black-box score, not an auditable decision. Every selection made on this basis would have been indefensible in a tribunal. The agent was not behaving incorrectly in a technical sense. It was behaving incorrectly in a legal sense.</p>
+        </div>
+        <div class="prose">
+          <p>The fix required the case prioritisation agent to output a <code style="font-family:var(--font-mono);font-size:0.85em;color:var(--accent);">rule_attribution_map</code> alongside every selection: a structured record linking each selection decision to the specific rules and data points that triggered it. This output fed directly into the audit trail architecture, producing the tribunal-ready explanation documents automatically.</p>
+          <p>The evaluation also identified 3 scenarios in which the AI system accessed a data field classified as restricted under the Authority's privacy legislation: a data governance violation that would have been prosecutable had it reached production. The Constraint Engine's data governance rules had flagged this as a constraint type; the Verifier Factory's completeness check caught it in evaluation.</p>
+        </div>
+        <div class="before-after">
+          <div class="ba-header"><div class="ba-header-cell">Metric</div><div class="ba-header-cell">Before</div><div class="ba-header-cell after">After</div></div>
+          <div class="ba-row"><div class="ba-metric">Audit Case Selection Yield</div><div class="ba-before">Manual selection: 31% audit yield</div><div class="ba-after">AI-assisted: 42.8% audit yield</div></div>
+          <div class="ba-row"><div class="ba-metric">Audit Trail Coverage</div><div class="ba-before">0% of AI-assisted decisions had audit trail</div><div class="ba-after">100% with tribunal-ready attribution</div></div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"The legal team's requirement, full explainability for every selection, seemed like it might block AI deployment entirely. Truvyx showed us a path: build explainability into the evaluation architecture, not as an afterthought. We went from 'we are not sure this is legally deployable' to a ministerial sign-off in 12 weeks."</div>
+          <div class="quote-attr">Director of Digital Transformation, Harland Revenue Authority (name withheld per confidentiality terms)</div>
+        </div>
+      </div>
+
+      <!-- Project Management -->
+      <div class="industry-section" id="cs-project">
+        <div class="industry-header">
+          <div class="industry-letter" style="color:#6B5FCF;">PM</div>
+          <div class="industry-info">
+            <div class="industry-tag">Project Management</div>
+            <div class="industry-org">Helix Construction Group</div>
+            <div class="industry-desc">Stopping AI-generated project schedules from inheriting manual planning errors at scale</div>
+          </div>
+        </div>
+        <div class="result-stat">
+          <div class="result-card"><div class="result-value">47%</div><div class="result-label">Reduction in Schedule Conflicts at Planning Stage</div></div>
+          <div class="result-card"><div class="result-value">29%</div><div class="result-label">Improvement in On-Time Delivery Across Portfolio</div></div>
+          <div class="result-card"><div class="result-value">5 wks</div><div class="result-label">From Engagement Start to First Score Including Constraint Mapping</div></div>
+          <div class="result-card"><div class="result-value">$6.7M</div><div class="result-label">Cost Overrun Avoidance in First 18-Month Project Cycle</div></div>
+        </div>
+        <h3 class="sub-heading">The Challenge</h3>
+        <div class="prose">
+          <p>Helix Construction Group manages a portfolio of 23 concurrent infrastructure projects across three countries, with a combined contract value of $2.1 billion. A delay on one project can trigger resource conflicts that cascade across three others. Helix had deployed a multi-agent AI system to automate project schedule generation, resource allocation, and risk-flag identification across the portfolio.</p>
+          <p>The problem was not that the AI system was producing wrong answers. The problem was that nobody could tell whether its answers were right. The system was generating schedules that looked internally consistent: all tasks had predecessors, all milestones had dates, all resources were assigned. But which routinely contained infeasible constraints that a senior project manager would have caught in manual review. By the time the conflict was identified in execution, the project was already committed to the infeasible plan.</p>
+        </div>
+        <h3 class="sub-heading">Constraint Environment</h3>
+        <div class="table-wrapper">
+          <table class="constraint-table">
+            <tr><td>Resource Dependency</td><td>Shared specialist contractor pools across projects: civil engineers, structural inspectors, specialist equipment, with allocation conflicts when multiple projects hit peak demand simultaneously</td></tr>
+            <tr><td>Regulatory Approvals</td><td>Sequential approval gating: structural approval must precede foundation work, environmental clearance must precede groundworks, with jurisdiction-specific lead times that are probabilistic, not fixed</td></tr>
+            <tr><td>Material Supply Chain</td><td>Lead times for specialist materials (structural steel, precast components) that constrain the earliest possible start dates for dependent work packages</td></tr>
+            <tr><td>Labour Regulations</td><td>Maximum consecutive working days, mandatory rest periods, night work restrictions in residential zones, public holiday blackout windows per jurisdiction</td></tr>
+            <tr><td>Contract Terms</td><td>Milestone payment triggers, liquidated damages clauses for specific delay events, back-to-back subcontractor terms that cascade delay penalties</td></tr>
+          </table>
+        </div>
+        <h3 class="sub-heading">What the Evaluation Found</h3>
+        <div class="prose">
+          <p>Truvyx generated 33 benchmark scenarios drawn from Helix's real project portfolio, covering single-project scheduling, cross-project resource conflicts, and supply chain disruption scenarios. The AI system scored 79.4% on feasibility: lower than any comparable system Truvyx had evaluated, but not because the system was poorly built. The low score reflected the density and novelty of Helix's constraint environment, which the AI system had never encountered in training.</p>
+          <p>The most important finding was a class of failure the RCA Engine classified as hallucinated dependencies: in 9 of 33 scenarios, the schedule generation agent created predecessor relationships between work packages that did not exist in the project specification. These invented dependencies constrained the schedule more tightly than reality required, systematically pushing completion dates 3 to 8 weeks later than necessary. The system was not producing infeasible schedules. It was producing pessimistic schedules built on fictional constraints.</p>
+        </div>
+        <div class="callout">
+          <div class="callout-label">What Hallucinated Dependencies Mean in Practice</div>
+          <p>An AI agent that invents predecessor relationships it was not given is not making a safety-critical error. It is making a cost error. Every artificial predecessor is a day of schedule float that does not exist. Across a $2.1 billion portfolio, the RCA Engine estimated that hallucinated dependencies were contributing to 14% of observed schedule delays. At Helix's typical daily cost rate for delay events, that represented $6.7 million per 18-month project cycle.</p>
+        </div>
+        <div class="before-after">
+          <div class="ba-header"><div class="ba-header-cell">Metric</div><div class="ba-header-cell">Before</div><div class="ba-header-cell after">After</div></div>
+          <div class="ba-row"><div class="ba-metric">Schedule Conflict Rate at Planning Stage</div><div class="ba-before">47% of AI schedules had conflicts at review</div><div class="ba-after">25% post-remediation</div></div>
+          <div class="ba-row"><div class="ba-metric">Portfolio On-Time Delivery</div><div class="ba-before">63% on-time delivery rate</div><div class="ba-after">81% on-time delivery rate</div></div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"We had assumed the AI system was making our scheduling more rigorous. It was actually introducing a new category of planning error we had never had before: invented constraints that made every schedule longer than it needed to be. Truvyx was the first tool that could tell us that was happening."</div>
+          <div class="quote-attr">Chioma Nwosu, Portfolio Director, Helix Construction Group</div>
+        </div>
+      </div>
+
+      <!-- Insurance -->
+      <div class="industry-section" id="cs-insurance">
+        <div class="industry-header">
+          <div class="industry-letter" style="color:#4A8A52;">IN</div>
+          <div class="industry-info">
+            <div class="industry-tag">Insurance</div>
+            <div class="industry-org">Cedarfield Re</div>
+            <div class="industry-desc">How an AI claims processing evaluation prevented systematic underpayment across a $340M annual claims portfolio</div>
+          </div>
+        </div>
+        <div class="result-stat">
+          <div class="result-card"><div class="result-value">$4.1M</div><div class="result-label">Claims Underpayment Prevented (Projected Annual Exposure)</div></div>
+          <div class="result-card"><div class="result-value">31%</div><div class="result-label">Reduction in Processing Time Per Claim</div></div>
+          <div class="result-card"><div class="result-value">0</div><div class="result-label">Regulatory Complaints Filed in 6-Month Post-Deploy Period</div></div>
+          <div class="result-card"><div class="result-value">89%</div><div class="result-label">Customer Satisfaction Score (up from 71% under manual process)</div></div>
+        </div>
+        <h3 class="sub-heading">The Challenge</h3>
+        <div class="prose">
+          <p>Cedarfield Re is a regional reinsurance and direct insurance provider managing a $340 million annual claims portfolio across property, liability, and specialty lines. Claims assessment is governed by policy terms, coverage exclusions, regulatory claim handling standards, sub-limit structures, deductible sequencing rules, and fraud indicator thresholds: a constraint environment of over 60 distinct rule types that varies by product line, jurisdiction, and policy vintage.</p>
+          <p>Cedarfield had been piloting a multi-agent AI system for claims processing since Q2, with promising early results on processing speed. However, the internal audit team had identified a pattern of concern: a small but statistically significant proportion of claims processed by the AI system in certain product lines were being settled at amounts below what the policy terms required. The amounts were not large enough per claim to trigger customer escalations, typically $200 to $800 underpayment, but the frequency suggested a systemic error in the AI system's coverage calculation logic.</p>
+        </div>
+        <h3 class="sub-heading">What the Evaluation Confirmed</h3>
+        <div class="prose">
+          <p>Truvyx modelled Cedarfield's claims assessment environment across 42 benchmark scenarios, with particular emphasis on multi-layered coverage structures, sub-limit interactions, and deductible sequencing. The AI system scored 84.1% on feasibility, but the optimality score, measuring how close the settlement calculation was to the correct amount, was only 71.3% on scenarios involving stacked coverage layers.</p>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead><tr><th>Fault Type</th><th># Events</th><th>What Went Wrong</th><th>How It Was Fixed</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Constraint Blindness</td><td>11 events</td>
+                <td>The settlement calculation agent applied deductibles in a fixed sequence (property deductible first, then liability deductible) regardless of the policy's specified deductible sequence. For policies with non-standard deductible ordering, this consistently undercalculated the net payable amount. The agent had not been given the <code style="font-family:var(--font-mono);font-size:0.82em;color:var(--accent);">deductible_sequence</code> field from the policy terms agent.</td>
+                <td>Policy terms agent output extended to include a structured <code style="font-family:var(--font-mono);font-size:0.82em;color:var(--accent);">deductible_sequence</code> object. Settlement calculation agent required to consume this object before running the deductible application step. Fixed deductible ordering removed from the agent's default behaviour.</td>
+              </tr>
+              <tr>
+                <td>Hallucinated Dependency</td><td>4 events</td>
+                <td>In scenarios involving sub-limits, the coverage application agent applied a sub-limit as though it were a hard exclusion rather than a coverage ceiling, reducing payable amounts to zero in categories where the correct treatment was partial coverage up to the sub-limit.</td>
+                <td>Sub-limit handling logic separated from exclusion handling logic in the coverage application agent. Agent input schema extended to explicitly classify each coverage modifier as sub-limit, exclusion, or deductible before processing.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="prose">
+          <p>The RCA Engine's cross-run pattern analysis identified that the underpayment pattern was concentrated in policies issued between 2019 and 2021, which used a non-standard sub-limit structure that had since been retired. The AI system had not encountered this structure in its training data at sufficient frequency to learn the correct handling. The counterfactual was precise: add 47 policy examples from the 2019-2021 vintage to the system's fine-tuning dataset, alongside the schema changes described above.</p>
+        </div>
+        <div class="before-after">
+          <div class="ba-header"><div class="ba-header-cell">Metric</div><div class="ba-header-cell">Before</div><div class="ba-header-cell after">After</div></div>
+          <div class="ba-row"><div class="ba-metric">Claims Underpayment Rate</div><div class="ba-before">Systematic underpayment on 6.2% of claims</div><div class="ba-after">0.8% post-remediation</div></div>
+          <div class="ba-row"><div class="ba-metric">Customer Satisfaction Score</div><div class="ba-before">71% (manual process)</div><div class="ba-after">89% post-deployment</div></div>
+        </div>
+        <div class="quote-block">
+          <div class="quote-text">"The underpayment pattern had been visible in our audit data for three months. We knew something was wrong. We did not know whether it was the AI system, the data, or the policy terms themselves. Truvyx's RCA Engine gave us a causal chain in 48 hours that our audit team had not been able to produce in three months of manual investigation."</div>
+          <div class="quote-attr">Femi Adeyemi, Chief Claims Officer, Cedarfield Re</div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- 07 INSIGHTS -->
+  <!-- UNIVERSAL BENEFITS -->
+  <section class="cs-section" id="universal-benefits">
+    <div class="container">
+      <div class="part-header">
+        <div class="part-label">Part Five</div>
+        <div class="part-title">Universal Benefits Across All Industries</div>
+        <div class="part-sub">What every organisation gets, regardless of domain</div>
+      </div>
+      <div class="section-label">07 / Universal Benefits</div>
+      <h2 class="section-title">Four Benefits That Appear in Every Deployment</h2>
+      <div class="prose">
+        <p>Across all seven case studies, four benefits appear consistently regardless of industry, AI system type, or organisational size. These are the benefits that justify the investment before the domain-specific value is even considered.</p>
+      </div>
+      <div class="benefit-wrap">
+        <div class="benefit-row">
+          <div class="benefit-title">Vendor evaluation you can defend</div>
+          <div class="benefit-desc">Truvyx-generated benchmarks are built from your constraint environment, not the vendor's. Every score is attributable to specific rules your organisation defined. When a vendor challenges an evaluation outcome, you have a documented, reproducible methodology.</div>
+        </div>
+        <div class="benefit-row">
+          <div class="benefit-title">Compliance documentation by default</div>
+          <div class="benefit-desc">Every evaluation run in compliance mode produces a cryptographically signed audit record linking every decision to the rules that governed it. This record satisfies examination requirements across financial services, healthcare, government, and insurance: without additional documentation effort.</div>
+        </div>
+        <div class="benefit-row">
+          <div class="benefit-title">Failure diagnosis in hours, not weeks</div>
+          <div class="benefit-desc">The average time between an AI system failure and a clear, actionable root cause diagnosis using manual investigation methods is 3 to 6 weeks in complex operational environments. Truvyx's RCA Engine reduces this to 24 to 72 hours. The counterfactual it produces tells your team exactly what to change, not just that something is wrong.</div>
+        </div>
+        <div class="benefit-row">
+          <div class="benefit-title">Continuous improvement without manual overhead</div>
+          <div class="benefit-desc">Once the Eval SDK is integrated into your deployment pipeline, every model update is automatically evaluated before going live. The system improves with every run: the fault classifier becomes more accurate, the counterfactuals become more precise, and the pattern library becomes more predictive, without requiring additional engineering investment.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGIC MOATS -->
+  <section class="cs-section" id="moats">
+    <div class="container">
+      <div class="part-header">
+        <div class="part-label">Part Six</div>
+        <div class="part-title">The Additional Moats Worth Building</div>
+        <div class="part-sub">How Truvyx compounds into a permanent competitive advantage</div>
+      </div>
+      <div class="section-label">08 / Strategic Moats</div>
+      <h2 class="section-title">Six Structural Advantages That Compound Over Time</h2>
+      <div class="prose">
+        <p>A moat, in business terms, is a structural advantage that is difficult or impossible for competitors to replicate. The following six moats describe how the organisations that adopt Truvyx early benefit from compounding returns, and how the broader ecosystem gains from the platform's growth.</p>
+      </div>
+
+      <div class="moat-card">
+        <div class="moat-num">Moat 1</div>
+        <div class="moat-title">The Agent Execution Trace Protocol: A Published Standard</div>
+        <div class="moat-body">Truvyx is positioned to define and publish the open specification for how multi-agent AI systems should record their execution behaviour. Think of it as the logging standard for AI reasoning: the format that determines what information a multi-agent system must capture about every decision it makes, every piece of information it used, and every other agent it communicated with. Once this standard exists and is adopted by AI frameworks, every compliant AI system automatically produces the trace data that Truvyx needs to perform root cause analysis. The standard is free. The diagnostic capability built on it is where the value concentrates.</div>
+        <div class="moat-benefit"><strong>Who benefits:</strong> Enterprises that adopt Truvyx before this standard is finalised get to participate in shaping what it requires. AI framework builders benefit by having a clear specification to implement. Regulators benefit by having a reference standard for AI decision auditability.</div>
+      </div>
+
+      <div class="moat-card">
+        <div class="moat-num">Moat 2</div>
+        <div class="moat-title">OperationsBench: The Public Benchmark Leaderboard</div>
+        <div class="moat-body">Truvyx is building the authoritative public benchmark leaderboard for multi-agent operational reasoning: the performance table that shows, for any given operational domain, how every major AI system, model, and framework performs against a standardised set of real-world constraint scenarios. This leaderboard functions like a credit rating for AI systems: an objective, externally verified performance record that procurement teams, investors, and regulators can reference. No vendor can manipulate their score on OperationsBench because they do not control the scenarios.</div>
+        <div class="moat-benefit"><strong>Who benefits:</strong> Enterprises use the leaderboard as a first-pass vendor filter. AI researchers publish against it to demonstrate operational reasoning capability. Regulators may eventually require disclosure of OperationsBench scores as part of AI system approval processes.</div>
+      </div>
+
+      <div class="moat-card">
+        <div class="moat-num">Moat 3</div>
+        <div class="moat-title">The Fault Atlas: A Living Knowledge Base of AI Failure Modes</div>
+        <div class="moat-body">Every RCA report produced by Truvyx contributes, anonymised and aggregated, to a continuously growing knowledge base of how multi-agent AI systems fail in production operational environments. The Fault Atlas is a public resource: freely searchable, extensively cited, and updated monthly. It documents every failure type Truvyx has classified, the operational domains where each type most commonly appears, the AI architectures most susceptible to each type, and the remediation patterns that have proved most effective.</div>
+        <div class="moat-benefit"><strong>Who benefits:</strong> Engineering teams use it before deploying new systems. Compliance teams use it to design AI governance frameworks. Insurance underwriters use it to assess AI operational risk when pricing cyber and technology liability policies.</div>
+      </div>
+
+      <div class="moat-card">
+        <div class="moat-num">Moat 4</div>
+        <div class="moat-title">The Scenario Contribution Programme: Community as a Growth Engine</div>
+        <div class="moat-body">Any researcher, domain expert, or practitioner can contribute benchmark scenarios to the Truvyx public Registry. Accepted contributions receive co-authorship credit on Registry publications, citation priority in related papers, and free access to the Pro platform tier. This creates a self-reinforcing growth cycle: more contributors produce more scenarios, more scenarios improve benchmark coverage, better coverage attracts more AI labs and enterprises, more usage generates more community interest.</div>
+        <div class="moat-benefit"><strong>Who benefits:</strong> Academic researchers gain a citeable, versioned repository. Domain experts have their operational knowledge encoded in a form that shapes how AI systems are evaluated in their field. Enterprises benefit from a Registry that grows more comprehensive with every passing month.</div>
+      </div>
+
+      <div class="moat-card">
+        <div class="moat-num">Moat 5</div>
+        <div class="moat-title">Deployment Regression Monitoring: Invisible Infrastructure</div>
+        <div class="moat-body">Truvyx's managed evaluation service runs the customer's private benchmark suite automatically against every new model version, framework update, or agent architecture change: without any manual trigger. When a regression is detected, an RCA report is generated and routed to the appropriate team before the deployment is promoted to production. The team does not need to remember to run evaluations, schedule review cycles, or investigate failures manually.</div>
+        <div class="moat-benefit"><strong>Who benefits:</strong> This moat compounds through retention. A team that has integrated this service into their deployment pipeline has made it structurally difficult to remove Truvyx. For regulated industries, this guarantee can be documented as a control in the organisation's AI risk management framework.</div>
+      </div>
+
+      <div class="moat-card">
+        <div class="moat-num">Moat 6</div>
+        <div class="moat-title">The RCA Learning Flywheel: A Self-Improving Diagnostic Engine</div>
+        <div class="moat-body">Every evaluation run, every fault classification, every accepted or corrected counterfactual, and every re-run outcome contributes to improving the accuracy of Truvyx's diagnostic engine. The fault classifier becomes more accurate over time as it accumulates labelled examples. The counterfactual generator becomes more precise as it learns which minimal interventions actually resolve specific fault types. The cross-run pattern detector becomes more predictive as it accumulates more runs across more customers and domains. This improvement is automatic.</div>
+        <div class="moat-benefit"><strong>Who benefits:</strong> Early-adopting enterprises receive a diagnostic engine trained on more failure examples than any competitor's tool can access. The longer they use the platform, the more their own fault history contributes to improving the diagnostic accuracy they receive, creating a compound return on investment that grows over time.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR RESEARCHERS -->
+  <section class="cs-section" id="researchers">
+    <div class="container">
+      <div class="section-label">09 / For Researchers</div>
+      <h2 class="section-title">Truvyx for the Research Community</h2>
+      <div class="prose">
+        <p>For the academic and applied research community, Truvyx offers capabilities that no current AI evaluation infrastructure provides.</p>
+      </div>
+      <div class="researcher-grid">
+        <div class="researcher-card">
+          <div class="researcher-type">AI &amp; ML Researchers</div>
+          <ul>
+            <li>Publish rigorous multi-agent operational benchmarks in a citeable, versioned repository with DOI assignment</li>
+            <li>Access the Fault Atlas as a labelled dataset for studying AI system robustness and failure modes</li>
+            <li>Evaluate novel agent architectures against a standardised benchmark suite reflecting real operational complexity</li>
+            <li>Contribute to the Agent Execution Trace Protocol: the emerging standard for AI reasoning transparency</li>
+            <li>Use the Decomposition Designer to formalise and compare multi-agent coordination strategies</li>
+          </ul>
+        </div>
+        <div class="researcher-card">
+          <div class="researcher-type">Operations Research Scholars</div>
+          <ul>
+            <li>Model complex real-world constraint environments at a level of fidelity not previously available in AI evaluation contexts</li>
+            <li>Access the Constraint Engine's solver outputs as optimality baselines for comparing AI and algorithmic approaches</li>
+            <li>Study the boundary conditions under which multi-agent AI systems outperform or underperform classical OR methods</li>
+            <li>Publish domain-specific constraint taxonomy work as contributions to the Registry's formal constraint library</li>
+          </ul>
+        </div>
+        <div class="researcher-card">
+          <div class="researcher-type">Domain Science Researchers</div>
+          <ul>
+            <li>Clinical researchers, public health scientists, logistics academics, and financial economists bring domain knowledge that makes benchmarks more realistic</li>
+            <li>Truvyx's Scenario Studio and Contribution Programme translate that expertise into formal benchmark scenarios without requiring programming knowledge</li>
+            <li>Contribution pathway produces publications and featured placement on the OperationsBench leaderboard</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout callout-gold">
+        <div class="callout-label">Research Partnership Programme</div>
+        <p>Truvyx offers academic research partnerships that include free platform access for qualifying research projects, co-authorship credit on benchmark publications, and featured placement on the OperationsBench leaderboard. Research partners also receive early access to the Fault Atlas for use as a study dataset. Applications are reviewed quarterly. Contact research@Truvyx.ai for details.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR COMPLIANCE TEAMS -->
+  <section class="cs-section" id="compliance">
+    <div class="container">
+      <div class="section-label">10 / For Compliance Teams</div>
+      <h2 class="section-title">Truvyx for Compliance and Regulatory Teams</h2>
+      <div class="prose">
+        <p>Compliance professionals face a specific challenge with AI systems that general technology governance frameworks have not yet fully addressed: how do you audit a decision that a machine made? How do you demonstrate to an examiner that an AI system followed the rules it was supposed to follow, and that when it did not, you found out and fixed it?</p>
+        <p>Truvyx's architecture addresses this challenge at a structural level.</p>
+      </div>
+
+      <h3 class="sub-heading">AI Decision Auditability</h3>
+      <div class="compliance-pair">
+        <div class="cp-row">
+          <div class="cp-label needs">Regulator needs</div>
+          <div class="cp-content">A record of every AI-assisted decision showing which data was used, which rules were applied, and how the decision was reached: in language that a non-technical examiner can follow.</div>
+        </div>
+        <div class="cp-row">
+          <div class="cp-label produces">Truvyx produces</div>
+          <div class="cp-content produces">A cryptographically signed, tamper-evident audit record per decision, automatically generated from the Constraint Engine's rule attribution output. Examiner narrative included. No manual documentation effort required.</div>
+        </div>
+        <div class="cp-row">
+          <div class="cp-label needs">Regulator needs</div>
+          <div class="cp-content">Evidence that the AI system was tested against the rules and constraints that govern its deployment environment before it was put into production.</div>
+        </div>
+        <div class="cp-row">
+          <div class="cp-label produces">Truvyx produces</div>
+          <div class="cp-content produces">A documented benchmark suite built from the organisation's formal constraint definitions, with verifier scripts and scores that demonstrate systematic pre-deployment testing.</div>
+        </div>
+        <div class="cp-row">
+          <div class="cp-label needs">Regulator needs</div>
+          <div class="cp-content">Evidence that the organisation has ongoing oversight of the AI system's performance and a process for detecting and responding to performance degradation.</div>
+        </div>
+        <div class="cp-row">
+          <div class="cp-label produces">Truvyx produces</div>
+          <div class="cp-content produces">Continuous deployment evaluation via the Eval SDK, with automatic RCA report generation on any regression: providing a documented, time-stamped record of every performance event and the organisation's response.</div>
+        </div>
+      </div>
+
+      <h3 class="sub-heading">AI Risk Management Framework Integration</h3>
+      <div class="prose">
+        <p>Truvyx evaluation results can be incorporated directly into an organisation's AI risk management framework as documented controls. The following control types are supported by the platform's native output:</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr><th>Control Type</th><th>How Truvyx Supports It</th></tr></thead>
+          <tbody>
+            <tr><td>Pre-deployment validation</td><td>Benchmark score above defined threshold required before production promotion</td></tr>
+            <tr><td>Constraint compliance</td><td>Zero critical constraint violations required for deployment approval</td></tr>
+            <tr><td>Ongoing performance monitoring</td><td>Continuous evaluation cadence with documented RCA response for any regression</td></tr>
+            <tr><td>Vendor management</td><td>Independent benchmark evaluation of vendor AI systems against customer-defined constraint suites</td></tr>
+            <tr><td>Change management</td><td>Automated evaluation on every model update, with documented approval gate based on score thresholds</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-label">For Financial Services Regulators</div>
+        <p>Truvyx's audit trail format has been reviewed and used successfully in regulatory examinations in multiple markets. The cryptographic signature, constraint attribution mapping, and examiner narrative format were developed in direct consultation with bank examiners. If your institution is subject to Central Bank, PRA, OCC, or equivalent examination of AI-assisted decision systems, contact compliance@Truvyx.ai for a detailed discussion of how the audit trail architecture maps to your examination standard.</p>
+      </div>
+
+      <h3 class="sub-heading">Who Else Benefits</h3>
+      <div class="beneficiary-grid">
+        <div class="beneficiary-card">
+          <div class="beneficiary-name">Consulting Firms and System Integrators</div>
+          <div class="beneficiary-desc">Firms deploying multi-agent AI systems on behalf of clients need an objective way to validate system quality before handover. Truvyx provides an independent evaluation methodology that consultants can present to clients as evidence of delivery quality. White-label licensing allows Truvyx to be presented under the firm's own brand.</div>
+        </div>
+        <div class="beneficiary-card">
+          <div class="beneficiary-name">AI Vendors and System Developers</div>
+          <div class="beneficiary-desc">Vendors whose systems perform well on OperationsBench benefit from a credible, independently verified performance record. Vendors whose systems reveal weaknesses benefit from precise RCA findings that accelerate improvement. The Eval SDK enables vendors to integrate continuous self-evaluation into their development pipeline.</div>
+        </div>
+        <div class="beneficiary-card">
+          <div class="beneficiary-name">Procurement and Sourcing Teams</div>
+          <div class="beneficiary-desc">Organisations without technical AI expertise can use Truvyx's Benchmark-as-a-Service offering to conduct rigorous, independent vendor evaluations. The evaluation methodology, constraint mapping, scenario construction, and RCA analysis are all delivered as a managed service.</div>
+        </div>
+        <div class="beneficiary-card">
+          <div class="beneficiary-name">Insurance Underwriters for AI Risk</div>
+          <div class="beneficiary-desc">The Fault Atlas provides the first systematic, cross-industry empirical dataset on multi-agent AI failure patterns. As this dataset grows, it becomes the foundational actuarial resource for AI operational risk pricing: a capability that will be highly valuable to speciality lines insurers and reinsurers.</div>
+        </div>
+        <div class="beneficiary-card">
+          <div class="beneficiary-name">Policy Makers and Regulators</div>
+          <div class="beneficiary-desc">The Fault Atlas, OperationsBench, and the Agent Execution Trace Protocol provide three distinct contributions to the regulatory evidence base: a failure mode taxonomy grounded in operational deployments, a performance comparison methodology, and a transparency standard that can be incorporated into AI disclosure requirements.</div>
+        </div>
+      </div>
+
+      <div class="quote-block" style="margin-top:32px;">
+        <div class="quote-text">"Truvyx is not just an evaluation tool. It is the infrastructure layer that makes AI deployment in complex operational environments governable. That matters for every organisation deploying AI, every regulator overseeing those deployments, and every researcher trying to understand what these systems actually do when they are given real problems to solve."</div>
+        <div class="quote-attr">From the Truvyx Platform Manifesto</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GETTING STARTED -->
+  <section class="cs-section" id="getting-started">
+    <div class="container">
+      <div class="section-label">11 / Getting Started</div>
+      <h2 class="section-title">Every Organisation's Path Is Different</h2>
+      <div class="prose">
+        <p>Some begin with a single vendor evaluation. Some begin with continuous integration of the Eval SDK into an existing deployment pipeline. Some begin with a full Benchmark-as-a-Service engagement that models their entire operational constraint environment from scratch. The right starting point depends on where your organisation's pain is highest today.</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="gs-table">
+          <tbody>
+            <tr>
+              <td>We are evaluating AI vendors</td>
+              <td>Start with Benchmark-as-a-Service. We model your operational environment, build your private benchmark suite, run the vendor evaluation, and deliver scored results and RCA findings within 9 to 14 weeks.</td>
+            </tr>
+            <tr>
+              <td>We have already deployed an AI system</td>
+              <td>Start with the Eval SDK. Integrate into your deployment pipeline, run the first evaluation against your existing system, and use the RCA Engine to characterise your current failure landscape.</td>
+            </tr>
+            <tr>
+              <td>We need compliance documentation</td>
+              <td>Start with compliance mode activation and audit trail setup. This can be done before any evaluation runs and ensures that every subsequent evaluation produces examiner-ready documentation.</td>
+            </tr>
+            <tr>
+              <td>We are a researcher or academic</td>
+              <td>Start with the Benchmark Registry. Access 500+ public scenarios, contribute your own, and apply for the Research Partnership Programme for free platform access.</td>
+            </tr>
+            <tr>
+              <td>We are a consulting firm</td>
+              <td>Start with a white-label licensing conversation. We will configure the platform under your brand and support your first client engagement with dedicated onboarding resources.</td>
+            </tr>
+            <tr>
+              <td>We are not sure where to start</td>
+              <td>Start with a constraint mapping workshop. Two to three sessions with your operations, risk, and compliance teams to document your constraint environment. This step delivers value independently of any subsequent technology decision.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Contact</div>
+        <p>Enterprise sales and Benchmark-as-a-Service: enterprise@Truvyx.ai &nbsp;·&nbsp; Research partnerships: research@Truvyx.ai &nbsp;·&nbsp; Compliance inquiries: compliance@Truvyx.ai &nbsp;·&nbsp; Documentation: docs.Truvyx.ai</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 INSIGHTS -->
   <section class="cs-section" id="insights">
     <div class="container">
-      <div class="section-label">07 / Key Product Insights</div>
+      <div class="section-label">12 / Key Product Insights</div>
       <h2 class="section-title">What This Product Teaches the Market</h2>
       <div class="insights-grid">
         <div class="insight-card">
