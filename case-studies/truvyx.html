@@ -182,7 +182,7 @@
 
     /* Implementation stages */
     .stages-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 28px 0; }
-    .stage { display: grid; grid-template-columns: 64px 1fr auto; gap: 0; align-items: stretch; border-bottom: 1px solid var(--border); }
+    .stage { display: grid; grid-template-columns: 64px 1fr; gap: 0; align-items: stretch; border-bottom: 1px solid var(--border); }
     .stage:last-child { border-bottom: none; }
     .stage-num-col { background: rgba(43,168,160,0.08); display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
     .stage-num { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 1rem; color: #fff; flex-shrink: 0; }
@@ -585,20 +585,12 @@
             <div class="stage-title">Define Your Operational Constraints</div>
             <div class="stage-desc">Work with your risk, compliance, and operations teams to document the rules that govern decisions in your target domain. These become the input to the Constraint Engine. This step alone, independent of any technology, typically surfaces rule conflicts and undocumented constraints that no team was aware of. Budget 2 to 3 workshops with subject matter experts.</div>
           </div>
-          <div class="stage-time-col">
-            <div class="stage-time-label">Time</div>
-            <div class="stage-time-val">2-3 weeks</div>
-          </div>
         </div>
         <div class="stage">
           <div class="stage-num-col"><div class="stage-num">2</div></div>
           <div class="stage-body">
             <div class="stage-title">Build and Validate Your Benchmark Suite</div>
             <div class="stage-desc">Use the Scenario Studio to convert your constraint documentation into test scenarios. The Constraint Engine validates every scenario for feasibility and generates the correct reference answers. At the end of this step, you have a private benchmark suite that reflects your actual operational environment: a tool you own and control.</div>
-          </div>
-          <div class="stage-time-col">
-            <div class="stage-time-label">Time</div>
-            <div class="stage-time-val">2-4 weeks</div>
           </div>
         </div>
         <div class="stage">
@@ -607,20 +599,12 @@
             <div class="stage-title">Run Your First Evaluation</div>
             <div class="stage-desc">Deploy the Verifier Factory scripts against your AI system, whether that is a vendor system under evaluation, an internally built system, or a system already in production. You receive structured scores on feasibility, completeness, and optimality, plus a full constraint violation report. This is typically the step that produces the first major decision-relevant finding.</div>
           </div>
-          <div class="stage-time-col">
-            <div class="stage-time-label">Time</div>
-            <div class="stage-time-val">1-2 weeks</div>
-          </div>
         </div>
         <div class="stage">
           <div class="stage-num-col"><div class="stage-num">4</div></div>
           <div class="stage-body">
             <div class="stage-title">Integrate Into Your Deployment Pipeline</div>
             <div class="stage-desc">Use the Eval SDK to embed the scoring and RCA analysis into your deployment pipeline. From this point, every model update is automatically evaluated before going live. Failures trigger an RCA report routed to the appropriate team. This stage converts Truvyx from a one-time evaluation tool into permanent operational infrastructure.</div>
-          </div>
-          <div class="stage-time-col">
-            <div class="stage-time-label">Time</div>
-            <div class="stage-time-val">1 week</div>
           </div>
         </div>
       </div>
